@@ -1,0 +1,750 @@
+{
+    "stops": {
+        "stop": [
+                 {
+                 "stop_id": "1",
+                 "stop_name": "Long Island City",
+                 "stop_lat": "40.74128",
+                 "stop_lon": "-73.95639"
+                 },
+                 {
+                 "stop_id": "2",
+                 "stop_name": "Hunterspoint Avenue",
+                 "stop_lat": "40.74238",
+                 "stop_lon": "-73.94679"
+                 },
+                 {
+                 "stop_id": "8",
+                 "stop_name": "Penn Station",
+                 "stop_lat": "40.75058",
+                 "stop_lon": "-73.99358"
+                 },
+                 {
+                 "stop_id": "9",
+                 "stop_name": "Woodside",
+                 "stop_lat": "40.74584",
+                 "stop_lon": "-73.90297"
+                 },
+                 {
+                 "stop_id": "10",
+                 "stop_name": "Forest Hills",
+                 "stop_lat": "40.71957",
+                 "stop_lon": "-73.84481"
+                 },
+                 {
+                 "stop_id": "11",
+                 "stop_name": "Kew Gardens",
+                 "stop_lat": "40.70964",
+                 "stop_lon": "-73.83089"
+                 },
+                 {
+                 "stop_id": "12",
+                 "stop_name": "Atlantic Terminal",
+                 "stop_lat": "40.684901",
+                 "stop_lon": "-73.97768"
+                 },
+                 {
+                 "stop_id": "13",
+                 "stop_name": "Nostrand Avenue",
+                 "stop_lat": "40.67838",
+                 "stop_lon": "-73.94822"
+                 },
+                 {
+                 "stop_id": "14",
+                 "stop_name": "East New York",
+                 "stop_lat": "40.6758",
+                 "stop_lon": "-73.90281"
+                 },
+                 {
+                 "stop_id": "15",
+                 "stop_name": "Jamaica",
+                 "stop_lat": "40.6996",
+                 "stop_lon": "-73.80853"
+                 },
+                 {
+                 "stop_id": "17",
+                 "stop_name": "Mets-Willets Point",
+                 "stop_lat": "40.75239",
+                 "stop_lon": "-73.8437"
+                 },
+                 {
+                 "stop_id": "18",
+                 "stop_name": "Flushing Main Street",
+                 "stop_lat": "40.75789",
+                 "stop_lon": "-73.83135"
+                 },
+                 {
+                 "stop_id": "19",
+                 "stop_name": "Murray Hill",
+                 "stop_lat": "40.7627",
+                 "stop_lon": "-73.81454"
+                 },
+                 {
+                 "stop_id": "20",
+                 "stop_name": "Broadway",
+                 "stop_lat": "40.76164",
+                 "stop_lon": "-73.80176"
+                 },
+                 {
+                 "stop_id": "21",
+                 "stop_name": "Auburndale",
+                 "stop_lat": "40.76143",
+                 "stop_lon": "-73.78996"
+                 },
+                 {
+                 "stop_id": "22",
+                 "stop_name": "Bayside",
+                 "stop_lat": "40.76314",
+                 "stop_lon": "-73.77125"
+                 },
+                 {
+                 "stop_id": "23",
+                 "stop_name": "Douglaston",
+                 "stop_lat": "40.76806",
+                 "stop_lon": "-73.74941"
+                 },
+                 {
+                 "stop_id": "24",
+                 "stop_name": "Little Neck",
+                 "stop_lat": "40.77504",
+                 "stop_lon": "-73.74065"
+                 },
+                 {
+                 "stop_id": "25",
+                 "stop_name": "Great Neck",
+                 "stop_lat": "40.78721",
+                 "stop_lon": "-73.7261"
+                 },
+                 {
+                 "stop_id": "26",
+                 "stop_name": "Manhasset",
+                 "stop_lat": "40.79672",
+                 "stop_lon": "-73.6999"
+                 },
+                 {
+                 "stop_id": "27",
+                 "stop_name": "Plandome",
+                 "stop_lat": "40.81069",
+                 "stop_lon": "-73.69521"
+                 },
+                 {
+                 "stop_id": "28",
+                 "stop_name": "Port Washington",
+                 "stop_lat": "40.82903",
+                 "stop_lon": "-73.6874"
+                 },
+                 {
+                 "stop_id": "30",
+                 "stop_name": "Hollis",
+                 "stop_lat": "40.71017",
+                 "stop_lon": "-73.76675"
+                 },
+                 {
+                 "stop_id": "31",
+                 "stop_name": "Queens Village",
+                 "stop_lat": "40.71745",
+                 "stop_lon": "-73.73646"
+                 },
+                 {
+                 "stop_id": "32",
+                 "stop_name": "Belmont",
+                 "stop_lat": "40.71549",
+                 "stop_lon": "-73.72862"
+                 },
+                 {
+                 "stop_id": "33",
+                 "stop_name": "Bellerose",
+                 "stop_lat": "40.7222",
+                 "stop_lon": "-73.71665"
+                 },
+                 {
+                 "stop_id": "34",
+                 "stop_name": "Floral Park",
+                 "stop_lat": "40.72463",
+                 "stop_lon": "-73.7064"
+                 },
+                 {
+                 "stop_id": "35",
+                 "stop_name": "Stewart Manor",
+                 "stop_lat": "40.72302",
+                 "stop_lon": "-73.68102"
+                 },
+                 {
+                 "stop_id": "36",
+                 "stop_name": "Nassau Boulevard",
+                 "stop_lat": "40.72295",
+                 "stop_lon": "-73.6627"
+                 },
+                 {
+                 "stop_id": "37",
+                 "stop_name": "Garden City",
+                 "stop_lat": "40.72309",
+                 "stop_lon": "-73.64036"
+                 },
+                 {
+                 "stop_id": "38",
+                 "stop_name": "Country Life Press",
+                 "stop_lat": "40.72145",
+                 "stop_lon": "-73.62967"
+                 },
+                 {
+                 "stop_id": "39",
+                 "stop_name": "Hempstead",
+                 "stop_lat": "40.71329",
+                 "stop_lon": "-73.62503"
+                 },
+                 {
+                 "stop_id": "40",
+                 "stop_name": "New Hyde Park",
+                 "stop_lat": "40.73075",
+                 "stop_lon": "-73.68096"
+                 },
+                 {
+                 "stop_id": "41",
+                 "stop_name": "Merillon Avenue",
+                 "stop_lat": "40.73516",
+                 "stop_lon": "-73.66252"
+                 },
+                 {
+                 "stop_id": "42",
+                 "stop_name": "Mineola",
+                 "stop_lat": "40.74034",
+                 "stop_lon": "-73.64086"
+                 },
+                 {
+                 "stop_id": "43",
+                 "stop_name": "East Williston",
+                 "stop_lat": "40.75601",
+                 "stop_lon": "-73.63941"
+                 },
+                 {
+                 "stop_id": "44",
+                 "stop_name": "Albertson",
+                 "stop_lat": "40.77205",
+                 "stop_lon": "-73.64169"
+                 },
+                 {
+                 "stop_id": "45",
+                 "stop_name": "Roslyn",
+                 "stop_lat": "40.79047",
+                 "stop_lon": "-73.64326"
+                 },
+                 {
+                 "stop_id": "46",
+                 "stop_name": "Greenvale",
+                 "stop_lat": "40.81571",
+                 "stop_lon": "-73.62687"
+                 },
+                 {
+                 "stop_id": "47",
+                 "stop_name": "Glen Head",
+                 "stop_lat": "40.83222",
+                 "stop_lon": "-73.62612"
+                 },
+                 {
+                 "stop_id": "48",
+                 "stop_name": "Sea Cliff",
+                 "stop_lat": "40.85236",
+                 "stop_lon": "-73.62542"
+                 },
+                 {
+                 "stop_id": "49",
+                 "stop_name": "Glen Street",
+                 "stop_lat": "40.85797",
+                 "stop_lon": "-73.62122"
+                 },
+                 {
+                 "stop_id": "50",
+                 "stop_name": "Glen Cove",
+                 "stop_lat": "40.86583",
+                 "stop_lon": "-73.61616"
+                 },
+                 {
+                 "stop_id": "51",
+                 "stop_name": "Locust Valley",
+                 "stop_lat": "40.87446",
+                 "stop_lon": "-73.5983"
+                 },
+                 {
+                 "stop_id": "53",
+                 "stop_name": "Oyster Bay",
+                 "stop_lat": "40.87533",
+                 "stop_lon": "-73.53403"
+                 },
+                 {
+                 "stop_id": "54",
+                 "stop_name": "Carle Place",
+                 "stop_lat": "40.7492",
+                 "stop_lon": "-73.60365"
+                 },
+                 {
+                 "stop_id": "55",
+                 "stop_name": "Westbury",
+                 "stop_lat": "40.75345",
+                 "stop_lon": "-73.58586"
+                 },
+                 {
+                 "stop_id": "56",
+                 "stop_name": "Hicksville",
+                 "stop_lat": "40.76717",
+                 "stop_lon": "-73.52853"
+                 },
+                 {
+                 "stop_id": "58",
+                 "stop_name": "Syosset",
+                 "stop_lat": "40.82485",
+                 "stop_lon": "-73.50044"
+                 },
+                 {
+                 "stop_id": "59",
+                 "stop_name": "Cold Spring Harbor",
+                 "stop_lat": "40.83563",
+                 "stop_lon": "-73.45108"
+                 },
+                 {
+                 "stop_id": "60",
+                 "stop_name": "Huntington",
+                 "stop_lat": "40.853",
+                 "stop_lon": "-73.40952"
+                 },
+                 {
+                 "stop_id": "61",
+                 "stop_name": "Greenlawn",
+                 "stop_lat": "40.86866",
+                 "stop_lon": "-73.36285"
+                 },
+                 {
+                 "stop_id": "62",
+                 "stop_name": "Northport",
+                 "stop_lat": "40.88064",
+                 "stop_lon": "-73.32848"
+                 },
+                 {
+                 "stop_id": "63",
+                 "stop_name": "Kings Park",
+                 "stop_lat": "40.88366",
+                 "stop_lon": "-73.25625"
+                 },
+                 {
+                 "stop_id": "64",
+                 "stop_name": "Smithtown",
+                 "stop_lat": "40.85654",
+                 "stop_lon": "-73.19803"
+                 },
+                 {
+                 "stop_id": "65",
+                 "stop_name": "St. James",
+                 "stop_lat": "40.88216",
+                 "stop_lon": "-73.15951"
+                 },
+                 {
+                 "stop_id": "66",
+                 "stop_name": "Stony Brook",
+                 "stop_lat": "40.92031",
+                 "stop_lon": "-73.12855"
+                 },
+                 {
+                 "stop_id": "67",
+                 "stop_name": "Port Jefferson",
+                 "stop_lat": "40.93454",
+                 "stop_lon": "-73.0525"
+                 },
+                 {
+                 "stop_id": "68",
+                 "stop_name": "Bethpage",
+                 "stop_lat": "40.74303",
+                 "stop_lon": "-73.48344"
+                 },
+                 {
+                 "stop_id": "69",
+                 "stop_name": "Farmingdale",
+                 "stop_lat": "40.73591",
+                 "stop_lon": "-73.44124"
+                 },
+                 {
+                 "stop_id": "70",
+                 "stop_name": "Pinelawn",
+                 "stop_lat": "40.74535",
+                 "stop_lon": "-73.3996"
+                 },
+                 {
+                 "stop_id": "71",
+                 "stop_name": "Wyandanch",
+                 "stop_lat": "40.75479",
+                 "stop_lon": "-73.35806"
+                 },
+                 {
+                 "stop_id": "72",
+                 "stop_name": "Deer Park",
+                 "stop_lat": "40.76948",
+                 "stop_lon": "-73.29356"
+                 },
+                 {
+                 "stop_id": "73",
+                 "stop_name": "Brentwood",
+                 "stop_lat": "40.78083",
+                 "stop_lon": "-73.24361"
+                 },
+                 {
+                 "stop_id": "74",
+                 "stop_name": "Central Islip",
+                 "stop_lat": "40.79184",
+                 "stop_lon": "-73.19486"
+                 },
+                 {
+                 "stop_id": "75",
+                 "stop_name": "Ronkonkoma",
+                 "stop_lat": "40.80808",
+                 "stop_lon": "-73.10594"
+                 },
+                 {
+                 "stop_id": "77",
+                 "stop_name": "Medford",
+                 "stop_lat": "40.81739",
+                 "stop_lon": "-72.99891"
+                 },
+                 {
+                 "stop_id": "78",
+                 "stop_name": "Yaphank",
+                 "stop_lat": "40.8256",
+                 "stop_lon": "-72.91588"
+                 },
+                 {
+                 "stop_id": "79",
+                 "stop_name": "Riverhead",
+                 "stop_lat": "40.91983",
+                 "stop_lon": "-72.66691"
+                 },
+                 {
+                 "stop_id": "80",
+                 "stop_name": "Mattituck",
+                 "stop_lat": "40.99179",
+                 "stop_lon": "-72.53606"
+                 },
+                 {
+                 "stop_id": "81",
+                 "stop_name": "Southold",
+                 "stop_lat": "41.0662",
+                 "stop_lon": "-72.4281"
+                 },
+                 {
+                 "stop_id": "82",
+                 "stop_name": "Greenport",
+                 "stop_lat": "41.0997",
+                 "stop_lon": "-72.3631"
+                 },
+                 {
+                 "stop_id": "83",
+                 "stop_name": "St. Albans",
+                 "stop_lat": "40.69118",
+                 "stop_lon": "-73.76551"
+                 },
+                 {
+                 "stop_id": "84",
+                 "stop_name": "Locust Manor",
+                 "stop_lat": "40.67513",
+                 "stop_lon": "-73.76504"
+                 },
+                 {
+                 "stop_id": "85",
+                 "stop_name": "Laurelton",
+                 "stop_lat": "40.66847",
+                 "stop_lon": "-73.75175"
+                 },
+                 {
+                 "stop_id": "86",
+                 "stop_name": "Rosedale",
+                 "stop_lat": "40.66594",
+                 "stop_lon": "-73.73555"
+                 },
+                 {
+                 "stop_id": "87",
+                 "stop_name": "Valley Stream",
+                 "stop_lat": "40.66151",
+                 "stop_lon": "-73.70476"
+                 },
+                 {
+                 "stop_id": "88",
+                 "stop_name": "Westwood",
+                 "stop_lat": "40.66836",
+                 "stop_lon": "-73.68121"
+                 },
+                 {
+                 "stop_id": "89",
+                 "stop_name": "Malverne",
+                 "stop_lat": "40.67547",
+                 "stop_lon": "-73.66886"
+                 },
+                 {
+                 "stop_id": "90",
+                 "stop_name": "Lakeview",
+                 "stop_lat": "40.68585",
+                 "stop_lon": "-73.65214"
+                 },
+                 {
+                 "stop_id": "91",
+                 "stop_name": "Hempstead Gardens",
+                 "stop_lat": "40.69491",
+                 "stop_lon": "-73.64621"
+                 },
+                 {
+                 "stop_id": "92",
+                 "stop_name": "West Hempstead",
+                 "stop_lat": "40.70195",
+                 "stop_lon": "-73.64164"
+                 },
+                 {
+                 "stop_id": "93",
+                 "stop_name": "Gibson",
+                 "stop_lat": "40.64924",
+                 "stop_lon": "-73.70183"
+                 },
+                 {
+                 "stop_id": "94",
+                 "stop_name": "Hewlett",
+                 "stop_lat": "40.63676",
+                 "stop_lon": "-73.70514"
+                 },
+                 {
+                 "stop_id": "95",
+                 "stop_name": "Woodmere",
+                 "stop_lat": "40.63133",
+                 "stop_lon": "-73.71371"
+                 },
+                 {
+                 "stop_id": "96",
+                 "stop_name": "Cedarhurst",
+                 "stop_lat": "40.62217",
+                 "stop_lon": "-73.72618"
+                 },
+                 {
+                 "stop_id": "97",
+                 "stop_name": "Lawrence",
+                 "stop_lat": "40.61573",
+                 "stop_lon": "-73.7359"
+                 },
+                 {
+                 "stop_id": "98",
+                 "stop_name": "Inwood",
+                 "stop_lat": "40.61228",
+                 "stop_lon": "-73.74418"
+                 },
+                 {
+                 "stop_id": "99",
+                 "stop_name": "Far Rockaway",
+                 "stop_lat": "40.60913",
+                 "stop_lon": "-73.75054"
+                 },
+                 {
+                 "stop_id": "100",
+                 "stop_name": "Lynbrook",
+                 "stop_lat": "40.65605",
+                 "stop_lon": "-73.67607"
+                 },
+                 {
+                 "stop_id": "101",
+                 "stop_name": "Centre Avenue",
+                 "stop_lat": "40.64831",
+                 "stop_lon": "-73.66397"
+                 },
+                 {
+                 "stop_id": "102",
+                 "stop_name": "East Rockaway",
+                 "stop_lat": "40.6422",
+                 "stop_lon": "-73.65821"
+                 },
+                 {
+                 "stop_id": "103",
+                 "stop_name": "Oceanside",
+                 "stop_lat": "40.63471",
+                 "stop_lon": "-73.65466"
+                 },
+                 {
+                 "stop_id": "104",
+                 "stop_name": "Island Park",
+                 "stop_lat": "40.60129",
+                 "stop_lon": "-73.65474"
+                 },
+                 {
+                 "stop_id": "105",
+                 "stop_name": "Long Beach",
+                 "stop_lat": "40.59017",
+                 "stop_lon": "-73.66482"
+                 },
+                 {
+                 "stop_id": "106",
+                 "stop_name": "Rockville Centre",
+                 "stop_lat": "40.65831",
+                 "stop_lon": "-73.64655"
+                 },
+                 {
+                 "stop_id": "107",
+                 "stop_name": "Baldwin",
+                 "stop_lat": "40.65672",
+                 "stop_lon": "-73.60716"
+                 },
+                 {
+                 "stop_id": "108",
+                 "stop_name": "Freeport",
+                 "stop_lat": "40.65745",
+                 "stop_lon": "-73.58232"
+                 },
+                 {
+                 "stop_id": "109",
+                 "stop_name": "Merrick",
+                 "stop_lat": "40.66379",
+                 "stop_lon": "-73.55062"
+                 },
+                 {
+                 "stop_id": "110",
+                 "stop_name": "Bellmore",
+                 "stop_lat": "40.66879",
+                 "stop_lon": "-73.52886"
+                 },
+                 {
+                 "stop_id": "111",
+                 "stop_name": "Wantagh",
+                 "stop_lat": "40.67298",
+                 "stop_lon": "-73.50896"
+                 },
+                 {
+                 "stop_id": "112",
+                 "stop_name": "Seaford",
+                 "stop_lat": "40.67572",
+                 "stop_lon": "-73.48657"
+                 },
+                 {
+                 "stop_id": "113",
+                 "stop_name": "Massapequa",
+                 "stop_lat": "40.67692",
+                 "stop_lon": "-73.46905"
+                 },
+                 {
+                 "stop_id": "114",
+                 "stop_name": "Massapequa Park",
+                 "stop_lat": "40.67785",
+                 "stop_lon": "-73.45474"
+                 },
+                 {
+                 "stop_id": "115",
+                 "stop_name": "Amityville",
+                 "stop_lat": "40.68024",
+                 "stop_lon": "-73.42031"
+                 },
+                 {
+                 "stop_id": "116",
+                 "stop_name": "Copiague",
+                 "stop_lat": "40.68101",
+                 "stop_lon": "-73.39834"
+                 },
+                 {
+                 "stop_id": "117",
+                 "stop_name": "Lindenhurst",
+                 "stop_lat": "40.68826",
+                 "stop_lon": "-73.36921"
+                 },
+                 {
+                 "stop_id": "118",
+                 "stop_name": "Babylon",
+                 "stop_lat": "40.70068",
+                 "stop_lon": "-73.32405"
+                 },
+                 {
+                 "stop_id": "119",
+                 "stop_name": "Bay Shore",
+                 "stop_lat": "40.72443",
+                 "stop_lon": "-73.25408"
+                 },
+                 {
+                 "stop_id": "120",
+                 "stop_name": "Islip",
+                 "stop_lat": "40.73583",
+                 "stop_lon": "-73.20932"
+                 },
+                 {
+                 "stop_id": "121",
+                 "stop_name": "Great River",
+                 "stop_lat": "40.74044",
+                 "stop_lon": "-73.17019"
+                 },
+                 {
+                 "stop_id": "122",
+                 "stop_name": "Oakdale",
+                 "stop_lat": "40.74342",
+                 "stop_lon": "-73.13243"
+                 },
+                 {
+                 "stop_id": "123",
+                 "stop_name": "Sayville",
+                 "stop_lat": "40.74035",
+                 "stop_lon": "-73.08645"
+                 },
+                 {
+                 "stop_id": "124",
+                 "stop_name": "Patchogue",
+                 "stop_lat": "40.76187",
+                 "stop_lon": "-73.01574"
+                 },
+                 {
+                 "stop_id": "126",
+                 "stop_name": "Bellport",
+                 "stop_lat": "40.77373",
+                 "stop_lon": "-72.94396"
+                 },
+                 {
+                 "stop_id": "127",
+                 "stop_name": "Mastic Shirley",
+                 "stop_lat": "40.79898",
+                 "stop_lon": "-72.86442"
+                 },
+                 {
+                 "stop_id": "129",
+                 "stop_name": "Speonk",
+                 "stop_lat": "40.82117",
+                 "stop_lon": "-72.70427"
+                 },
+                 {
+                 "stop_id": "130",
+                 "stop_name": "Westhampton",
+                 "stop_lat": "40.8303",
+                 "stop_lon": "-72.65032"
+                 },
+                 {
+                 "stop_id": "132",
+                 "stop_name": "Hampton Bays",
+                 "stop_lat": "40.8766",
+                 "stop_lon": "-72.52395"
+                 },
+                 {
+                 "stop_id": "134",
+                 "stop_name": "Southampton",
+                 "stop_lat": "40.89471",
+                 "stop_lon": "-72.39012"
+                 },
+                 {
+                 "stop_id": "135",
+                 "stop_name": "Bridgehampton",
+                 "stop_lat": "40.93898",
+                 "stop_lon": "-72.31005"
+                 },
+                 {
+                 "stop_id": "136",
+                 "stop_name": "East Hampton",
+                 "stop_lat": "40.96508",
+                 "stop_lon": "-72.19324"
+                 },
+                 {
+                 "stop_id": "137",
+                 "stop_name": "Amagansett",
+                 "stop_lat": "40.98003",
+                 "stop_lon": "-72.13233"
+                 },
+                 {
+                 "stop_id": "138",
+                 "stop_name": "Montauk",
+                 "stop_lat": "41.0471",
+                 "stop_lon": "-71.95388"
+                 }
+                 ]
+    }
+}

@@ -1,0 +1,507 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C11071E9BEA57433982D242A /* Pods_TrainNapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50F3416CE54F7A65A039E1FD /* Pods_TrainNapper.framework */; };
+		E833DF5E1E0EEFFE006438C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF5D1E0EEFFE006438C4 /* AppDelegate.swift */; };
+		E833DF601E0EEFFE006438C4 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF5F1E0EEFFE006438C4 /* HomeViewController.swift */; };
+		E833DF651E0EEFFE006438C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E833DF641E0EEFFE006438C4 /* Assets.xcassets */; };
+		E833DF731E0EEFFE006438C4 /* TrainNapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF721E0EEFFE006438C4 /* TrainNapperTests.swift */; };
+		E833DF7E1E0EF097006438C4 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF7D1E0EF097006438C4 /* Station.swift */; };
+		E833DF801E0EF766006438C4 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF7F1E0EF766006438C4 /* MapView.swift */; };
+		E833DF821E0F1433006438C4 /* JSONSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF811E0F1433006438C4 /* JSONSerializer.swift */; };
+		E869CCF11E0F2144003A3FC2 /* LIRRStations.json in Resources */ = {isa = PBXBuildFile; fileRef = E869CCF01E0F2144003A3FC2 /* LIRRStations.json */; };
+		E869CCF31E11C929003A3FC2 /* Napper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869CCF21E11C929003A3FC2 /* Napper.swift */; };
+		E869CCF51E11E55E003A3FC2 /* MarkerWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */; };
+		E8FB0EF91E15C66A006C1E89 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FB0EF81E15C66A006C1E89 /* UserNotifications.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E833DF6F1E0EEFFE006438C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E833DF521E0EEFFE006438C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E833DF591E0EEFFE006438C4;
+			remoteInfo = TrainNapper;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		50F3416CE54F7A65A039E1FD /* Pods_TrainNapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrainNapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EFC08F9D02137DF76CF2314 /* Pods-TrainNapper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainNapper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrainNapper/Pods-TrainNapper.debug.xcconfig"; sourceTree = "<group>"; };
+		E833DF5A1E0EEFFE006438C4 /* TrainNapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainNapper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E833DF5D1E0EEFFE006438C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E833DF5F1E0EEFFE006438C4 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		E833DF641E0EEFFE006438C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E833DF691E0EEFFE006438C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E833DF6E1E0EEFFE006438C4 /* TrainNapperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrainNapperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E833DF721E0EEFFE006438C4 /* TrainNapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainNapperTests.swift; sourceTree = "<group>"; };
+		E833DF741E0EEFFE006438C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E833DF7D1E0EF097006438C4 /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
+		E833DF7F1E0EF766006438C4 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		E833DF811E0F1433006438C4 /* JSONSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerializer.swift; sourceTree = "<group>"; };
+		E869CCF01E0F2144003A3FC2 /* LIRRStations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LIRRStations.json; sourceTree = "<group>"; };
+		E869CCF21E11C929003A3FC2 /* Napper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Napper.swift; sourceTree = "<group>"; };
+		E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerWindowView.swift; sourceTree = "<group>"; };
+		E8FB0EF81E15C66A006C1E89 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		FF5D0224BD5F193A0943E482 /* Pods-TrainNapper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainNapper.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrainNapper/Pods-TrainNapper.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E833DF571E0EEFFE006438C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E8FB0EF91E15C66A006C1E89 /* UserNotifications.framework in Frameworks */,
+				C11071E9BEA57433982D242A /* Pods_TrainNapper.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E833DF6B1E0EEFFE006438C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C263400F5983AD3B03CC8672 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E8FB0EF81E15C66A006C1E89 /* UserNotifications.framework */,
+				50F3416CE54F7A65A039E1FD /* Pods_TrainNapper.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E7DE7A43EE548A8969728EAF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5EFC08F9D02137DF76CF2314 /* Pods-TrainNapper.debug.xcconfig */,
+				FF5D0224BD5F193A0943E482 /* Pods-TrainNapper.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E833DF511E0EEFFE006438C4 = {
+			isa = PBXGroup;
+			children = (
+				E833DF5C1E0EEFFE006438C4 /* TrainNapper */,
+				E833DF711E0EEFFE006438C4 /* TrainNapperTests */,
+				E833DF5B1E0EEFFE006438C4 /* Products */,
+				E7DE7A43EE548A8969728EAF /* Pods */,
+				C263400F5983AD3B03CC8672 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E833DF5B1E0EEFFE006438C4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E833DF5A1E0EEFFE006438C4 /* TrainNapper.app */,
+				E833DF6E1E0EEFFE006438C4 /* TrainNapperTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E833DF5C1E0EEFFE006438C4 /* TrainNapper */ = {
+			isa = PBXGroup;
+			children = (
+				E833DF5D1E0EEFFE006438C4 /* AppDelegate.swift */,
+				E869CCF21E11C929003A3FC2 /* Napper.swift */,
+				E833DF7D1E0EF097006438C4 /* Station.swift */,
+				E833DF7F1E0EF766006438C4 /* MapView.swift */,
+				E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */,
+				E833DF5F1E0EEFFE006438C4 /* HomeViewController.swift */,
+				E833DF811E0F1433006438C4 /* JSONSerializer.swift */,
+				E869CCF01E0F2144003A3FC2 /* LIRRStations.json */,
+				E833DF641E0EEFFE006438C4 /* Assets.xcassets */,
+				E833DF691E0EEFFE006438C4 /* Info.plist */,
+			);
+			path = TrainNapper;
+			sourceTree = "<group>";
+		};
+		E833DF711E0EEFFE006438C4 /* TrainNapperTests */ = {
+			isa = PBXGroup;
+			children = (
+				E833DF721E0EEFFE006438C4 /* TrainNapperTests.swift */,
+				E833DF741E0EEFFE006438C4 /* Info.plist */,
+			);
+			path = TrainNapperTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E833DF591E0EEFFE006438C4 /* TrainNapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E833DF771E0EEFFE006438C4 /* Build configuration list for PBXNativeTarget "TrainNapper" */;
+			buildPhases = (
+				F9051C9482EF2252F8F92A75 /* [CP] Check Pods Manifest.lock */,
+				E833DF561E0EEFFE006438C4 /* Sources */,
+				E833DF571E0EEFFE006438C4 /* Frameworks */,
+				E833DF581E0EEFFE006438C4 /* Resources */,
+				7A123EA3A0A020316CBA4AC3 /* [CP] Embed Pods Frameworks */,
+				622F951F558B858FC4CA299D /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TrainNapper;
+			productName = TrainNapper;
+			productReference = E833DF5A1E0EEFFE006438C4 /* TrainNapper.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E833DF6D1E0EEFFE006438C4 /* TrainNapperTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E833DF7A1E0EEFFE006438C4 /* Build configuration list for PBXNativeTarget "TrainNapperTests" */;
+			buildPhases = (
+				E833DF6A1E0EEFFE006438C4 /* Sources */,
+				E833DF6B1E0EEFFE006438C4 /* Frameworks */,
+				E833DF6C1E0EEFFE006438C4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E833DF701E0EEFFE006438C4 /* PBXTargetDependency */,
+			);
+			name = TrainNapperTests;
+			productName = TrainNapperTests;
+			productReference = E833DF6E1E0EEFFE006438C4 /* TrainNapperTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E833DF521E0EEFFE006438C4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Robert Deans";
+				TargetAttributes = {
+					E833DF591E0EEFFE006438C4 = {
+						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = 9TAE6F86BV;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
+					E833DF6D1E0EEFFE006438C4 = {
+						CreatedOnToolsVersion = 8.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = E833DF591E0EEFFE006438C4;
+					};
+				};
+			};
+			buildConfigurationList = E833DF551E0EEFFE006438C4 /* Build configuration list for PBXProject "TrainNapper" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E833DF511E0EEFFE006438C4;
+			productRefGroup = E833DF5B1E0EEFFE006438C4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E833DF591E0EEFFE006438C4 /* TrainNapper */,
+				E833DF6D1E0EEFFE006438C4 /* TrainNapperTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E833DF581E0EEFFE006438C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E869CCF11E0F2144003A3FC2 /* LIRRStations.json in Resources */,
+				E833DF651E0EEFFE006438C4 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E833DF6C1E0EEFFE006438C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		622F951F558B858FC4CA299D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrainNapper/Pods-TrainNapper-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7A123EA3A0A020316CBA4AC3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrainNapper/Pods-TrainNapper-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F9051C9482EF2252F8F92A75 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E833DF561E0EEFFE006438C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E833DF821E0F1433006438C4 /* JSONSerializer.swift in Sources */,
+				E833DF601E0EEFFE006438C4 /* HomeViewController.swift in Sources */,
+				E833DF801E0EF766006438C4 /* MapView.swift in Sources */,
+				E869CCF31E11C929003A3FC2 /* Napper.swift in Sources */,
+				E833DF5E1E0EEFFE006438C4 /* AppDelegate.swift in Sources */,
+				E833DF7E1E0EF097006438C4 /* Station.swift in Sources */,
+				E869CCF51E11E55E003A3FC2 /* MarkerWindowView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E833DF6A1E0EEFFE006438C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E833DF731E0EEFFE006438C4 /* TrainNapperTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E833DF701E0EEFFE006438C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E833DF591E0EEFFE006438C4 /* TrainNapper */;
+			targetProxy = E833DF6F1E0EEFFE006438C4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E833DF751E0EEFFE006438C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E833DF761E0EEFFE006438C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E833DF781E0EEFFE006438C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5EFC08F9D02137DF76CF2314 /* Pods-TrainNapper.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 9TAE6F86BV;
+				INFOPLIST_FILE = TrainNapper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = rob.TrainNapper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		E833DF791E0EEFFE006438C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF5D0224BD5F193A0943E482 /* Pods-TrainNapper.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 9TAE6F86BV;
+				INFOPLIST_FILE = TrainNapper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = rob.TrainNapper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		E833DF7B1E0EEFFE006438C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = TrainNapperTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = rob.TrainNapperTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TrainNapper.app/TrainNapper";
+			};
+			name = Debug;
+		};
+		E833DF7C1E0EEFFE006438C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = TrainNapperTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = rob.TrainNapperTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TrainNapper.app/TrainNapper";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E833DF551E0EEFFE006438C4 /* Build configuration list for PBXProject "TrainNapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E833DF751E0EEFFE006438C4 /* Debug */,
+				E833DF761E0EEFFE006438C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E833DF771E0EEFFE006438C4 /* Build configuration list for PBXNativeTarget "TrainNapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E833DF781E0EEFFE006438C4 /* Debug */,
+				E833DF791E0EEFFE006438C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E833DF7A1E0EEFFE006438C4 /* Build configuration list for PBXNativeTarget "TrainNapperTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E833DF7B1E0EEFFE006438C4 /* Debug */,
+				E833DF7C1E0EEFFE006438C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E833DF521E0EEFFE006438C4 /* Project object */;
+}
