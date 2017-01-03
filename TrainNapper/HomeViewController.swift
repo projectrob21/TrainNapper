@@ -22,7 +22,7 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
     var tappedMarker = GMSMarker()
     var locationManager = CLLocationManager()
     
-    var proximityRadius = 875.0
+    var proximityRadius = 870.0
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -43,6 +43,12 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestAlwaysAuthorization()
+        locationManager.activityType = .otherNavigation
+        locationManager.pausesLocationUpdatesAutomatically = true
+        
+        
+        
+        
         
         if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways{
             locationManager.startUpdatingLocation()
@@ -95,9 +101,9 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
         if status == CLAuthorizationStatus.authorizedWhenInUse || status == CLAuthorizationStatus.authorizedAlways {
             
             locationManager.startUpdatingLocation()
-            print("LOCATION MANAGER = \(locationManager.location)")
             guard let unwrappedLocation = locationManager.location else { print("error initializing user's location"); return }
             napper = Napper(coordinate: unwrappedLocation, destination: [])
+
         }
     }
     
@@ -124,18 +130,35 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
         
         guard let myDestination = store.lirrStationsDictionary[sender.title!] else { print("error setting alarm"); return }
         guard let napperLocation = napper.coordinate else { print("error getting napper coordinate"); return }
-        guard let eventStore = appDelegate.eventStore else { print("error casting event store in didupdatelocation"); return }
         
-        
+        // Adds station to napper's destination array
         napper.destination.append(myDestination)
         print("Napper's destination(s): \(napper.destination)")
+        
+        // Sorts destination array by proximity
         if napper.destination.count > 1 {
             napper.destination = napper.destination.sorted(by: { ($0.coordinateCL.distance(from: napperLocation) < $1.coordinateCL.distance(from: napperLocation))
             })
         }
         
-        let nextDestination = napper.destination[0]
+        /*
         
+        // Creates an alarm using Region Monitoring
+        for destination in napper.destination {
+            let region = CLCircularRegion(center: destination.coordinate2D, radius: proximityRadius, identifier: destination.name)
+            region.notifyOnEntry = true
+            region.notifyOnExit = false
+            locationManager.startMonitoring(for: region)
+            print("Monitored Regions count: \(locationManager.monitoredRegions.count)")
+
+        }
+        
+        
+        // Creates an alarm using EKEvents
+        
+        let nextDestination = napper.destination[0]
+        guard let eventStore = appDelegate.eventStore else { print("error casting event store in didupdatelocation"); return }
+
         let destinationReminder = EKReminder(eventStore: eventStore)
         destinationReminder.title = nextDestination.name
         destinationReminder.calendar = eventStore.defaultCalendarForNewReminders()
@@ -158,8 +181,32 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
             print("Reminder failed with error \(error.localizedDescription)")
         }
         
+        */
+
+        
     }
     
+    func removeAlarm(_ sender: GMSMarker) {
+        guard let myDestination = store.lirrStationsDictionary[sender.title!] else { print("error removing alarm destination"); return }
+        
+        for (index, destination) in napper.destination.enumerated() {
+            if destination.name == myDestination.name {
+                napper.destination.remove(at: index)
+            }
+        }
+
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        
+        print("DID ENTER THE REGION!!!!!!")
+        
+        let alert = UIAlertController(title: "WAKE UP!", message: "You are now arriving at your destination", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+        
+    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
@@ -182,6 +229,15 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
                 //SOUND THE ALARM!!!!
                 print("SENDING NOTIFICATION")
     
+                let alert = UIAlertController(title: "WAKE UP!", message: "You are now arriving at your destination", preferredStyle: .alert)
+                let action = UIAlertAction(title: "Thank you!", style: .cancel, handler: { (action) in
+                    self.napper.destination.removeFirst()
+                })
+                alert.addAction(action)
+                self.present(alert, animated: true, completion: nil)
+
+                
+                /*
                 let region = CLCircularRegion(center: nextDestination.coordinate2D, radius: proximityRadius as CLLocationDistance, identifier: "Next Destination")
                 region.notifyOnEntry = true
                 region.notifyOnExit = false
@@ -197,14 +253,12 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
                 
                 appDelegate.center.add(request)
                 
-
+                */
+                
             }
         }
-        
-        
-        
+
     }
-    
     
     
 }
