@@ -71,7 +71,8 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
         
         store.populateLIRRStationsFromJSON()
         store.populateMetroNorthStationsFromJSON()
-        stations = store.lirrStationsArray + store.metroNorthStationsArray
+        store.populateNJTStationsFromJSON()
+        stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
         
         mapView = MapView()
         mapView.stationsMap.delegate = self
@@ -90,6 +91,8 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
                 marker.icon = GMSMarker.markerImage(with: .red)
             } else if station.branch == .MetroNorth {
                 marker.icon = GMSMarker.markerImage(with: .blue)
+            } else if station.branch == .NJTransit {
+                marker.icon = GMSMarker.markerImage(with: .green)
             }
             
             //            marker.icon = GMSMarker.markerImage(with: .clear)

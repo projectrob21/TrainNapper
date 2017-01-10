@@ -14,6 +14,7 @@ final class DataStore {
 
     var lirrStationsArray = [Station]()
     var metroNorthStationsArray = [Station]()
+    var njTransitStationsArray = [Station]()
     var stationsDictionary: Dictionary = [String:Station]()
     
     func getJSONStationsDictionary(with jsonFilename: String, completion: @escaping ([String : [String : Any]]) -> Void) {
@@ -55,5 +56,19 @@ final class DataStore {
             }
         }
         
+    }
+    
+    func populateNJTStationsFromJSON() {
+        getJSONStationsDictionary(with: "NJTransit") { njtDictionary in
+            self.njTransitStationsArray = []
+            self.stationsDictionary = [String:Station]()
+            if let stationsDictionary = njtDictionary["stops"]?["stop"] as? [[String : Any]] {
+                for station in stationsDictionary.map({ Station(jsonData: $0) }) {
+                    self.stationsDictionary[station.name] = station
+                    self.njTransitStationsArray.append(station)
+                }
+                
+            }
+        }
     }
 }
