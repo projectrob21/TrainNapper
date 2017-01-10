@@ -70,7 +70,8 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
         }
         
         store.populateLIRRStationsFromJSON()
-        stations = store.lirrStationsArray
+        store.populateMetroNorthStationsFromJSON()
+        stations = store.lirrStationsArray + store.metroNorthStationsArray
         
         mapView = MapView()
         mapView.stationsMap.delegate = self
@@ -84,6 +85,12 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
             let marker = GMSMarker(position: station.coordinate2D)
             marker.appearAnimation = kGMSMarkerAnimationPop
             marker.title = station.name
+            
+            if station.branch == .LIRR {
+                marker.icon = GMSMarker.markerImage(with: .red)
+            } else if station.branch == .MetroNorth {
+                marker.icon = GMSMarker.markerImage(with: .blue)
+            }
             
             //            marker.icon = GMSMarker.markerImage(with: .clear)
             //            marker.icon = #imageLiteral(resourceName: "lirr")
@@ -128,7 +135,7 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
     
     func addAlarm(_ sender: GMSMarker) {
         
-        guard let myDestination = store.lirrStationsDictionary[sender.title!] else { print("error setting alarm"); return }
+        guard let myDestination = store.stationsDictionary[sender.title!] else { print("error setting alarm"); return }
         guard let napperLocation = napper.coordinate else { print("error getting napper coordinate"); return }
         
         // Adds station to napper's destination array
@@ -187,7 +194,7 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
     }
     
     func removeAlarm(_ sender: GMSMarker) {
-        guard let myDestination = store.lirrStationsDictionary[sender.title!] else { print("error removing alarm destination"); return }
+        guard let myDestination = store.stationsDictionary[sender.title!] else { print("error removing alarm destination"); return }
         
         for (index, destination) in napper.destination.enumerated() {
             if destination.name == myDestination.name {

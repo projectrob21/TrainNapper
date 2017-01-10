@@ -13,38 +13,45 @@ final class DataStore {
     static let sharedInstance = DataStore()
 
     var lirrStationsArray = [Station]()
-    var lirrStationsDictionary: Dictionary = [String:Station]()
+    var metroNorthStationsArray = [Station]()
+    var stationsDictionary: Dictionary = [String:Station]()
     
-    func getJSONStationsDictionary(completion: @escaping ([String : [String : Any]]) -> Void) {
-        guard let filePath = Bundle.main.path(forResource: "LIRRStations", ofType: "json") else {
-            print("error unwrapping json file path")
-            return
-        }
+    func getJSONStationsDictionary(with jsonFilename: String, completion: @escaping ([String : [String : Any]]) -> Void) {
+        guard let filePath = Bundle.main.path(forResource: jsonFilename, ofType: "json") else { print("error unwrapping json file path"); return }
         
         do {
             let data = try NSData(contentsOfFile: filePath, options: NSData.ReadingOptions.uncached)
             
-            guard let lirrDictionary = try JSONSerialization.jsonObject(with: data as Data, options: []) as? [String : [String : Any]] else {
-                print("error typecasting json dictionary")
-                return
-            }
-            
-            completion(lirrDictionary)
+            guard let stationDictionary = try JSONSerialization.jsonObject(with: data as Data, options: []) as? [String : [String : Any]] else { print("error typecasting json dictionary"); return }
+            completion(stationDictionary)
         } catch {
-            print("error reading playground data from file in json serializer")
+            print("error reading data from file in json serializer")
         }
     }
     
     func populateLIRRStationsFromJSON() {
-        getJSONStationsDictionary { lirrDictionary in
+        getJSONStationsDictionary(with: "LIRRStations") { lirrDictionary in
             self.lirrStationsArray = []
-            self.lirrStationsDictionary = [String:Station]()
+            self.stationsDictionary = [String:Station]()
             if let stationsDictionary = lirrDictionary["stops"]?["stop"] as? [[String : Any]] {
                 for station in stationsDictionary.map({ Station(jsonData: $0) }) {
-                    self.lirrStationsDictionary[station.name] = station
+                    self.stationsDictionary[station.name] = station
                     self.lirrStationsArray.append(station)
                 }
                 
+            }
+        }
+    }
+    
+    func populateMetroNorthStationsFromJSON() {
+        getJSONStationsDictionary(with: "MetroNorthStations") { (metroNorthDictionary) in
+            self.metroNorthStationsArray = []
+            self.stationsDictionary = [String:Station]()
+            if let stationsDictionary = metroNorthDictionary["stops"]?["stop"] as? [[String : Any]] {
+                for station in stationsDictionary.map({ Station(jsonData: $0) }) {
+                    self.stationsDictionary[station.name] = station
+                    self.metroNorthStationsArray.append(station)
+                }
             }
         }
         
