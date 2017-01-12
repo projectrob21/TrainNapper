@@ -20,6 +20,7 @@
 		E8C2AF451E24A77C00BE8338 /* LIRRStations.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF431E24A77C00BE8338 /* LIRRStations.json */; };
 		E8C2AF461E24A77C00BE8338 /* MetroNorthStations.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF441E24A77C00BE8338 /* MetroNorthStations.json */; };
 		E8C2AF481E24BBCD00BE8338 /* NJTransit.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF471E24BBCD00BE8338 /* NJTransit.json */; };
+		E8C2AF4A1E2565D700BE8338 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C2AF491E2565D700BE8338 /* FilterView.swift */; };
 		E8FB0EF91E15C66A006C1E89 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FB0EF81E15C66A006C1E89 /* UserNotifications.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +53,7 @@
 		E8C2AF431E24A77C00BE8338 /* LIRRStations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LIRRStations.json; sourceTree = "<group>"; };
 		E8C2AF441E24A77C00BE8338 /* MetroNorthStations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MetroNorthStations.json; sourceTree = "<group>"; };
 		E8C2AF471E24BBCD00BE8338 /* NJTransit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NJTransit.json; sourceTree = "<group>"; };
+		E8C2AF491E2565D700BE8338 /* FilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		E8FB0EF81E15C66A006C1E89 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		FF5D0224BD5F193A0943E482 /* Pods-TrainNapper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainNapper.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrainNapper/Pods-TrainNapper.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -121,6 +123,7 @@
 				E869CCF21E11C929003A3FC2 /* Napper.swift */,
 				E833DF7D1E0EF097006438C4 /* Station.swift */,
 				E833DF7F1E0EF766006438C4 /* MapView.swift */,
+				E8C2AF491E2565D700BE8338 /* FilterView.swift */,
 				E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */,
 				E833DF5F1E0EEFFE006438C4 /* HomeViewController.swift */,
 				E833DF811E0F1433006438C4 /* JSONSerializer.swift */,
@@ -307,6 +310,7 @@
 				E833DF601E0EEFFE006438C4 /* HomeViewController.swift in Sources */,
 				E833DF801E0EF766006438C4 /* MapView.swift in Sources */,
 				E869CCF31E11C929003A3FC2 /* Napper.swift in Sources */,
+				E8C2AF4A1E2565D700BE8338 /* FilterView.swift in Sources */,
 				E833DF5E1E0EEFFE006438C4 /* AppDelegate.swift in Sources */,
 				E833DF7E1E0EF097006438C4 /* Station.swift in Sources */,
 				E869CCF51E11E55E003A3FC2 /* MarkerWindowView.swift in Sources */,
