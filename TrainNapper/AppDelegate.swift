@@ -18,7 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     let googleAPI = "AIzaSyDLkK5fHf0Q6p0l1g521hqlg1UWAVZ7kgo"
     
     var window: UIWindow?
-    lazy var homeViewController: HomeViewController! = HomeViewController()
+    var homeViewController: UIViewController!
+    var navigationController: UINavigationController!
     
     var eventStore: EKEventStore?
 
@@ -35,8 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
         }
         
+        homeViewController = HomeViewController()
+        navigationController = UINavigationController(rootViewController: homeViewController)
+        
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = homeViewController
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         
         return true

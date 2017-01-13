@@ -15,9 +15,12 @@
 		E833DF7E1E0EF097006438C4 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF7D1E0EF097006438C4 /* Station.swift */; };
 		E833DF801E0EF766006438C4 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF7F1E0EF766006438C4 /* MapView.swift */; };
 		E833DF821E0F1433006438C4 /* JSONSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF811E0F1433006438C4 /* JSONSerializer.swift */; };
-		E869CCF11E0F2144003A3FC2 /* LIRRStations.json in Resources */ = {isa = PBXBuildFile; fileRef = E869CCF01E0F2144003A3FC2 /* LIRRStations.json */; };
 		E869CCF31E11C929003A3FC2 /* Napper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869CCF21E11C929003A3FC2 /* Napper.swift */; };
 		E869CCF51E11E55E003A3FC2 /* MarkerWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */; };
+		E8C2AF451E24A77C00BE8338 /* LIRRStations.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF431E24A77C00BE8338 /* LIRRStations.json */; };
+		E8C2AF461E24A77C00BE8338 /* MetroNorthStations.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF441E24A77C00BE8338 /* MetroNorthStations.json */; };
+		E8C2AF481E24BBCD00BE8338 /* NJTransit.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF471E24BBCD00BE8338 /* NJTransit.json */; };
+		E8C2AF4A1E2565D700BE8338 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C2AF491E2565D700BE8338 /* FilterView.swift */; };
 		E8FB0EF91E15C66A006C1E89 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FB0EF81E15C66A006C1E89 /* UserNotifications.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,9 +48,12 @@
 		E833DF7D1E0EF097006438C4 /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		E833DF7F1E0EF766006438C4 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		E833DF811E0F1433006438C4 /* JSONSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerializer.swift; sourceTree = "<group>"; };
-		E869CCF01E0F2144003A3FC2 /* LIRRStations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LIRRStations.json; sourceTree = "<group>"; };
 		E869CCF21E11C929003A3FC2 /* Napper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Napper.swift; sourceTree = "<group>"; };
 		E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerWindowView.swift; sourceTree = "<group>"; };
+		E8C2AF431E24A77C00BE8338 /* LIRRStations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LIRRStations.json; sourceTree = "<group>"; };
+		E8C2AF441E24A77C00BE8338 /* MetroNorthStations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MetroNorthStations.json; sourceTree = "<group>"; };
+		E8C2AF471E24BBCD00BE8338 /* NJTransit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NJTransit.json; sourceTree = "<group>"; };
+		E8C2AF491E2565D700BE8338 /* FilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		E8FB0EF81E15C66A006C1E89 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		FF5D0224BD5F193A0943E482 /* Pods-TrainNapper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainNapper.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrainNapper/Pods-TrainNapper.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,13 +120,10 @@
 			isa = PBXGroup;
 			children = (
 				E833DF5D1E0EEFFE006438C4 /* AppDelegate.swift */,
-				E869CCF21E11C929003A3FC2 /* Napper.swift */,
-				E833DF7D1E0EF097006438C4 /* Station.swift */,
-				E833DF7F1E0EF766006438C4 /* MapView.swift */,
-				E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */,
-				E833DF5F1E0EEFFE006438C4 /* HomeViewController.swift */,
-				E833DF811E0F1433006438C4 /* JSONSerializer.swift */,
-				E869CCF01E0F2144003A3FC2 /* LIRRStations.json */,
+				E878609E1E28936B00DE089C /* Model */,
+				E878609D1E28935F00DE089C /* Views */,
+				E87860A01E28937E00DE089C /* Controller */,
+				E878609F1E28937800DE089C /* Data */,
 				E833DF641E0EEFFE006438C4 /* Assets.xcassets */,
 				E833DF691E0EEFFE006438C4 /* Info.plist */,
 			);
@@ -134,6 +137,44 @@
 				E833DF741E0EEFFE006438C4 /* Info.plist */,
 			);
 			path = TrainNapperTests;
+			sourceTree = "<group>";
+		};
+		E878609D1E28935F00DE089C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E833DF7F1E0EF766006438C4 /* MapView.swift */,
+				E8C2AF491E2565D700BE8338 /* FilterView.swift */,
+				E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		E878609E1E28936B00DE089C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E869CCF21E11C929003A3FC2 /* Napper.swift */,
+				E833DF7D1E0EF097006438C4 /* Station.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		E878609F1E28937800DE089C /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				E833DF811E0F1433006438C4 /* JSONSerializer.swift */,
+				E8C2AF431E24A77C00BE8338 /* LIRRStations.json */,
+				E8C2AF441E24A77C00BE8338 /* MetroNorthStations.json */,
+				E8C2AF471E24BBCD00BE8338 /* NJTransit.json */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		E87860A01E28937E00DE089C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E833DF5F1E0EEFFE006438C4 /* HomeViewController.swift */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,8 +269,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E869CCF11E0F2144003A3FC2 /* LIRRStations.json in Resources */,
 				E833DF651E0EEFFE006438C4 /* Assets.xcassets in Resources */,
+				E8C2AF461E24A77C00BE8338 /* MetroNorthStations.json in Resources */,
+				E8C2AF451E24A77C00BE8338 /* LIRRStations.json in Resources */,
+				E8C2AF481E24BBCD00BE8338 /* NJTransit.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +342,7 @@
 				E833DF601E0EEFFE006438C4 /* HomeViewController.swift in Sources */,
 				E833DF801E0EF766006438C4 /* MapView.swift in Sources */,
 				E869CCF31E11C929003A3FC2 /* Napper.swift in Sources */,
+				E8C2AF4A1E2565D700BE8338 /* FilterView.swift in Sources */,
 				E833DF5E1E0EEFFE006438C4 /* AppDelegate.swift in Sources */,
 				E833DF7E1E0EF097006438C4 /* Station.swift in Sources */,
 				E869CCF51E11E55E003A3FC2 /* MarkerWindowView.swift in Sources */,

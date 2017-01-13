@@ -1,0 +1,384 @@
+{
+	"stops": { 
+		"stop": [
+				{
+					"branch": "MetroNorth", "stop_id": "1",
+					"stop_name": "Grand Central",
+					"stop_lat" :"40.752998",
+					"stop_lon": "-73.977056"
+				},
+				{
+					"branch": "MetroNorth", "stop_id": "4",
+					"stop_name": "Harlem-125th St.",
+					"stop_lat" :"40.805157",
+					"stop_lon":"-73.939149"
+				},
+				{
+					"branch": "MetroNorth", "stop_id": "622", 
+					"stop_name": "Yankees-E153 St.", 
+					"stop_lat" :"40.8253",
+					"stop_lon": "-73.9299"
+				},
+				{
+					"branch": "MetroNorth", "stop_id":"9", 
+					"stop_name": "Morris Heights", 
+					"stop_lat" :"40.854252",
+					"stop_lon": "-73.919583"
+				},
+				{
+					"branch": "MetroNorth", "stop_id": "10", 
+					"stop_name": "University Heights", 
+					"stop_lat" :"40.862248",
+					"stop_lon": "-73.91312"
+				},
+				{
+					"branch": "MetroNorth", "stop_id": "11", 
+					"stop_name": "Marble Hill", 
+					"stop_lat" :"40.874333", 
+					"stop_lon": "-73.910941"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "14", 
+					"stop_name": "Spuyten Duyvil", 
+					"stop_lat" :"40.878245", 
+					"stop_lon": "-73.921455"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "16", 
+					"stop_name": "Riverdale", 
+					"stop_lat" :"40.903981", 
+					"stop_lon": "-73.914126"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "17", 
+					"stop_name": "Ludlow", 
+					"stop_lat" :"40.924972", 
+					"stop_lon": "-73.904612"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "18", 
+					"stop_name": "Yonkers", 
+					"stop_lat" :"40.935795", 
+					"stop_lon": "-73.902668"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "19", 
+					"stop_name": "Glenwood", 
+					"stop_lat" :"40.950496", 
+					"stop_lon": "-73.899062"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "20", 
+					"stop_name": "Greystone", 
+					"stop_lat" :"40.972705", 
+					"stop_lon": "-73.889069"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "22", 
+					"stop_name": "Hastings-on-Hudson", 
+					"stop_lat" :"40.994109", 
+					"stop_lon": "-73.884512"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "23", 
+					"stop_name": "Dobbs Ferry", 
+					"stop_lat" :"41.012459", 
+					"stop_lon": "-73.87949"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "24", 
+					"stop_name": "Ardsley-on-Hudson", 
+					"stop_lat" :"41.026198", 
+					"stop_lon": "-73.876543"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "25", 
+					"stop_name": "Irvington", 
+					"stop_lat" :"41.039993", 
+					"stop_lon": "-73.873083"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "27", 
+					"stop_name": "Tarrytown", 
+					"stop_lat" :"41.076473", 
+					"stop_lon": "-73.864563"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "29", 
+					"stop_name": "Philipse Manor", 
+					"stop_lat" :"41.09492", 
+					"stop_lon": "-73.869755"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "30", 
+					"stop_name": "Scarborough", 
+					"stop_lat" :"41.135763", 
+					"stop_lon": "-73.866163"
+				},
+				{ 
+					"branch": "MetroNorth", "stop_id": "31", 
+					"stop_name": "Ossining", 
+					"stop_lat" :"41.157663", 
+					"stop_lon": "-73.869281"
+				},
+				{ "branch": "MetroNorth", "stop_id": "40001",
+					"stop_name": "Haverstraw", "stop_lat" :"41.192009", "stop_lon": "-73.959017"
+				},
+				{ "branch": "MetroNorth", "stop_id": "33",
+					"stop_name": "Croton-Harmon", "stop_lat" :"41.189903", "stop_lon": "-73.882394"
+				},
+				{ "branch": "MetroNorth", "stop_id": "37",
+					"stop_name": "Cortlandt", "stop_lat" :"41.246259", "stop_lon": "-73.921884"
+				},
+				{ "branch": "MetroNorth", "stop_id": "39",
+					"stop_name": "Peekskill", "stop_lat" :"41.285962", "stop_lon": "-73.93042"
+				},
+				{ "branch": "MetroNorth", "stop_id": "40",
+					"stop_name": "Manitou", "stop_lat" :"41.332601", "stop_lon": "-73.970426"
+				},
+				{ "branch": "MetroNorth", "stop_id": "42",
+					"stop_name": "Garrison", "stop_lat" :"41.38178", "stop_lon": "-73.947202"
+				},
+				{ "branch": "MetroNorth", "stop_id": "43",
+					"stop_name": "Cold Spring", "stop_lat" :"41.415283", "stop_lon": "-73.95809"
+				},
+				{ "branch": "MetroNorth", "stop_id": "44",
+					"stop_name": "Breakneck Ridge", "stop_lat" :"41.450181", "stop_lon": "-73.982449"
+				},
+				{ "branch": "MetroNorth", "stop_id": "46",
+					"stop_name": "Beacon", "stop_lat" :"41.504007", "stop_lon": "-73.984528"
+				},
+				{ "branch": "MetroNorth", "stop_id": "40002",
+					"stop_name": "Newburg", "stop_lat" :"41.500896", "stop_lon": "-74.005419"
+				},
+				{ "branch": "MetroNorth", "stop_id": "49",
+					"stop_name": "New Hamburg", "stop_lat" :"41.587448", "stop_lon": "-73.947226"
+				},
+				{ "branch": "MetroNorth", "stop_id": "51",
+					"stop_name": "Poughkeepsie", "stop_lat" :"41.705839", "stop_lon": "-73.937946"
+				},
+				{ "branch": "MetroNorth", "stop_id": "54", "stop_name": "Melrose", "stop_lat" :"40.825761", "stop_lon": "-73.915231"
+				},
+				{ "branch": "MetroNorth", "stop_id": "55", "stop_name": "Tremont", "stop_lat" :"40.847301", "stop_lon": "-73.89955"
+				},
+				{ "branch": "MetroNorth", "stop_id": "56", "stop_name": "Fordham", "stop_lat" :"40.8615", "stop_lon": "-73.89058"
+				},
+				{ "branch": "MetroNorth", "stop_id": "57", "stop_name": "Botanical Garden", "stop_lat" :"40.866555", "stop_lon": "-73.883109"
+				},
+				{ "branch": "MetroNorth", "stop_id": "58", "stop_name": "Williams Bridge", "stop_lat" :"40.878569", "stop_lon": "-73.871064"
+				},
+				{ "branch": "MetroNorth", "stop_id": "59", "stop_name": "Woodlawn", "stop_lat" :"40.895361", "stop_lon": "-73.862916"
+				},
+				{ "branch": "MetroNorth", "stop_id": "61", "stop_name": "Wakefield", "stop_lat" :"40.905936", "stop_lon": "-73.85568"
+				},
+				{ "branch": "MetroNorth", "stop_id": "62", "stop_name": "Mt Vernon West", "stop_lat" :"40.912142", "stop_lon": "-73.851129"
+				},
+				{ "branch": "MetroNorth", "stop_id": "64", "stop_name": "Fleetwood", "stop_lat" :"40.92699", "stop_lon": "-73.83948"
+				},
+				{ "branch": "MetroNorth", "stop_id": "65", "stop_name": "Bronxville", "stop_lat" :"40.93978", "stop_lon": "-73.835208"
+				},
+				{ "branch": "MetroNorth", "stop_id": "66", "stop_name": "Tuckahoe", "stop_lat" :"40.949393", "stop_lon": "-73.830166"
+				},
+				{ "branch": "MetroNorth", "stop_id": "68", "stop_name": "Crestwood", "stop_lat" :"40.958997", "stop_lon": "-73.820564"
+				},
+				{ "branch": "MetroNorth", "stop_id": "71", "stop_name": "Scarsdale", "stop_lat" :"40.989168", "stop_lon": "-73.808634"
+				},
+				{ "branch": "MetroNorth", "stop_id": "72", "stop_name": "Hartsdale", "stop_lat" :"41.010333", "stop_lon": "-73.796407"
+				},
+				{ "branch": "MetroNorth", "stop_id": "74", "stop_name": "White Plains", "stop_lat" :"41.032589", "stop_lon": "-73.775208"
+				},
+				{ "branch": "MetroNorth", "stop_id": "76", "stop_name": "North White Plains", "stop_lat" :"41.049806", "stop_lon": "-73.773142"
+				},
+				{ "branch": "MetroNorth", "stop_id": "78", "stop_name": "Valhalla", "stop_lat" :"41.072819", "stop_lon": "-73.772599"
+				},
+				{ "branch": "MetroNorth", "stop_id": "79", "stop_name": "Mount Pleasant", "stop_lat" :"41.095877", "stop_lon": "-73.793822"
+				},
+				{ "branch": "MetroNorth", "stop_id": "80", "stop_name": "Hawthorne", "stop_lat" :"41.108581", "stop_lon": "-73.79625"
+				},
+				{ "branch": "MetroNorth", "stop_id": "81", "stop_name": "Pleasantville", "stop_lat" :"41.135222", "stop_lon": "-73.792661"
+				},
+				{ "branch": "MetroNorth", "stop_id": "83", "stop_name": "Chappaqua", "stop_lat" :"41.158015", "stop_lon": "-73.774885"
+				},
+				{ "branch": "MetroNorth", "stop_id": "84", "stop_name": "Mount Kisco", "stop_lat" :"41.208242", "stop_lon": "-73.729778"
+				},
+				{ "branch": "MetroNorth", "stop_id": "85", "stop_name": "Bedford Hills", "stop_lat" :"41.237316", "stop_lon": "-73.699936"
+				},
+				{ "branch": "MetroNorth", "stop_id": "86", "stop_name": "Katonah", "stop_lat" :"41.259552", "stop_lon": "-73.684155"
+				},
+				{ "branch": "MetroNorth", "stop_id": "88", "stop_name": "Goldens Bridge", "stop_lat" :"41.294338", "stop_lon": "-73.677655"
+				},
+				{ "branch": "MetroNorth", "stop_id": "89", "stop_name": "Purdy's", "stop_lat" :"41.325775", "stop_lon": "-73.659061"
+				},
+				{ "branch": "MetroNorth", "stop_id": "90", "stop_name": "Croton Falls", "stop_lat" :"41.347722", "stop_lon": "-73.662269"
+				},
+				{ "branch": "MetroNorth", "stop_id": "91", "stop_name": "Brewster", "stop_lat" :"41.39447", "stop_lon": "-73.619802"
+				},
+				{ "branch": "MetroNorth", "stop_id": "94", "stop_name": "Southeast", "stop_lat" :"41.413203", "stop_lon": "-73.623787"
+				},
+				{ "branch": "MetroNorth", "stop_id": "97", "stop_name": "Patterson", "stop_lat" :"41.511827", "stop_lon": "-73.604584"
+				},
+				{ "branch": "MetroNorth", "stop_id": "98", "stop_name": "Pawling", "stop_lat" :"41.564205", "stop_lon": "-73.600524"
+				},
+				{ "branch": "MetroNorth", "stop_id": "99", "stop_name": "Appalachian Trail", "stop_lat" :"41.61081", "stop_lon": "-73.57871"
+				},
+				{ "branch": "MetroNorth", "stop_id": "100", "stop_name": "HM Valley-Wingdale", "stop_lat" :"41.637525", "stop_lon": "-73.57145"
+				},
+				{ "branch": "MetroNorth", "stop_id": "101", "stop_name": "Dover Plains", "stop_lat" :"41.740401", "stop_lon": "-73.576502"
+				},
+				{ "branch": "MetroNorth", "stop_id": "176", "stop_name": "Tenmile River", "stop_lat" :"41.779938", "stop_lon": "-73.558204"
+				},
+				{ "branch": "MetroNorth", "stop_id": "177", "stop_name": "Wassaic", "stop_lat" :"41.814722", "stop_lon": "-73.562197"
+				},
+				{ "branch": "MetroNorth", "stop_id": "105", "stop_name": "Mt Vernon East ", "stop_lat" :"40.912161", "stop_lon": "-73.832185"
+				},
+				{ "branch": "MetroNorth", "stop_id": "106", "stop_name": "Pelham", "stop_lat" :"40.910321", "stop_lon": "-73.810242"
+				},
+				{ "branch": "MetroNorth", "stop_id": "108", "stop_name": "New Rochelle", "stop_lat" :"40.911605", "stop_lon": "-73.783807"
+				},
+				{ "branch": "MetroNorth", "stop_id": "110", "stop_name": "Larchmont", "stop_lat" :"40.933394", "stop_lon": "-73.759792"
+				},
+				{ "branch": "MetroNorth", "stop_id": "111", "stop_name": "Mamaroneck", "stop_lat" :"40.954061", "stop_lon": "-73.736125"
+				},
+				{ "branch": "MetroNorth", "stop_id": "112", "stop_name": "Harrison", "stop_lat" :"40.969432", "stop_lon": "-73.712964"
+				},
+				{ "branch": "MetroNorth", "stop_id": "114", "stop_name": "Rye", "stop_lat" :"40.985922", "stop_lon": "-73.682553"
+				},
+				{ "branch": "MetroNorth", "stop_id": "115", "stop_name": "Port Chester", "stop_lat" :"41.000732", "stop_lon": "-73.6647"
+				},
+				{ "branch": "MetroNorth", "stop_id": "116", "stop_name": "Greenwich", "stop_lat" :"41.021277", "stop_lon": "-73.624621"
+				},
+				{ "branch": "MetroNorth", "stop_id": "118", "stop_name": "Cos Cob", "stop_lat" :"41.030171", "stop_lon": "-73.598306"
+				},
+				{ "branch": "MetroNorth", "stop_id": "120", "stop_name": "Riverside", "stop_lat" :"41.031682", "stop_lon": "-73.588173"
+				},
+				{ "branch": "MetroNorth", "stop_id": "121", "stop_name": "Old Greenwich", "stop_lat" :"41.033817", "stop_lon": "-73.565859"
+				},
+				{ "branch": "MetroNorth", "stop_id": "124", "stop_name": "Stamford", "stop_lat" :"41.046611", "stop_lon": "-73.542846"
+				},
+				{ "branch": "MetroNorth", "stop_id": "153", "stop_name": "Glenbrook", "stop_lat" :"41.070547", "stop_lon": "-73.520021"
+				},
+				{ "branch": "MetroNorth", "stop_id": "154", "stop_name": "Springdale", "stop_lat" :"41.08876", "stop_lon": "-73.517828"
+				},
+				{ "branch": "MetroNorth", "stop_id": "155", "stop_name": "Talmadge Hill", "stop_lat" :"41.116012", "stop_lon": "-73.498149"
+				},
+				{ "branch": "MetroNorth", "stop_id": "157", "stop_name": "New Canaan", "stop_lat" :"41.146305", "stop_lon": "-73.495626"
+				},
+				{ "branch": "MetroNorth", "stop_id": "127", "stop_name": "Noroton Heights", "stop_lat" :"41.069041", "stop_lon": "-73.49788"
+				},
+				{ "branch": "MetroNorth", "stop_id": "128", "stop_name": "Darien", "stop_lat" :"41.076913", "stop_lon": "-73.472966"
+				},
+				{ "branch": "MetroNorth", "stop_id": "129", "stop_name": "Rowayton", "stop_lat" :"41.077456", "stop_lon": "-73.445527"
+				},
+				{ "branch": "MetroNorth", "stop_id": "131", "stop_name": "South Norwalk", "stop_lat" :"41.09673", "stop_lon": "-73.421132"
+				},
+				{ "branch": "MetroNorth", "stop_id": "158", "stop_name": "Merritt 7", "stop_lat" :"41.146618", "stop_lon": "-73.427859"
+				},
+				{ "branch": "MetroNorth", "stop_id": "160", "stop_name": "Wilton", "stop_lat" :"41.196202", "stop_lon": "-73.432434"
+				},
+				{ "branch": "MetroNorth", "stop_id": "161", "stop_name": "Cannondale", "stop_lat" :"41.21662", "stop_lon": "-73.426703"
+				},
+				{ "branch": "MetroNorth", "stop_id": "162", "stop_name": "Branchville", "stop_lat" :"41.26763", "stop_lon": "-73.441421"
+				},
+				{ "branch": "MetroNorth", "stop_id": "163", "stop_name": "Redding", "stop_lat" :"41.325684", "stop_lon": "-73.4338"
+				},
+				{ "branch": "MetroNorth", "stop_id": "164", "stop_name": "Bethel", "stop_lat" :"41.376225", "stop_lon": "-73.418171"
+				},
+				{ "branch": "MetroNorth", "stop_id": "165", "stop_name": "Danbury", "stop_lat" :"41.396363", "stop_lon": "-73.450163"
+				},
+				{ "branch": "MetroNorth", "stop_id": "133", "stop_name": "East Norwalk", "stop_lat" :"41.103996", "stop_lon": "-73.404588"
+				},
+				{ "branch": "MetroNorth", "stop_id": "134", "stop_name": "Westport", "stop_lat" :"41.118928", "stop_lon": "-73.371413"
+				},
+				{ "branch": "MetroNorth", "stop_id": "136", "stop_name": "Green's Farms", "stop_lat" :"41.122265", "stop_lon": "-73.315408"
+				},
+				{ "branch": "MetroNorth", "stop_id": "137", "stop_name": "Southport", "stop_lat" :"41.134844", "stop_lon": "-73.28897"
+				},
+				{ "branch": "MetroNorth", "stop_id": "138", "stop_name": "Fairfield", "stop_lat" :"41.143077", "stop_lon": "-73.257742"
+				},
+				{ "branch": "MetroNorth", "stop_id": "188", "stop_name": "Fairfield Metro", "stop_lat" :"41.161", "stop_lon": "-73.234336"
+				},
+				{ "branch": "MetroNorth", "stop_id": "140", "stop_name": "Bridgeport", "stop_lat" :"41.178677", "stop_lon": "-73.187076"
+				},
+				{ "branch": "MetroNorth", "stop_id": "143", "stop_name": "Stratford", "stop_lat" :"41.194255", "stop_lon": "-73.131532"
+				},
+				{ "branch": "MetroNorth", "stop_id": "144", "stop_name": "Devon Transfer", "stop_lat" :"41.208638", "stop_lon": "-73.097415"
+				},
+				{ "branch": "MetroNorth", "stop_id": "167", "stop_name": "Derby", "stop_lat" :"41.319718", "stop_lon": "-73.083548"
+				},
+				{ "branch": "MetroNorth", "stop_id": "168", "stop_name": "Ansonia", "stop_lat" :"41.344156", "stop_lon": "-73.079892"
+				},
+				{ "branch": "MetroNorth", "stop_id": "169", "stop_name": "Seymour", "stop_lat" :"41.395139", "stop_lon": "-73.072499"
+				},
+				{ "branch": "MetroNorth", "stop_id": "170", "stop_name": "Beacon Falls", "stop_lat" :"41.441752", "stop_lon": "-73.06359"
+				},
+				{ "branch": "MetroNorth", "stop_id": "171", "stop_name": "Naugatuck", "stop_lat" :"41.494204", "stop_lon": "-73.052655"
+				},
+				{ "branch": "MetroNorth", "stop_id": "172", "stop_name": "Waterbury", "stop_lat" :"41.552728", "stop_lon": "-73.046126"
+				},
+				{ "branch": "MetroNorth", "stop_id": "145", "stop_name": "Milford", "stop_lat" :"41.223231", "stop_lon": "-73.057647"
+				},
+				{ "branch": "MetroNorth", "stop_id": "190", "stop_name": "West Haven", "stop_lat" :"41.27142", "stop_lon": "-72.963488"
+				},
+				{ "branch": "MetroNorth", "stop_id": "149", "stop_name": "New Haven", "stop_lat" :"41.296501", "stop_lon": "-72.92829"
+				},
+				{ "branch": "MetroNorth", "stop_id": "151", "stop_name": "NH-State St.", "stop_lat" :"41.304979", "stop_lon": "-72.921747"
+				},
+				{ "branch": "MetroNorth", "stop_id": "502", "stop_name": "Kappock St/Knolls Crescent", "stop_lat" :"40.879135", "stop_lon": "-73.916842"
+				},
+				{ "branch": "MetroNorth", "stop_id": "504", "stop_name": "Henry Hudson Pkwy/Independence Ave", "stop_lat" :"40.881049", "stop_lon": "-73.91917"
+				},
+				{ "branch": "MetroNorth", "stop_id": "506", "stop_name": "232nd St/Henry Hudson Pkwy", "stop_lat" :"40.884732", "stop_lon": "-73.914546"
+				},
+				{ "branch": "MetroNorth", "stop_id": "508", "stop_name": "236th St/Henry Hudson Pkwy", "stop_lat" :"40.887011", "stop_lon": "-73.911842"
+				},
+				{ "branch": "MetroNorth", "stop_id": "510", "stop_name": "239th St/Independence Ave.", "stop_lat" :"40.889769", "stop_lon": "-73.912894"
+				},
+				{ "branch": "MetroNorth", "stop_id": "516", "stop_name": "239th St/Henry Hudson Pkwy", "stop_lat" :"40.889136", "stop_lon": "-73.908377"
+				},
+				{ "branch": "MetroNorth", "stop_id": "518", "stop_name": "246th St/Henry Hudson Pkwy", "stop_lat" :"40.893613", "stop_lon": "-73.907969"
+				},
+				{ "branch": "MetroNorth", "stop_id": "514", "stop_name": "236th St/Riverdale Ave-East Side", "stop_lat" :"40.885908", "stop_lon": "-73.906993"
+				},
+				{ "branch": "MetroNorth", "stop_id": "512", "stop_name": "230th St/Riverdale Ave", "stop_lat" :"40.880465", "stop_lon": "-73.910544"
+				},
+				{ "branch": "MetroNorth", "stop_id": "507", "stop_name": "235th St/Henry Hudson Pkwy-East Side", "stop_lat" :"40.886127", "stop_lon": "-73.9124"
+				},
+				{ "branch": "MetroNorth", "stop_id": "505", "stop_name": "227th St/Henry Hudson Pkwy-East Side", "stop_lat" :"40.881836", "stop_lon": "-73.917936"
+				},
+				{ "branch": "MetroNorth", "stop_id": "602", "stop_name": "254th St/Riverdale Ave", "stop_lat" :"40.901731", "stop_lon": "-73.906134"
+				},
+				{ "branch": "MetroNorth", "stop_id": "604", "stop_name": "256th St/Riverdale Ave", "stop_lat" :"40.904156", "stop_lon": "-73.905008"
+				},
+				{ "branch": "MetroNorth", "stop_id": "608", "stop_name": "259th St/Riverdale Ave", "stop_lat" :"40.90688", "stop_lon": "-73.904096"
+				},
+				{ "branch": "MetroNorth", "stop_id": "606", "stop_name": "259th St/Arlington Ave", "stop_lat" :"40.90645", "stop_lon": "-73.906735"
+				},
+				{ "branch": "MetroNorth", "stop_id": "610", "stop_name": "Mosholu Ave/Fieldston Rd", "stop_lat" :"40.905485", "stop_lon": "-73.900716"
+				},
+				{ "branch": "MetroNorth", "stop_id": "612", "stop_name": "David Sheridan Plaza", "stop_lat" :"40.905112", "stop_lon": "-73.896435"
+				},
+				{ "branch": "MetroNorth", "stop_id": "614", "stop_name": "260th St/Broadway", "stop_lat" :"40.907521", "stop_lon": "-73.896543"
+				},
+				{ "branch": "MetroNorth", "stop_id": "616", "stop_name": "262nd St/Broadway", "stop_lat" :"40.910221", "stop_lon": "-73.896629"
+				},
+				{ "branch": "MetroNorth", "stop_id": "618", "stop_name": "261st St/Riverdale Ave", "stop_lat" :"40.910148", "stop_lon": "-73.903216"
+				},
+				{ "branch": "MetroNorth", "stop_id": "620", "stop_name": "263rd St/Riverdale Ave", "stop_lat" :"40.912483", "stop_lon": "-73.902583"
+				},
+				{ "branch": "MetroNorth", "stop_id": "40702", "stop_name": "Branford (SLE)", "stop_lat" :"41.274589", "stop_lon": "-72.817265"
+				},
+				{ "branch": "MetroNorth", "stop_id": "40704", "stop_name": "Guilford (SLE)", "stop_lat" :"41.275839", "stop_lon": "-72.673638"
+				},
+				{ "branch": "MetroNorth", "stop_id": "40706", "stop_name": "Madison (SLE)", "stop_lat" :"41.283676", "stop_lon": "-72.599545"
+				},
+				{ "branch": "MetroNorth", "stop_id": "40708", "stop_name": "Clinton (SLE)", "stop_lat" :"41.2795", "stop_lon": "-72.528305"
+				},
+				{ "branch": "MetroNorth", "stop_id": "40710", "stop_name": "Westbrook (SLE)", "stop_lat" :"41.288787", "stop_lon": "-72.44845"
+				},
+				{ "branch": "MetroNorth", "stop_id": "40712", "stop_name": "Old Saybrook (SLE)", "stop_lat" :"41.300395", "stop_lon": "-72.376792"
+				},
+				{ "branch": "MetroNorth", "stop_id": "40714", "stop_name": "New London (SLE)", "stop_lat" :"41.354222", "stop_lon": "-72.093229"
+				}
+				]
+			}
+}								

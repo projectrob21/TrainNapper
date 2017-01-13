@@ -37,11 +37,20 @@ struct Station {
         
         let idString = jsonData["stop_id"] as! String
         self.id = Int(idString)!
-        self.branch = .LIRR
+        
+        let branch = jsonData["branch"] as! String
+        
+        switch branch {
+            case "LIRR" : self.branch = .LIRR;
+            case "MetroNorth" : self.branch = .MetroNorth;
+            case "NJTransit" : self.branch = .NJTransit;
+            default: self.branch = .unknown
+        }
+        
     }
     
 }
 
 enum Branch {
-    case LIRR, MetroNorth, NJTransit
+    case LIRR, MetroNorth, NJTransit, unknown
 }
