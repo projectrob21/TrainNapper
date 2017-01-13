@@ -37,6 +37,7 @@ class MapView: UIView {
         stationsMap.padding = mapInsets
         
         advertisingView = GADBannerView()
+
         
     }
     

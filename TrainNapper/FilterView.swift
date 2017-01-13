@@ -13,10 +13,12 @@ import SnapKit
 class FilterView: UIView {
     
     lazy var stackView = UIStackView()
+    lazy var searchButton = UIButton()
     lazy var lirrButton = UIButton()
     lazy var metroNorthButton = UIButton()
     lazy var njTransitButton = UIButton()
-    
+    lazy var searchController = UISearchController()
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -38,32 +40,46 @@ class FilterView: UIView {
         stackView.spacing = 8
         stackView.alignment = .center
         
-        lirrButton.backgroundColor = UIColor.blue
-        lirrButton.layer.cornerRadius = 18
-        lirrButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        searchButton.setTitle("🔎", for: .normal)
         lirrButton.setTitle("LIRR", for: .normal)
-        
-        metroNorthButton.backgroundColor = UIColor.blue
-        metroNorthButton.layer.cornerRadius = 18
-        metroNorthButton.titleLabel?.adjustsFontSizeToFitWidth = true
         metroNorthButton.setTitle("Metro North", for: .normal)
-        
-        njTransitButton.backgroundColor = UIColor.blue
-        njTransitButton.layer.cornerRadius = 18
-        njTransitButton.titleLabel?.adjustsFontSizeToFitWidth = true
         njTransitButton.setTitle("NJ Transit", for: .normal)
+        
+        let buttonsArray = [lirrButton, metroNorthButton, njTransitButton]
+        
+        for button in buttonsArray {
+            button.backgroundColor = UIColor.blue
+            button.layer.cornerRadius = 15
+            button.titleLabel?.adjustsFontSizeToFitWidth = true
+            button.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
+        }
+
+        searchController = UISearchController(searchResultsController: nil)
         
     }
     
     func constrain() {
+//        stackView.addArrangedSubview(searchButton)
         stackView.addArrangedSubview(lirrButton)
         stackView.addArrangedSubview(metroNorthButton)
         stackView.addArrangedSubview(njTransitButton)
         
+        addSubview(searchButton)
+        searchButton.snp.makeConstraints {
+            $0.leading.top.bottom.equalToSuperview()
+            $0.width.equalToSuperview().dividedBy(8)
+        }
+        
         addSubview(stackView)
         stackView.snp.makeConstraints {
-            $0.edges.equalTo(UIEdgeInsetsMake(15, 8, 15, 8))
+            $0.top.equalToSuperview().offset(5)
+            $0.bottom.trailing.equalToSuperview().offset(-5)
+            $0.leading.equalTo(searchButton.snp.trailing)
         }
+        
+
+        
+        
     }
     
 }

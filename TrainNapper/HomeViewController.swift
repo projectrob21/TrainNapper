@@ -14,7 +14,7 @@ import GoogleMaps
 import GooglePlaces
 import GoogleMobileAds
 
-class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate {
+class HomeViewController: UIViewController {
     
     let store = DataStore.sharedInstance
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -31,6 +31,9 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
     var filterViewBottomConstraint: Constraint?
     var showFilter = false
     
+    var searchController: UISearchController!
+    var showSearch = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -43,6 +46,7 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
         // Dispose of any resources that can be recreated.
     }
     
+
     
     func configure() {
         locationManager = CLLocationManager()
@@ -92,11 +96,31 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
         filterView.lirrButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
         filterView.metroNorthButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
         filterView.njTransitButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
+        filterView.searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        definesPresentationContext = true
+        searchController.searchBar.placeholder = "Destination"
+//        searchController.searchBar.showsCancelButton = true
+        searchController.searchBar.setShowsCancelButton(true, animated: true)
         
     }
     
-    func showAlarms() {
+    func constrain() {
+        
+        view.addSubview(filterView)
+        filterView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            filterViewBottomConstraint = $0.bottom.equalTo(view.snp.top).constraint
+        }
+        
+        view.addSubview(mapView)
+        mapView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        view.bringSubview(toFront: filterView)
         
     }
     
@@ -121,30 +145,14 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
         }
     }
     
-    func constrain() {
-        
-        view.addSubview(filterView)
-        filterView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            filterViewBottomConstraint = $0.bottom.equalTo(view.snp.top).constraint
-        }
-        
-        view.addSubview(mapView)
-        mapView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        view.bringSubview(toFront: filterView)
-        
-    }
-    
+    // MARK: Filter Buttons
     func toggleFilter() {
         showFilter = !showFilter
         
         view.layoutIfNeeded()
         if showFilter {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                self.filterViewBottomConstraint?.update(offset: self.filterView.frame.height*2)
+                self.filterViewBottomConstraint?.update(offset: self.filterView.frame.height*2.64)
                 self.view.layoutIfNeeded()
             }, completion: nil)
         } else {
@@ -189,35 +197,11 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
         
     }
     
-    private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        
-        if status == CLAuthorizationStatus.authorizedWhenInUse || status == CLAuthorizationStatus.authorizedAlways {
-            
-            locationManager.startUpdatingLocation()
-            guard let unwrappedLocation = locationManager.location else { print("error initializing user's location"); return }
-            napper = Napper(coordinate: unwrappedLocation, destination: [])
-            
-        }
-    }
     
-    // MARK: GMSMapViewDelegate
-    
-    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
-        
-        markerWindowView = MarkerWindowView()
-        markerWindowView.stationLabel.text = marker.title
-        return markerWindowView
+    // MARK: Alarm Functions
+    func showAlarms() {
         
     }
-    
-    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        // if station has not been selected
-        addAlarm(marker)
-        marker.icon = GMSMarker.markerImage(with: .blue)
-        // else if station is currently selected
-        // removeAlarm(marker)
-    }
-    
     
     func addAlarm(_ sender: GMSMarker) {
         
@@ -288,6 +272,72 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
             }
         }
         
+    }
+}
+
+
+extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
+    
+
+    // MARK: Search
+    func searchButtonTapped() {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                self.filterView.addSubview(self.searchController.searchBar)
+                self.searchController.searchBar.sizeToFit()
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        guard let searchText = searchController.searchBar.text?.lowercased() else { print("trouble getting searchbar text"); return }
+        
+        print("stations count is \(stations.count)")
+        print("search text: \(searchText)")
+        if searchText != "" {
+            stations = stations.filter { $0.name.lowercased().contains(searchText) }
+        }
+//        stations = stations.filter({ (station) -> Bool in
+//            let name = station.name as NSString
+//            return (name.range(of: searchText, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
+//        })
+        
+//        mapView.stationsMap.clear()
+//        addStationsToMap()
+    }
+    
+   
+}
+
+// MARK: GMSMapViewDelegate
+
+extension HomeViewController: GMSMapViewDelegate, CLLocationManagerDelegate {
+    
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        
+        markerWindowView = MarkerWindowView()
+        markerWindowView.stationLabel.text = marker.title
+        return markerWindowView
+        
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        // if station has not been selected
+        addAlarm(marker)
+        marker.icon = GMSMarker.markerImage(with: .blue)
+        // else if station is currently selected
+        // removeAlarm(marker)
+    }
+    
+    private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        
+        if status == CLAuthorizationStatus.authorizedWhenInUse || status == CLAuthorizationStatus.authorizedAlways {
+            
+            locationManager.startUpdatingLocation()
+            guard let unwrappedLocation = locationManager.location else { print("error initializing user's location"); return }
+            napper = Napper(coordinate: unwrappedLocation, destination: [])
+            
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
