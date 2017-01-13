@@ -12,20 +12,21 @@ import EventKit
 import UserNotifications
 import GoogleMaps
 import GooglePlaces
+import GoogleMobileAds
 
 class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate {
     
     let store = DataStore.sharedInstance
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     lazy var napper = Napper(coordinate: nil, destination: [])
-    
+        
     var stations = [Station]()
     var mapView: MapView!
     var markerWindowView: MarkerWindowView!
     var tappedMarker = GMSMarker()
     var locationManager = CLLocationManager()
     var proximityRadius = 870.0
-    
+
     lazy var filterView = FilterView()
     var filterViewBottomConstraint: Constraint?
     var showFilter = false
@@ -67,6 +68,7 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
                 }
             })
         }
+        
         store.populateLIRRStationsFromJSON()
         store.populateMetroNorthStationsFromJSON()
         store.populateNJTStationsFromJSON()
@@ -75,6 +77,13 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
         mapView = MapView()
         mapView.stationsMap.delegate = self
         addStationsToMap()
+        
+        let banner = mapView.advertisingView
+        banner?.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        banner?.rootViewController = self
+        let request = GADRequest()
+        request.testDevices = ["ca-app-pub-3940256099942544/2934735716"]
+        banner?.load(request)
         
         navigationItem.title = "TrainNapper"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilter))

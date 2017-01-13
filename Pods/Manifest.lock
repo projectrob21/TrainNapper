@@ -1,4 +1,23 @@
 PODS:
+  - Firebase/AdMob (3.10.0):
+    - Firebase/Core
+    - Google-Mobile-Ads-SDK (= 7.15.0)
+  - Firebase/Core (3.10.0):
+    - FirebaseAnalytics (= 3.6.0)
+    - FirebaseCore (= 3.4.5)
+  - FirebaseAnalytics (3.6.0):
+    - FirebaseCore (~> 3.4)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseCore (3.4.5):
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseInstanceID (1.0.8)
+  - Google-Mobile-Ads-SDK (7.15.0)
+  - GoogleInterchangeUtilities (1.2.2):
+    - GoogleSymbolUtilities (~> 1.1)
   - GoogleMaps (2.1.1):
     - GoogleMaps/Maps (= 2.1.1)
   - GoogleMaps/Base (2.1.1)
@@ -9,19 +28,33 @@ PODS:
     - GooglePlaces (= 2.1.1)
   - GooglePlaces (2.1.1):
     - GoogleMaps/Base (= 2.1.1)
+  - GoogleSymbolUtilities (1.1.2)
+  - GoogleToolboxForMac/Defines (2.1.0)
+  - GoogleToolboxForMac/NSData+zlib (2.1.0):
+    - GoogleToolboxForMac/Defines (= 2.1.0)
   - SnapKit (3.0.2)
 
 DEPENDENCIES:
+  - Firebase/AdMob
+  - Firebase/Core
   - GoogleMaps
   - GooglePlacePicker
   - SnapKit (~> 3.0)
 
 SPEC CHECKSUMS:
+  Firebase: 387f37c7dca894a02708da9ff35ba147040eae9e
+  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
+  FirebaseCore: 1e383fdfe37b6b5d6ff88e84204bdee30276af0f
+  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  Google-Mobile-Ads-SDK: 75d41dfcf06f7666ab211573d212768b0f766c5d
+  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleMaps: a5b5bbe47734e2443bde781a6aa64e69fdb6d785
   GooglePlacePicker: 665f39f931f2df32f9dd3fcc45f7e8abf71e535c
   GooglePlaces: 35636d86e5020cba3856eb988c09a5491de0a65a
+  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
+  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
 
-PODFILE CHECKSUM: f289a9d43326193d7cb3b96193a4795fdead81e6
+PODFILE CHECKSUM: 24d3969bab654e5dd38a0ad59ae93ba35a6809b7
 
 COCOAPODS: 1.1.1

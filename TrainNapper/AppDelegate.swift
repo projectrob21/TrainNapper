@@ -9,13 +9,18 @@
 import UIKit
 import GooglePlaces
 import GoogleMaps
+import Firebase
+import GoogleMobileAds
 import UserNotifications
 import EventKit
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     let googleAPI = "AIzaSyDLkK5fHf0Q6p0l1g521hqlg1UWAVZ7kgo"
+    let appID = "ca-app-pub-2779558823377577~4750570444"
+    
     
     var window: UIWindow?
     var homeViewController: UIViewController!
@@ -29,6 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
+        FIRApp.configure()
+        GADMobileAds.configure(withApplicationID: appID)
+        
         GMSServices.provideAPIKey(googleAPI)
         GMSPlacesClient.provideAPIKey(googleAPI)
         

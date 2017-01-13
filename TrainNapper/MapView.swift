@@ -10,12 +10,14 @@ import Foundation
 import UIKit
 import GoogleMaps
 import SnapKit
+import GoogleMobileAds
 
 class MapView: UIView {
     
     // MARK: Properties
     var camera: GMSCameraPosition!
     var stationsMap: GMSMapView!
+    var advertisingView: GADBannerView!
     
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
@@ -34,16 +36,25 @@ class MapView: UIView {
         let mapInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
         stationsMap.padding = mapInsets
         
+        advertisingView = GADBannerView()
         
     }
     
     // MARK: View Constraints
     func constrain() {
 
+        addSubview(advertisingView)
+        advertisingView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalToSuperview().dividedBy(10)
+        }
+        
         addSubview(stationsMap)
         stationsMap.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(advertisingView.snp.top)
         }
+        
         
     }
 }

@@ -10,6 +10,8 @@ target 'TrainNapper' do
   pod 'SnapKit', '~> 3.0'
   pod 'GooglePlacePicker'
   pod 'GoogleMaps'
+  pod 'Firebase/Core'
+  pod 'Firebase/AdMob'
 
   end
 
