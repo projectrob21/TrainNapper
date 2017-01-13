@@ -13,7 +13,6 @@ import SnapKit
 class FilterView: UIView {
     
     lazy var stackView = UIStackView()
-    lazy var filterLabel = UILabel()
     lazy var lirrButton = UIButton()
     lazy var metroNorthButton = UIButton()
     lazy var njTransitButton = UIButton()
@@ -28,40 +27,42 @@ class FilterView: UIView {
     
     convenience init() {
         self.init(frame: CGRect.zero)
-        
         configure()
         constrain()
     }
     
     func configure() {
-        backgroundColor = UIColor.lightGray
+        backgroundColor = UIColor.white.withAlphaComponent(0.9)
         
         stackView.distribution = .fillEqually
-        stackView.spacing = 20
+        stackView.spacing = 8
         stackView.alignment = .center
         
-        filterLabel.text = "Filter:"
-        
         lirrButton.backgroundColor = UIColor.blue
+        lirrButton.layer.cornerRadius = 18
+        lirrButton.titleLabel?.adjustsFontSizeToFitWidth = true
         lirrButton.setTitle("LIRR", for: .normal)
         
         metroNorthButton.backgroundColor = UIColor.blue
+        metroNorthButton.layer.cornerRadius = 18
+        metroNorthButton.titleLabel?.adjustsFontSizeToFitWidth = true
         metroNorthButton.setTitle("Metro North", for: .normal)
         
         njTransitButton.backgroundColor = UIColor.blue
+        njTransitButton.layer.cornerRadius = 18
+        njTransitButton.titleLabel?.adjustsFontSizeToFitWidth = true
         njTransitButton.setTitle("NJ Transit", for: .normal)
         
     }
     
     func constrain() {
-        stackView.addArrangedSubview(filterLabel)
         stackView.addArrangedSubview(lirrButton)
         stackView.addArrangedSubview(metroNorthButton)
         stackView.addArrangedSubview(njTransitButton)
         
         addSubview(stackView)
         stackView.snp.makeConstraints {
-            $0.edges.equalTo(UIEdgeInsetsMake(15, 15, 15, 15))
+            $0.edges.equalTo(UIEdgeInsetsMake(15, 8, 15, 8))
         }
     }
     

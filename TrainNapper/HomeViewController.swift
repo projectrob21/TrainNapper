@@ -76,13 +76,18 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
         mapView.stationsMap.delegate = self
         addStationsToMap()
         
-        navigationItem.title = "Map"
+        navigationItem.title = "TrainNapper"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilter))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarms", style: .plain, target: self, action: #selector(showAlarms))
         
         filterView.lirrButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
         filterView.metroNorthButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
         filterView.njTransitButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
         
+        
+    }
+    
+    func showAlarms() {
         
     }
     
@@ -149,45 +154,27 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
             
             switch stationName {
             case "LIRR":
-                
                 stations = stations.filter { $0.branch != .LIRR }
-                addStationsToMap()
-
             case "Metro North":
-
                 stations = stations.filter { $0.branch != .MetroNorth }
-                addStationsToMap()
-
             case "NJ Transit":
-
                 stations = stations.filter { $0.branch != .NJTransit }
-                addStationsToMap()
-                
-            default: stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
+            default: break
             }
-            
+            addStationsToMap()
             sender.backgroundColor = UIColor.gray
             
         } else {
             switch stationName {
             case "LIRR":
-                
                 stations = stations + store.lirrStationsArray
-                addStationsToMap()
-
             case "Metro North":
-                
                 stations = stations + store.metroNorthStationsArray
-                addStationsToMap()
-
             case "NJ Transit":
-                
                 stations = stations + store.njTransitStationsArray
-                addStationsToMap()
-
-            default: stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
+            default: break
             }
-            
+            addStationsToMap()
             sender.backgroundColor = UIColor.blue
         }
         
