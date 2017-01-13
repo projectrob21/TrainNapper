@@ -67,7 +67,6 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
                 }
             })
         }
-        
         store.populateLIRRStationsFromJSON()
         store.populateMetroNorthStationsFromJSON()
         store.populateNJTStationsFromJSON()
@@ -75,7 +74,19 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
         
         mapView = MapView()
         mapView.stationsMap.delegate = self
+        addStationsToMap()
         
+        navigationItem.title = "Map"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilter))
+        
+        filterView.lirrButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
+        filterView.metroNorthButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
+        filterView.njTransitButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
+        
+        
+    }
+    
+    func addStationsToMap() {
         
         for station in stations {
             
@@ -91,16 +102,9 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
                 marker.icon = GMSMarker.markerImage(with: .green)
             }
             
-            
             marker.map = mapView.stationsMap
             
-
-            
         }
-        
-        navigationItem.title = "Map"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
-    
     }
     
     func constrain() {
@@ -116,15 +120,17 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
             $0.edges.equalToSuperview()
         }
         
+        view.bringSubview(toFront: filterView)
+        
     }
     
-    func filter() {
+    func toggleFilter() {
         showFilter = !showFilter
         
         view.layoutIfNeeded()
         if showFilter {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                self.filterViewBottomConstraint?.update(offset: self.filterView.frame.height)
+                self.filterViewBottomConstraint?.update(offset: self.filterView.frame.height*2)
                 self.view.layoutIfNeeded()
             }, completion: nil)
         } else {
@@ -133,6 +139,58 @@ class HomeViewController: UIViewController, GMSMapViewDelegate, CLLocationManage
                 self.view.layoutIfNeeded()
             }, completion: nil)
         }
+    }
+    
+    func showHideBranches(_ sender: UIButton) {
+        guard let stationName = sender.titleLabel?.text else { print("could not retrieve station name"); return }
+        
+        if sender.backgroundColor == UIColor.blue {
+            mapView.stationsMap.clear()
+            
+            switch stationName {
+            case "LIRR":
+                
+                stations = stations.filter { $0.branch != .LIRR }
+                addStationsToMap()
+
+            case "Metro North":
+
+                stations = stations.filter { $0.branch != .MetroNorth }
+                addStationsToMap()
+
+            case "NJ Transit":
+
+                stations = stations.filter { $0.branch != .NJTransit }
+                addStationsToMap()
+                
+            default: stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
+            }
+            
+            sender.backgroundColor = UIColor.gray
+            
+        } else {
+            switch stationName {
+            case "LIRR":
+                
+                stations = stations + store.lirrStationsArray
+                addStationsToMap()
+
+            case "Metro North":
+                
+                stations = stations + store.metroNorthStationsArray
+                addStationsToMap()
+
+            case "NJ Transit":
+                
+                stations = stations + store.njTransitStationsArray
+                addStationsToMap()
+
+            default: stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
+            }
+            
+            sender.backgroundColor = UIColor.blue
+        }
+        
     }
     
     private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
