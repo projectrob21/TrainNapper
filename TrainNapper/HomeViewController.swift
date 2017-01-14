@@ -19,20 +19,20 @@ class HomeViewController: UIViewController {
     let store = DataStore.sharedInstance
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     lazy var napper = Napper(coordinate: nil, destination: [])
-        
+    
     var stations = [Station]()
-    var mapView: MapView!
+    lazy var mapView = MapView()
     var markerWindowView: MarkerWindowView!
     var tappedMarker = GMSMarker()
     var locationManager = CLLocationManager()
     var proximityRadius = 870.0
-
+    
     lazy var filterView = FilterView()
     var filterViewBottomConstraint: Constraint?
     var showFilter = false
-    
-    var searchController: UISearchController!
     var showSearch = false
+    var searchController: UISearchController!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +46,7 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     
     func configure() {
         locationManager = CLLocationManager()
@@ -78,7 +78,6 @@ class HomeViewController: UIViewController {
         store.populateNJTStationsFromJSON()
         stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
         
-        mapView = MapView()
         mapView.stationsMap.delegate = self
         addStationsToMap()
         
@@ -98,30 +97,42 @@ class HomeViewController: UIViewController {
         filterView.njTransitButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
         filterView.searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         
+        
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
-        definesPresentationContext = true
+        searchController.delegate = self
+        searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Destination"
-//        searchController.searchBar.showsCancelButton = true
-        searchController.searchBar.setShowsCancelButton(true, animated: true)
+        
+        searchController.hidesNavigationBarDuringPresentation = false
+        definesPresentationContext = false
+        searchController.extendedLayoutIncludesOpaqueBars = true
         
     }
     
     func constrain() {
         
-        view.addSubview(filterView)
-        filterView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            filterViewBottomConstraint = $0.bottom.equalTo(view.snp.top).constraint
-        }
-        
         view.addSubview(mapView)
         mapView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.bottom.leading.trailing.equalToSuperview()
+//            $0.top.equalToSuperview().offset(64)
+            // constraint to navbar crashed app, offset by height
         }
         
-        view.bringSubview(toFront: filterView)
+        mapView.addSubview(filterView)
+        filterView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(mapView.snp.top).offset(-132)
+            $0.height.equalTo(44)
+            
+        }
         
+        filterView.searchView.addSubview(searchController.searchBar)
+        searchController.searchBar.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+//        filterView.searchView = searchController.searchBar
+//        searchController.searchBar.sizeToFit()
     }
     
     func addStationsToMap() {
@@ -152,12 +163,24 @@ class HomeViewController: UIViewController {
         view.layoutIfNeeded()
         if showFilter {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                self.filterViewBottomConstraint?.update(offset: self.filterView.frame.height*2.64)
+                
+                self.filterView.snp.remakeConstraints {
+                    $0.leading.trailing.equalToSuperview()
+                    $0.top.equalToSuperview().offset(64)
+                    $0.height.equalTo(64)
+                    
+                }
                 self.view.layoutIfNeeded()
             }, completion: nil)
         } else {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                self.filterViewBottomConstraint?.update(offset: 0)
+                
+                self.filterView.snp.remakeConstraints {
+                    $0.leading.trailing.equalToSuperview()
+                    $0.bottom.equalTo(self.mapView.snp.top).offset(-132)
+                    $0.height.equalTo(64)
+                    
+                }
                 self.view.layoutIfNeeded()
             }, completion: nil)
         }
@@ -197,7 +220,63 @@ class HomeViewController: UIViewController {
         
     }
     
+}
+extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
     
+    
+    // MARK: Search
+    func searchButtonTapped() {
+        showSearch = !showSearch
+        print("showSearch is \(showSearch)")
+        
+        if showSearch {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+
+                self.filterView.searchView.snp.remakeConstraints {
+                    $0.top.bottom.trailing.equalToSuperview()
+                    $0.leading.equalTo(self.filterView.searchButton.snp.trailing)
+
+                }
+
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        } else {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                
+                self.filterView.searchView.snp.remakeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                    $0.trailing.leading.equalTo(self.filterView.searchButton.snp.trailing)
+                    
+                }
+                self.view.layoutIfNeeded()
+                
+            }, completion: nil)
+        }
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        guard let searchText = searchController.searchBar.text?.lowercased() else { print("trouble getting searchbar text"); return }
+        
+        print("stations count is \(stations.count)")
+        print("search text: \(searchText)")
+        if searchText != "" {
+            stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
+            stations = stations.filter { $0.name.lowercased().contains(searchText) }
+            mapView.stationsMap.clear()
+            addStationsToMap()
+        } else {
+            //            stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
+            //            mapView.stationsMap.clear()
+            //            addStationsToMap()
+        }
+        
+    }
+    
+    
+}
+
+extension HomeViewController {
     // MARK: Alarm Functions
     func showAlarms() {
         
@@ -276,38 +355,6 @@ class HomeViewController: UIViewController {
 }
 
 
-extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
-    
-
-    // MARK: Search
-    func searchButtonTapped() {
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                self.filterView.addSubview(self.searchController.searchBar)
-                self.searchController.searchBar.sizeToFit()
-                self.view.layoutIfNeeded()
-            }, completion: nil)
-    }
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        
-        guard let searchText = searchController.searchBar.text?.lowercased() else { print("trouble getting searchbar text"); return }
-        
-        print("stations count is \(stations.count)")
-        print("search text: \(searchText)")
-        if searchText != "" {
-            stations = stations.filter { $0.name.lowercased().contains(searchText) }
-        }
-//        stations = stations.filter({ (station) -> Bool in
-//            let name = station.name as NSString
-//            return (name.range(of: searchText, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
-//        })
-        
-//        mapView.stationsMap.clear()
-//        addStationsToMap()
-    }
-    
-   
-}
 
 // MARK: GMSMapViewDelegate
 

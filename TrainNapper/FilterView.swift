@@ -17,7 +17,7 @@ class FilterView: UIView {
     lazy var lirrButton = UIButton()
     lazy var metroNorthButton = UIButton()
     lazy var njTransitButton = UIButton()
-    lazy var searchController = UISearchController()
+    lazy var searchView = UIView()
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -53,22 +53,22 @@ class FilterView: UIView {
             button.titleLabel?.adjustsFontSizeToFitWidth = true
             button.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
         }
-
-        searchController = UISearchController(searchResultsController: nil)
+        
         
     }
     
     func constrain() {
-//        stackView.addArrangedSubview(searchButton)
-        stackView.addArrangedSubview(lirrButton)
-        stackView.addArrangedSubview(metroNorthButton)
-        stackView.addArrangedSubview(njTransitButton)
+
         
         addSubview(searchButton)
         searchButton.snp.makeConstraints {
             $0.leading.top.bottom.equalToSuperview()
             $0.width.equalToSuperview().dividedBy(8)
         }
+        
+        stackView.addArrangedSubview(lirrButton)
+        stackView.addArrangedSubview(metroNorthButton)
+        stackView.addArrangedSubview(njTransitButton)
         
         addSubview(stackView)
         stackView.snp.makeConstraints {
@@ -77,9 +77,14 @@ class FilterView: UIView {
             $0.leading.equalTo(searchButton.snp.trailing)
         }
         
+        addSubview(searchView)
+        searchView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.leading.trailing.equalTo(searchButton.snp.trailing)
+            
+        }
+        searchView.backgroundColor = UIColor.purple
 
-        
-        
     }
     
 }
