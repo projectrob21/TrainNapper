@@ -19,6 +19,8 @@
 		E869CCF51E11E55E003A3FC2 /* MarkerWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */; };
 		E87860A41E28A0B300DE089C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E87860A31E28A0B300DE089C /* GoogleService-Info.plist */; };
 		E87860A61E28A16200DE089C /* AdvertisingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87860A51E28A16200DE089C /* AdvertisingView.swift */; };
+		E887E2831E2D582500A9D8F2 /* AlarmsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E887E2821E2D582500A9D8F2 /* AlarmsTableViewController.swift */; };
+		E887E2851E2D5AB400A9D8F2 /* AlarmsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E887E2841E2D5AB400A9D8F2 /* AlarmsListView.swift */; };
 		E8C2AF451E24A77C00BE8338 /* LIRRStations.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF431E24A77C00BE8338 /* LIRRStations.json */; };
 		E8C2AF461E24A77C00BE8338 /* MetroNorthStations.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF441E24A77C00BE8338 /* MetroNorthStations.json */; };
 		E8C2AF481E24BBCD00BE8338 /* NJTransit.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF471E24BBCD00BE8338 /* NJTransit.json */; };
@@ -54,6 +56,8 @@
 		E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerWindowView.swift; sourceTree = "<group>"; };
 		E87860A31E28A0B300DE089C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E87860A51E28A16200DE089C /* AdvertisingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvertisingView.swift; sourceTree = "<group>"; };
+		E887E2821E2D582500A9D8F2 /* AlarmsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmsTableViewController.swift; sourceTree = "<group>"; };
+		E887E2841E2D5AB400A9D8F2 /* AlarmsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmsListView.swift; sourceTree = "<group>"; };
 		E8C2AF431E24A77C00BE8338 /* LIRRStations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LIRRStations.json; sourceTree = "<group>"; };
 		E8C2AF441E24A77C00BE8338 /* MetroNorthStations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MetroNorthStations.json; sourceTree = "<group>"; };
 		E8C2AF471E24BBCD00BE8338 /* NJTransit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NJTransit.json; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				E87860A51E28A16200DE089C /* AdvertisingView.swift */,
+				E887E2841E2D5AB400A9D8F2 /* AlarmsListView.swift */,
 				E833DF7F1E0EF766006438C4 /* MapView.swift */,
 				E8C2AF491E2565D700BE8338 /* FilterView.swift */,
 				E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */,
@@ -178,6 +183,7 @@
 		E87860A01E28937E00DE089C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				E887E2821E2D582500A9D8F2 /* AlarmsTableViewController.swift */,
 				E833DF5F1E0EEFFE006438C4 /* HomeViewController.swift */,
 			);
 			name = Controller;
@@ -348,10 +354,12 @@
 				E833DF821E0F1433006438C4 /* JSONSerializer.swift in Sources */,
 				E833DF601E0EEFFE006438C4 /* HomeViewController.swift in Sources */,
 				E833DF801E0EF766006438C4 /* MapView.swift in Sources */,
+				E887E2831E2D582500A9D8F2 /* AlarmsTableViewController.swift in Sources */,
 				E869CCF31E11C929003A3FC2 /* Napper.swift in Sources */,
 				E8C2AF4A1E2565D700BE8338 /* FilterView.swift in Sources */,
 				E833DF5E1E0EEFFE006438C4 /* AppDelegate.swift in Sources */,
 				E87860A61E28A16200DE089C /* AdvertisingView.swift in Sources */,
+				E887E2851E2D5AB400A9D8F2 /* AlarmsListView.swift in Sources */,
 				E833DF7E1E0EF097006438C4 /* Station.swift in Sources */,
 				E869CCF51E11E55E003A3FC2 /* MarkerWindowView.swift in Sources */,
 			);

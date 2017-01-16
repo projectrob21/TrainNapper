@@ -17,10 +17,11 @@ import GoogleMobileAds
 class HomeViewController: UIViewController {
     
     let store = DataStore.sharedInstance
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    lazy var napper = Napper(coordinate: nil, destination: [])
-    
+    var napper: Napper!
     var stations = [Station]()
+
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     lazy var mapView = MapView()
     var markerWindowView: MarkerWindowView!
     var tappedMarker = GMSMarker()
@@ -30,8 +31,12 @@ class HomeViewController: UIViewController {
     lazy var filterView = FilterView()
     var filterViewBottomConstraint: Constraint?
     var showFilter = false
-    var showSearch = false
+    
     var searchController: UISearchController!
+    var showSearch = false
+    
+    lazy var alarmsListView = AlarmsListView()
+    var showAlarms = false
 
     
     override func viewDidLoad() {
@@ -49,6 +54,7 @@ class HomeViewController: UIViewController {
     
     
     func configure() {
+        
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
@@ -81,6 +87,9 @@ class HomeViewController: UIViewController {
         mapView.stationsMap.delegate = self
         addStationsToMap()
         
+        guard let unwrappedLocation = locationManager.location else { print("error initializing user's location"); return }
+        napper = Napper(coordinate: unwrappedLocation, destination: [store.lirrStationsArray[0]])
+        
         let banner = mapView.advertisingView
         banner?.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         banner?.rootViewController = self
@@ -90,13 +99,17 @@ class HomeViewController: UIViewController {
         
         navigationItem.title = "TrainNapper"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilter))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarms", style: .plain, target: self, action: #selector(showAlarms))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarms", style: .plain, target: self, action: #selector(showAlarmsView))
         
         filterView.lirrButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
         filterView.metroNorthButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
         filterView.njTransitButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
         filterView.searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         
+        alarmsListView.alarmsTableView.delegate = self
+        alarmsListView.alarmsTableView.dataSource = self
+        alarmsListView.alarmsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "AlarmCell")
+        alarmsListView.isHidden = true
         
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
@@ -105,12 +118,19 @@ class HomeViewController: UIViewController {
         searchController.searchBar.placeholder = "Destination"
         
         searchController.hidesNavigationBarDuringPresentation = false
-        definesPresentationContext = false
+        definesPresentationContext = true
         searchController.extendedLayoutIncludesOpaqueBars = true
+        searchController.searchBar.sizeToFit()
+        searchController.definesPresentationContext = true
         
     }
     
     func constrain() {
+        
+        view.addSubview(alarmsListView)
+        alarmsListView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         view.addSubview(mapView)
         mapView.snp.makeConstraints {
@@ -127,12 +147,18 @@ class HomeViewController: UIViewController {
             
         }
         
+        
+        
         filterView.searchView.addSubview(searchController.searchBar)
         searchController.searchBar.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.height.width.equalToSuperview()
+            $0.centerX.centerY.equalToSuperview()
+            
         }
 //        filterView.searchView = searchController.searchBar
-//        searchController.searchBar.sizeToFit()
+        
+
     }
     
     func addStationsToMap() {
@@ -148,7 +174,7 @@ class HomeViewController: UIViewController {
             } else if station.branch == .MetroNorth {
                 marker.icon = GMSMarker.markerImage(with: .blue)
             } else if station.branch == .NJTransit {
-                marker.icon = GMSMarker.markerImage(with: .green)
+                marker.icon = GMSMarker.markerImage(with: .purple)
             }
             
             marker.map = mapView.stationsMap
@@ -159,7 +185,6 @@ class HomeViewController: UIViewController {
     // MARK: Filter Buttons
     func toggleFilter() {
         showFilter = !showFilter
-        
         view.layoutIfNeeded()
         if showFilter {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
@@ -276,11 +301,41 @@ extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate, U
     
 }
 
-extension HomeViewController {
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: Alarm Functions
-    func showAlarms() {
+    func showAlarmsView() {
+        print("ALARMS ARE \(napper.destination[0].name)")
+        if showAlarms {
+            navigationItem.title = "Alarms"
+            navigationItem.rightBarButtonItem?.title = "Map"
+            alarmsListView.alarmsTableView.reloadData()
+            alarmsListView.isHidden = false
+            mapView.isHidden = true
+        } else {
+            navigationItem.title = "TrainNapper"
+            navigationItem.rightBarButtonItem?.title = "Alarms"
+            alarmsListView.isHidden = true
+            mapView.isHidden = false
+        }
+        
+        showAlarms = !showAlarms
+
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return napper.destination.count
+    }
+    
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath)
+        let destinationName = napper.destination[indexPath.row].name
+        cell.textLabel?.text = destinationName
+        return cell
         
     }
+    
+
     
     func addAlarm(_ sender: GMSMarker) {
         
@@ -382,7 +437,7 @@ extension HomeViewController: GMSMapViewDelegate, CLLocationManagerDelegate {
             
             locationManager.startUpdatingLocation()
             guard let unwrappedLocation = locationManager.location else { print("error initializing user's location"); return }
-            napper = Napper(coordinate: unwrappedLocation, destination: [])
+            napper = Napper(coordinate: unwrappedLocation, destination: [store.lirrStationsArray[0]])
             
         }
     }
