@@ -20,6 +20,7 @@
 		E87860A41E28A0B300DE089C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E87860A31E28A0B300DE089C /* GoogleService-Info.plist */; };
 		E87860A61E28A16200DE089C /* AdvertisingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87860A51E28A16200DE089C /* AdvertisingView.swift */; };
 		E887E2851E2D5AB400A9D8F2 /* AlarmsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E887E2841E2D5AB400A9D8F2 /* AlarmsListView.swift */; };
+		E887E2871E2D803600A9D8F2 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E887E2861E2D803600A9D8F2 /* ColorExtensions.swift */; };
 		E8C2AF451E24A77C00BE8338 /* LIRRStations.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF431E24A77C00BE8338 /* LIRRStations.json */; };
 		E8C2AF461E24A77C00BE8338 /* MetroNorthStations.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF441E24A77C00BE8338 /* MetroNorthStations.json */; };
 		E8C2AF481E24BBCD00BE8338 /* NJTransit.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF471E24BBCD00BE8338 /* NJTransit.json */; };
@@ -56,6 +57,7 @@
 		E87860A31E28A0B300DE089C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E87860A51E28A16200DE089C /* AdvertisingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvertisingView.swift; sourceTree = "<group>"; };
 		E887E2841E2D5AB400A9D8F2 /* AlarmsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmsListView.swift; sourceTree = "<group>"; };
+		E887E2861E2D803600A9D8F2 /* ColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		E8C2AF431E24A77C00BE8338 /* LIRRStations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LIRRStations.json; sourceTree = "<group>"; };
 		E8C2AF441E24A77C00BE8338 /* MetroNorthStations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MetroNorthStations.json; sourceTree = "<group>"; };
 		E8C2AF471E24BBCD00BE8338 /* NJTransit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NJTransit.json; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				E87860A01E28937E00DE089C /* Controller */,
 				E878609F1E28937800DE089C /* Data */,
 				E833DF641E0EEFFE006438C4 /* Assets.xcassets */,
+				E887E2861E2D803600A9D8F2 /* ColorExtensions.swift */,
 				E833DF691E0EEFFE006438C4 /* Info.plist */,
 				E87860A31E28A0B300DE089C /* GoogleService-Info.plist */,
 			);
@@ -348,6 +351,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E887E2871E2D803600A9D8F2 /* ColorExtensions.swift in Sources */,
 				E833DF821E0F1433006438C4 /* JSONSerializer.swift in Sources */,
 				E833DF601E0EEFFE006438C4 /* HomeViewController.swift in Sources */,
 				E833DF801E0EF766006438C4 /* MapView.swift in Sources */,

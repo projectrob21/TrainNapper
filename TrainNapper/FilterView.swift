@@ -34,7 +34,16 @@ class FilterView: UIView {
     }
     
     func configure() {
-        backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        backgroundColor = UIColor.clear
+
+        let backgroundGradient = CALayer.makeGradient(firstColor: UIColor.cyan, secondColor: UIColor.clear)
+        
+        backgroundGradient.frame = self.frame
+        self.layer.insertSublayer(backgroundGradient, at: 0)
+        
+//        let gradient = CAGradientLayer([UIColor.cyan, UIColor.blue])
+//        gradient.frame = self.bounds
+//        layer.addSublayer(gradient)
         
         stackView.distribution = .fillEqually
         stackView.spacing = 8
