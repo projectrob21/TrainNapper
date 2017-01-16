@@ -331,6 +331,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath)
         let destinationName = napper.destination[indexPath.row].name
         cell.textLabel?.text = destinationName
+        cell.backgroundColor = UIColor.clear
         return cell
         
     }

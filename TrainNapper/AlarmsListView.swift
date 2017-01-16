@@ -12,7 +12,8 @@ import SnapKit
 class AlarmsListView: UIView {
 
     
-    let alarmsTableView = UITableView()
+    lazy var alarmsTableView = UITableView()
+    lazy var imageView = UIView()
     
     
     // MARK: Initialization
@@ -32,10 +33,15 @@ class AlarmsListView: UIView {
     }
 
     func configure() {
+        alarmsTableView.separatorColor = UIColor.clear
+        alarmsTableView.backgroundColor = UIColor.white.withAlphaComponent(0.3)
+        backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "backgroundImage"))
         
     }
     
     func constrain() {
+        
+        
         addSubview(alarmsTableView)
         alarmsTableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
