@@ -32,7 +32,7 @@ class HomeViewController: UIViewController {
     var filterViewBottomConstraint: Constraint?
     var showFilter = false
     
-    var searchController: UISearchController!
+    lazy var searchBar = UISearchBar()
     var showSearch = false
     
     lazy var alarmsListView = AlarmsListView()
@@ -111,17 +111,22 @@ class HomeViewController: UIViewController {
         alarmsListView.alarmsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "AlarmCell")
         alarmsListView.isHidden = true
         
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.delegate = self
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Destination"
-        
-        searchController.hidesNavigationBarDuringPresentation = false
-        definesPresentationContext = true
-        searchController.extendedLayoutIncludesOpaqueBars = true
-        searchController.searchBar.sizeToFit()
-        searchController.definesPresentationContext = true
+//        searchController = UISearchController(searchResultsController: nil)
+//        searchController.searchResultsUpdater = self
+//        searchController.delegate = self
+//        searchController.dimsBackgroundDuringPresentation = false
+//        searchController.searchBar.placeholder = "Destination"
+//        searchController.searchBar.showsCancelButton = false
+//        
+//        searchController.hidesNavigationBarDuringPresentation = false
+//        definesPresentationContext = true
+//        searchController.extendedLayoutIncludesOpaqueBars = true
+//        searchController.searchBar.sizeToFit()
+//        searchController.definesPresentationContext = true
+
+        searchBar.showsCancelButton = false
+        searchBar.placeholder = "Destination"
+        searchBar.delegate = self
         
     }
     
@@ -147,15 +152,16 @@ class HomeViewController: UIViewController {
             
         }
         
-        
-        
-        filterView.searchView.addSubview(searchController.searchBar)
-        searchController.searchBar.snp.makeConstraints {
+        filterView.searchView.addSubview(searchBar)
+        searchBar.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.width.equalToSuperview()
-            $0.centerX.centerY.equalToSuperview()
-            
         }
+        
+//        filterView.searchView.addSubview(searchController.searchBar)
+//        searchController.searchBar.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
+        
 //        filterView.searchView = searchController.searchBar
         
 
@@ -195,6 +201,8 @@ class HomeViewController: UIViewController {
                     $0.height.equalTo(64)
                     
                 }
+                
+                
                 self.view.layoutIfNeeded()
             }, completion: nil)
         } else {
@@ -246,7 +254,7 @@ class HomeViewController: UIViewController {
     }
     
 }
-extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
+extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate {
     
     
     // MARK: Search
@@ -256,11 +264,15 @@ extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate, U
         
         if showSearch {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-
+                
                 self.filterView.searchView.snp.remakeConstraints {
                     $0.top.bottom.trailing.equalToSuperview()
                     $0.leading.equalTo(self.filterView.searchButton.snp.trailing)
 
+                }
+                
+                self.searchBar.snp.remakeConstraints {
+                    $0.edges.equalToSuperview()
                 }
 
                 self.view.layoutIfNeeded()
@@ -271,7 +283,10 @@ extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate, U
                 self.filterView.searchView.snp.remakeConstraints {
                     $0.top.bottom.equalToSuperview()
                     $0.trailing.leading.equalTo(self.filterView.searchButton.snp.trailing)
-                    
+                }
+                self.searchBar.snp.remakeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                    $0.trailing.leading.equalTo(self.filterView.searchButton.snp.trailing)
                 }
                 self.view.layoutIfNeeded()
                 
@@ -279,15 +294,32 @@ extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate, U
         }
     }
     
-    func updateSearchResults(for searchController: UISearchController) {
-        
-        guard let searchText = searchController.searchBar.text?.lowercased() else { print("trouble getting searchbar text"); return }
-        
+//    func updateSearchResults(for searchController: UISearchController) {
+//        
+//        guard let searchText = searchBar.text?.lowercased() else { print("trouble getting searchbar text"); return }
+//        
+//        print("stations count is \(stations.count)")
+//        print("search text: \(searchText)")
+//        if searchText != "" {
+//            stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
+//            stations = stations.filter { $0.name.lowercased().contains(searchText) }
+//            mapView.stationsMap.clear()
+//            addStationsToMap()
+//        } else {
+//            //            stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
+//            //            mapView.stationsMap.clear()
+//            //            addStationsToMap()
+//        }
+//        
+//    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let lowercasedSearchText = searchText.lowercased()
         print("stations count is \(stations.count)")
-        print("search text: \(searchText)")
-        if searchText != "" {
+        print("search text: \(lowercasedSearchText)")
+        if lowercasedSearchText != "" {
             stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
-            stations = stations.filter { $0.name.lowercased().contains(searchText) }
+            stations = stations.filter { $0.name.lowercased().contains(lowercasedSearchText) }
             mapView.stationsMap.clear()
             addStationsToMap()
         } else {
@@ -295,7 +327,6 @@ extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate, U
             //            mapView.stationsMap.clear()
             //            addStationsToMap()
         }
-        
     }
     
     
