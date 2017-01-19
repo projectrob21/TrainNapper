@@ -20,10 +20,10 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow access to locate nearest station</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow access to locate nearest station and alert when close by</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow access to locate nearest station</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>Allow access to remind you when station is approaching</string>
 	<key>UIBackgroundModes</key>

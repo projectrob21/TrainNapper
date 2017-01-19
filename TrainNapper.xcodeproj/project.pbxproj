@@ -14,7 +14,7 @@
 		E833DF731E0EEFFE006438C4 /* TrainNapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF721E0EEFFE006438C4 /* TrainNapperTests.swift */; };
 		E833DF7E1E0EF097006438C4 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF7D1E0EF097006438C4 /* Station.swift */; };
 		E833DF801E0EF766006438C4 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF7F1E0EF766006438C4 /* MapView.swift */; };
-		E833DF821E0F1433006438C4 /* JSONSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF811E0F1433006438C4 /* JSONSerializer.swift */; };
+		E833DF821E0F1433006438C4 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF811E0F1433006438C4 /* DataStore.swift */; };
 		E869CCF31E11C929003A3FC2 /* Napper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869CCF21E11C929003A3FC2 /* Napper.swift */; };
 		E869CCF51E11E55E003A3FC2 /* MarkerWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */; };
 		E87860A41E28A0B300DE089C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E87860A31E28A0B300DE089C /* GoogleService-Info.plist */; };
@@ -51,7 +51,7 @@
 		E833DF741E0EEFFE006438C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E833DF7D1E0EF097006438C4 /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		E833DF7F1E0EF766006438C4 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		E833DF811E0F1433006438C4 /* JSONSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerializer.swift; sourceTree = "<group>"; };
+		E833DF811E0F1433006438C4 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		E869CCF21E11C929003A3FC2 /* Napper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Napper.swift; sourceTree = "<group>"; };
 		E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerWindowView.swift; sourceTree = "<group>"; };
 		E87860A31E28A0B300DE089C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -173,7 +173,7 @@
 		E878609F1E28937800DE089C /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				E833DF811E0F1433006438C4 /* JSONSerializer.swift */,
+				E833DF811E0F1433006438C4 /* DataStore.swift */,
 				E8C2AF431E24A77C00BE8338 /* LIRRStations.json */,
 				E8C2AF441E24A77C00BE8338 /* MetroNorthStations.json */,
 				E8C2AF471E24BBCD00BE8338 /* NJTransit.json */,
@@ -352,7 +352,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E887E2871E2D803600A9D8F2 /* ColorExtensions.swift in Sources */,
-				E833DF821E0F1433006438C4 /* JSONSerializer.swift in Sources */,
+				E833DF821E0F1433006438C4 /* DataStore.swift in Sources */,
 				E833DF601E0EEFFE006438C4 /* HomeViewController.swift in Sources */,
 				E833DF801E0EF766006438C4 /* MapView.swift in Sources */,
 				E869CCF31E11C929003A3FC2 /* Napper.swift in Sources */,
@@ -480,6 +480,7 @@
 			baseConfigurationReference = 5EFC08F9D02137DF76CF2314 /* Pods-TrainNapper.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 9TAE6F86BV;
 				INFOPLIST_FILE = TrainNapper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -494,6 +495,7 @@
 			baseConfigurationReference = FF5D0224BD5F193A0943E482 /* Pods-TrainNapper.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 9TAE6F86BV;
 				INFOPLIST_FILE = TrainNapper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

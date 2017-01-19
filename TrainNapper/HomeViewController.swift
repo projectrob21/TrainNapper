@@ -19,7 +19,7 @@ class HomeViewController: UIViewController {
     let store = DataStore.sharedInstance
     var napper: Napper!
     var stations = [Station]()
-
+    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     lazy var mapView = MapView()
@@ -37,7 +37,7 @@ class HomeViewController: UIViewController {
     
     lazy var alarmsListView = AlarmsListView()
     var showAlarms = false
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,9 +52,9 @@ class HomeViewController: UIViewController {
     }
     
     
-    
+    // MARK: Initial Setup
     func configure() {
-        
+        // Sets up LocationManager
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
@@ -68,6 +68,49 @@ class HomeViewController: UIViewController {
             locationManager.requestAlwaysAuthorization()
         }
         
+        // Initializes Napper with temporary station in destinations array
+        guard let unwrappedLocation = locationManager.location else { print("error initializing user's location in configure()"); return }
+        napper = Napper(coordinate: unwrappedLocation, destination: [store.lirrStationsArray[0]])
+        
+        // Populates stations and adds to map
+        store.populateAllStations()
+        stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
+        
+        mapView.stationsMap.delegate = self
+        addStationsToMap()
+        
+        // Initializes advertising banner
+        let banner = mapView.advertisingView
+        banner?.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        banner?.rootViewController = self
+        let request = GADRequest()
+        request.testDevices = ["ca-app-pub-3940256099942544/2934735716"]
+        banner?.load(request)
+        
+        // Sets up navigationBar
+        navigationItem.title = "TrainNapper"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilterView))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarms", style: .plain, target: self, action: #selector(showAlarmsView))
+        
+        // Sets up the FilterView
+        filterView.searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+        let stationFilterButtons = [filterView.lirrButton, filterView.metroNorthButton, filterView.njTransitButton]
+        for stationButton in stationFilterButtons {
+            stationButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
+        }
+        
+        searchBar.showsCancelButton = false
+        searchBar.placeholder = "Destination"
+        searchBar.delegate = self
+        
+        // Sets up TableView
+        alarmsListView.alarmsTableView.delegate = self
+        alarmsListView.alarmsTableView.dataSource = self
+        alarmsListView.alarmsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "AlarmCell")
+        alarmsListView.isHidden = true
+        
+        
+        // Event store... ?
         if appDelegate.eventStore == nil {
             appDelegate.eventStore = EKEventStore()
             appDelegate.eventStore?.requestAccess(to: EKEntityType.reminder, completion: { (granted, error) in
@@ -78,55 +121,6 @@ class HomeViewController: UIViewController {
                 }
             })
         }
-        
-        store.populateLIRRStationsFromJSON()
-        store.populateMetroNorthStationsFromJSON()
-        store.populateNJTStationsFromJSON()
-        stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
-        
-        mapView.stationsMap.delegate = self
-        addStationsToMap()
-        
-        guard let unwrappedLocation = locationManager.location else { print("error initializing user's location"); return }
-        napper = Napper(coordinate: unwrappedLocation, destination: [store.lirrStationsArray[0]])
-        
-        let banner = mapView.advertisingView
-        banner?.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        banner?.rootViewController = self
-        let request = GADRequest()
-        request.testDevices = ["ca-app-pub-3940256099942544/2934735716"]
-        banner?.load(request)
-        
-        navigationItem.title = "TrainNapper"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilter))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarms", style: .plain, target: self, action: #selector(showAlarmsView))
-        
-        filterView.lirrButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
-        filterView.metroNorthButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
-        filterView.njTransitButton.addTarget(self, action: #selector(showHideBranches(_:)), for: .touchUpInside)
-        filterView.searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
-        
-        alarmsListView.alarmsTableView.delegate = self
-        alarmsListView.alarmsTableView.dataSource = self
-        alarmsListView.alarmsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "AlarmCell")
-        alarmsListView.isHidden = true
-        
-//        searchController = UISearchController(searchResultsController: nil)
-//        searchController.searchResultsUpdater = self
-//        searchController.delegate = self
-//        searchController.dimsBackgroundDuringPresentation = false
-//        searchController.searchBar.placeholder = "Destination"
-//        searchController.searchBar.showsCancelButton = false
-//        
-//        searchController.hidesNavigationBarDuringPresentation = false
-//        definesPresentationContext = true
-//        searchController.extendedLayoutIncludesOpaqueBars = true
-//        searchController.searchBar.sizeToFit()
-//        searchController.definesPresentationContext = true
-
-        searchBar.showsCancelButton = false
-        searchBar.placeholder = "Destination"
-        searchBar.delegate = self
         
     }
     
@@ -140,8 +134,6 @@ class HomeViewController: UIViewController {
         view.addSubview(mapView)
         mapView.snp.makeConstraints {
             $0.top.bottom.leading.trailing.equalToSuperview()
-//            $0.top.equalToSuperview().offset(64)
-            // constraint to navbar crashed app, offset by height
         }
         
         mapView.addSubview(filterView)
@@ -157,14 +149,6 @@ class HomeViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-//        filterView.searchView.addSubview(searchController.searchBar)
-//        searchController.searchBar.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//        }
-        
-//        filterView.searchView = searchController.searchBar
-        
-
     }
     
     func addStationsToMap() {
@@ -189,30 +173,24 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: Filter Buttons
-    func toggleFilter() {
+    func toggleFilterView() {
         showFilter = !showFilter
         view.layoutIfNeeded()
         if showFilter {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                
                 self.filterView.snp.remakeConstraints {
                     $0.leading.trailing.equalToSuperview()
                     $0.top.equalToSuperview().offset(64)
                     $0.height.equalTo(64)
-                    
                 }
-                
-                
                 self.view.layoutIfNeeded()
             }, completion: nil)
         } else {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                
                 self.filterView.snp.remakeConstraints {
                     $0.leading.trailing.equalToSuperview()
                     $0.bottom.equalTo(self.mapView.snp.top).offset(-132)
                     $0.height.equalTo(64)
-                    
                 }
                 self.view.layoutIfNeeded()
             }, completion: nil)
@@ -260,7 +238,6 @@ extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate {
     // MARK: Search
     func searchButtonTapped() {
         showSearch = !showSearch
-        print("showSearch is \(showSearch)")
         
         if showSearch {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
@@ -268,13 +245,12 @@ extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate {
                 self.filterView.searchView.snp.remakeConstraints {
                     $0.top.bottom.trailing.equalToSuperview()
                     $0.leading.equalTo(self.filterView.searchButton.snp.trailing)
-
                 }
                 
                 self.searchBar.snp.remakeConstraints {
                     $0.edges.equalToSuperview()
                 }
-
+                
                 self.view.layoutIfNeeded()
             }, completion: nil)
         } else {
@@ -294,25 +270,7 @@ extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate {
         }
     }
     
-//    func updateSearchResults(for searchController: UISearchController) {
-//        
-//        guard let searchText = searchBar.text?.lowercased() else { print("trouble getting searchbar text"); return }
-//        
-//        print("stations count is \(stations.count)")
-//        print("search text: \(searchText)")
-//        if searchText != "" {
-//            stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
-//            stations = stations.filter { $0.name.lowercased().contains(searchText) }
-//            mapView.stationsMap.clear()
-//            addStationsToMap()
-//        } else {
-//            //            stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
-//            //            mapView.stationsMap.clear()
-//            //            addStationsToMap()
-//        }
-//        
-//    }
-    
+    // MUST TAKE INTO ACCOUNT THE FILTERSTATIONS FUNCTION
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let lowercasedSearchText = searchText.lowercased()
         print("stations count is \(stations.count)")
@@ -323,9 +281,8 @@ extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate {
             mapView.stationsMap.clear()
             addStationsToMap()
         } else {
-            //            stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
-            //            mapView.stationsMap.clear()
-            //            addStationsToMap()
+            stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
+            addStationsToMap()
         }
     }
     
@@ -350,14 +307,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         showAlarms = !showAlarms
-
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return napper.destination.count
     }
     
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath)
         let destinationName = napper.destination[indexPath.row].name
@@ -367,7 +324,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-
+    
     
     func addAlarm(_ sender: GMSMarker) {
         
@@ -376,7 +333,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Adds station to napper's destination array
         napper.destination.append(myDestination)
-        print("Napper's destination(s): \(napper.destination)")
         
         // Sorts destination array by proximity
         if napper.destination.count > 1 {
@@ -384,7 +340,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             })
         }
         
-        /*
          
          // Creates an alarm using Region Monitoring
          for destination in napper.destination {
@@ -423,8 +378,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
          } catch let error {
          print("Reminder failed with error \(error.localizedDescription)")
          }
-         
-         */
+        
         
         
     }
@@ -448,11 +402,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 extension HomeViewController: GMSMapViewDelegate, CLLocationManagerDelegate {
     
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
-        
         markerWindowView = MarkerWindowView()
         markerWindowView.stationLabel.text = marker.title
         return markerWindowView
-        
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
@@ -465,47 +417,37 @@ extension HomeViewController: GMSMapViewDelegate, CLLocationManagerDelegate {
     
     private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
-        if status == CLAuthorizationStatus.authorizedWhenInUse || status == CLAuthorizationStatus.authorizedAlways {
-            
+        if status == CLAuthorizationStatus.authorizedAlways {
             locationManager.startUpdatingLocation()
             guard let unwrappedLocation = locationManager.location else { print("error initializing user's location"); return }
-            napper = Napper(coordinate: unwrappedLocation, destination: [store.lirrStationsArray[0]])
-            
+            napper.coordinate = unwrappedLocation
+        } else {
+            locationManager.requestAlwaysAuthorization()
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        
-        print("DID ENTER THE REGION!!!!!!")
-        
-        let alert = UIAlertController(title: "WAKE UP!", message: "You are now arriving at your destination", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
-        
-    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         napper.coordinate = locations.last
-        print("Napper's current location is \(napper.coordinate!)")
         guard let napperLocation = napper.coordinate else { print("error getting napper coordinate"); return }
-        
+        print("Napper's current location is \(napperLocation)")
+
+        // Napper's destinations always sorted by nearest
         if napper.destination.count > 1 {
             napper.destination = napper.destination.sorted(by: { ($0.coordinateCL.distance(from: napperLocation) < $1.coordinateCL.distance(from: napperLocation))
             })
         }
+        
         
         if napper.destination.count > 0 {
             print("Napper is currently \(napper.destination[0].coordinateCL.distance(from: napperLocation)) meters from their next destination")
             
             let nextDestination = napper.destination[0]
             
-            
             if napperLocation.distance(from: nextDestination.coordinateCL) < proximityRadius {
                 //SOUND THE ALARM!!!!
                 print("SENDING NOTIFICATION")
-                
                 let alert = UIAlertController(title: "WAKE UP!", message: "You are now arriving at your destination", preferredStyle: .alert)
                 let action = UIAlertAction(title: "Thank you!", style: .cancel, handler: { (action) in
                     self.napper.destination.removeFirst()
@@ -514,7 +456,7 @@ extension HomeViewController: GMSMapViewDelegate, CLLocationManagerDelegate {
                 self.present(alert, animated: true, completion: nil)
                 
                 
-                /*
+                // Notification Center Alarm
                  let region = CLCircularRegion(center: nextDestination.coordinate2D, radius: proximityRadius as CLLocationDistance, identifier: "Next Destination")
                  region.notifyOnEntry = true
                  region.notifyOnExit = false
@@ -529,11 +471,21 @@ extension HomeViewController: GMSMapViewDelegate, CLLocationManagerDelegate {
                  let request = UNNotificationRequest(identifier: "Alarm for \(nextDestination.name)", content: content, trigger: trigger)
                  
                  appDelegate.center.add(request)
-                 
-                 */
+                
                 
             }
         }
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        
+        print("DID ENTER THE REGION!!!!!!")
+        
+        let alert = UIAlertController(title: "WAKE UP!", message: "You are now arriving at your destination", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
         
     }
     

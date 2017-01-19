@@ -71,4 +71,10 @@ final class DataStore {
             }
         }
     }
+    
+    func populateAllStations() {
+        populateLIRRStationsFromJSON()
+        populateMetroNorthStationsFromJSON()
+        populateNJTStationsFromJSON()
+    }
 }

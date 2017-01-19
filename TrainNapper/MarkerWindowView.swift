@@ -13,7 +13,7 @@ class MarkerWindowView: UIView {
     
     lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
     lazy var stationLabel = UILabel()
-    lazy var setAlarmButton = UIButton()
+    lazy var setAlarmLabel = UILabel()
     
     
     // MARK: Initialization
@@ -33,9 +33,9 @@ class MarkerWindowView: UIView {
         
         stationLabel.font = UIFont(name: "HelveticaNeue", size: 34)
         
-        setAlarmButton.setTitle("Set Alarm", for: .normal)
-        setAlarmButton.titleLabel?.textColor = UIColor.white
-        setAlarmButton.backgroundColor = UIColor.blue
+        setAlarmLabel.text = "Set Alarm"
+        setAlarmLabel.textColor = UIColor.white
+        setAlarmLabel.backgroundColor = UIColor.blue
     }
     
     func constrain() {
@@ -51,8 +51,8 @@ class MarkerWindowView: UIView {
             $0.top.equalToSuperview().offset(8)
         }
         
-        addSubview(setAlarmButton)
-        setAlarmButton.snp.makeConstraints {
+        addSubview(setAlarmLabel)
+        setAlarmLabel.snp.makeConstraints {
             $0.centerX.width.equalToSuperview()
             $0.height.equalToSuperview().dividedBy(4)
             $0.bottom.equalToSuperview().offset(-10)
