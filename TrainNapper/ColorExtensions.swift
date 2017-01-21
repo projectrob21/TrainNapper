@@ -9,11 +9,25 @@
 import Foundation
 import UIKit
 
+// MARK: Custom Colors
+
+extension UIColor {
+    public static let mainColor = UIColor(red: 16 / 255, green: 91 / 255, blue: 99 / 255, alpha: 1)
+    
+    public static let filterButtonColor = UIColor(red: 255 / 255, green: 211 / 255, blue: 78 / 255, alpha: 1)
+    
+    public static let lirrColor = UIColor(red: 69 / 255, green: 178 / 255, blue: 157 / 255, alpha: 1)
+    
+    public static let metroNorthColor = UIColor(red: 51 / 255, green: 77 / 255, blue: 92 / 255, alpha: 1)
+    
+    public static let njTransitColor = UIColor(red: 255 / 255, green: 238 / 255, blue: 97 / 255, alpha: 1)
+    
+}
+
 // MARK: Gradients
 extension CAGradientLayer {
     convenience init(_ colors: [UIColor]) {
         self.init()
-        
         self.colors = colors.map { $0.cgColor }
     }
 }

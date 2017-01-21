@@ -21,13 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     let googleAPI = "AIzaSyDLkK5fHf0Q6p0l1g521hqlg1UWAVZ7kgo"
     let appID = "ca-app-pub-2779558823377577~4750570444"
     
-    
     var window: UIWindow?
     var homeViewController: UIViewController!
     var navigationController: UINavigationController!
     
     var eventStore: EKEventStore?
-
     
     let center = UNUserNotificationCenter.current()
 
@@ -41,13 +39,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GMSPlacesClient.provideAPIKey(googleAPI)
         
         center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
-            
+            if granted {
+                print("UNUserNotification request granted")
+            } else {
+                print("UNUserNotification request NOT granted")
+            }
         }
         
-        homeViewController = HomeViewController()
-        navigationController = UINavigationController(rootViewController: homeViewController)
-        
         window = UIWindow(frame: UIScreen.main.bounds)
+        homeViewController = HomeViewController()
+
+        navigationController = UINavigationController()
+        navigationController.navigationBar.barTintColor = UIColor.mainColor
+        navigationController.navigationBar.isTranslucent = false
+        navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController.viewControllers = [homeViewController]
+        
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         

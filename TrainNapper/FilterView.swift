@@ -18,13 +18,15 @@ class FilterView: UIView {
     lazy var metroNorthButton = UIButton()
     lazy var njTransitButton = UIButton()
     lazy var searchView = UIView()
-
+    var gradient: CAGradientLayer!
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupGradientLayer()
     }
     
     convenience init() {
@@ -36,15 +38,6 @@ class FilterView: UIView {
     func configure() {
         backgroundColor = UIColor.clear
 
-        let backgroundGradient = CALayer.makeGradient(firstColor: UIColor.cyan, secondColor: UIColor.clear)
-        
-        backgroundGradient.frame = self.frame
-        self.layer.insertSublayer(backgroundGradient, at: 0)
-        
-//        let gradient = CAGradientLayer([UIColor.cyan, UIColor.blue])
-//        gradient.frame = self.bounds
-//        layer.addSublayer(gradient)
-        
         stackView.distribution = .fillEqually
         stackView.spacing = 8
         stackView.alignment = .center
@@ -57,12 +50,12 @@ class FilterView: UIView {
         let buttonsArray = [lirrButton, metroNorthButton, njTransitButton]
         
         for button in buttonsArray {
-            button.backgroundColor = UIColor.blue
+            button.backgroundColor = UIColor.filterButtonColor
             button.layer.cornerRadius = 15
             button.titleLabel?.adjustsFontSizeToFitWidth = true
             button.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
         }
-        
+
         
     }
     
@@ -96,4 +89,33 @@ class FilterView: UIView {
 
     }
     
+    
+    func setupGradientLayer() {
+        let color2 = UIColor(red: 141/255.0, green: 191/255.9, blue: 103/255.0, alpha: 1.0)
+        let backgroundGradient = CALayer.makeGradient(firstColor: UIColor.lirrColor, secondColor: color2)
+        backgroundGradient.frame = self.frame
+        self.layer.insertSublayer(backgroundGradient, at: 0)
+    }
+    
+}
+
+@IBDesignable class GradientFilter: UIView {
+    var gradientLayer: CAGradientLayer!
+    @IBInspectable var topColor: UIColor = UIColor.njTransitColor {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    @IBInspectable var bottomColor: UIColor = UIColor.lirrColor {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    @IBInspectable var bottomYPoint: CGFloat = 0.6 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
 }

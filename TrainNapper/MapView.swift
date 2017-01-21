@@ -37,24 +37,24 @@ class MapView: UIView {
         stationsMap.padding = mapInsets
         
         advertisingView = GADBannerView()
-
+        
         
     }
     
     // MARK: View Constraints
     func constrain() {
 
-        addSubview(advertisingView)
-        advertisingView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalToSuperview().dividedBy(10)
-        }
-        
-        addSubview(stationsMap)
-        stationsMap.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(advertisingView.snp.top)
-        }
+//        addSubview(advertisingView)
+//        advertisingView.snp.makeConstraints {
+//            $0.leading.trailing.bottom.equalToSuperview()
+//            $0.height.equalToSuperview().dividedBy(10)
+//        }
+//        
+//        addSubview(stationsMap)
+//        stationsMap.snp.makeConstraints {
+//            $0.top.leading.trailing.equalToSuperview()
+//            $0.bottom.equalTo(advertisingView.snp.top)
+//        }
         
         
     }

@@ -16,6 +16,9 @@ import GoogleMobileAds
 
 class HomeViewController: UIViewController {
     
+    var distanceLabel = UILabel()
+
+    
     let store = DataStore.sharedInstance
     var napper: Napper!
     var stations = [Station]()
@@ -26,12 +29,10 @@ class HomeViewController: UIViewController {
     var markerWindowView: MarkerWindowView!
     var tappedMarker = GMSMarker()
     var locationManager = CLLocationManager()
-    var proximityRadius = 870.0
+    var proximityRadius = 6275.0
     
     lazy var filterView = FilterView()
-    var filterViewBottomConstraint: Constraint?
     var showFilter = false
-    
     lazy var searchBar = UISearchBar()
     var showSearch = false
     
@@ -68,10 +69,6 @@ class HomeViewController: UIViewController {
             locationManager.requestAlwaysAuthorization()
         }
         
-        // Initializes Napper with temporary station in destinations array
-        guard let unwrappedLocation = locationManager.location else { print("error initializing user's location in configure()"); return }
-        napper = Napper(coordinate: unwrappedLocation, destination: [store.lirrStationsArray[0]])
-        
         // Populates stations and adds to map
         store.populateAllStations()
         stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
@@ -79,6 +76,11 @@ class HomeViewController: UIViewController {
         mapView.stationsMap.delegate = self
         addStationsToMap()
         
+        // Initializes Napper with temporary station in destinations array
+        guard let unwrappedLocation = locationManager.location else { print("error initializing user's location in configure()"); return }
+        napper = Napper(coordinate: unwrappedLocation, destination: [store.lirrStationsArray[0]])
+        
+
         // Initializes advertising banner
         let banner = mapView.advertisingView
         banner?.adUnitID = "ca-app-pub-3940256099942544/2934735716"
@@ -102,6 +104,7 @@ class HomeViewController: UIViewController {
         searchBar.showsCancelButton = false
         searchBar.placeholder = "Destination"
         searchBar.delegate = self
+        searchBar.endEditing(true)
         
         // Sets up TableView
         alarmsListView.alarmsTableView.delegate = self
@@ -121,6 +124,13 @@ class HomeViewController: UIViewController {
                 }
             })
         }
+        
+//        let color2 = UIColor(red: 141/255.0, green: 191/255.9, blue: 103/255.0, alpha: 1.0)        
+//        let backgroundGradient = CALayer.makeGradient(firstColor: UIColor.lirrColor, secondColor: color2)
+//        backgroundGradient.frame = view.frame
+//        self.view.layer.insertSublayer(backgroundGradient, at: 0)
+        
+        
         
     }
     
@@ -149,6 +159,23 @@ class HomeViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
+        mapView.addSubview(distanceLabel)
+        distanceLabel.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-50)
+            $0.leading.equalToSuperview()
+            $0.height.equalToSuperview().dividedBy(8)
+            $0.width.equalToSuperview()
+        }
+        distanceLabel.backgroundColor = UIColor.white
+        distanceLabel.textColor = UIColor.black
+        distanceLabel.textAlignment = .center
+        
+        
+        let filterbackgroundGradient = CALayer.makeGradient(firstColor: UIColor.njTransitColor, secondColor: UIColor.metroNorthColor)
+        filterbackgroundGradient.frame = mapView.bounds
+        mapView.layer.insertSublayer(filterbackgroundGradient, at: 0)
+        viewDidLayoutSubviews()
+        
     }
     
     func addStationsToMap() {
@@ -158,13 +185,12 @@ class HomeViewController: UIViewController {
             let marker = GMSMarker(position: station.coordinate2D)
             marker.appearAnimation = kGMSMarkerAnimationPop
             marker.title = station.name
-            
             if station.branch == .LIRR {
-                marker.icon = GMSMarker.markerImage(with: .red)
+                marker.icon = GMSMarker.markerImage(with: .lirrColor)
             } else if station.branch == .MetroNorth {
-                marker.icon = GMSMarker.markerImage(with: .blue)
+                marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
             } else if station.branch == .NJTransit {
-                marker.icon = GMSMarker.markerImage(with: .purple)
+                marker.icon = GMSMarker.markerImage(with: .blue)
             }
             
             marker.map = mapView.stationsMap
@@ -180,8 +206,8 @@ class HomeViewController: UIViewController {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
                 self.filterView.snp.remakeConstraints {
                     $0.leading.trailing.equalToSuperview()
-                    $0.top.equalToSuperview().offset(64)
-                    $0.height.equalTo(64)
+                    $0.top.equalToSuperview()
+                    $0.height.equalTo(50)
                 }
                 self.view.layoutIfNeeded()
             }, completion: nil)
@@ -200,7 +226,7 @@ class HomeViewController: UIViewController {
     func showHideBranches(_ sender: UIButton) {
         guard let stationName = sender.titleLabel?.text else { print("could not retrieve station name"); return }
         
-        if sender.backgroundColor == UIColor.blue {
+        if sender.backgroundColor == UIColor.filterButtonColor {
             mapView.stationsMap.clear()
             
             switch stationName {
@@ -226,12 +252,13 @@ class HomeViewController: UIViewController {
             default: break
             }
             addStationsToMap()
-            sender.backgroundColor = UIColor.blue
+            sender.backgroundColor = UIColor.filterButtonColor
         }
         
     }
     
 }
+
 extension HomeViewController: UISearchBarDelegate, UISearchControllerDelegate {
     
     
@@ -442,19 +469,20 @@ extension HomeViewController: GMSMapViewDelegate, CLLocationManagerDelegate {
         
         if napper.destination.count > 0 {
             print("Napper is currently \(napper.destination[0].coordinateCL.distance(from: napperLocation)) meters from their next destination")
-            
+            distanceLabel.text = "\(napper.destination[0].coordinateCL.distance(from: napperLocation))"
             let nextDestination = napper.destination[0]
             
             if napperLocation.distance(from: nextDestination.coordinateCL) < proximityRadius {
-                //SOUND THE ALARM!!!!
-                print("SENDING NOTIFICATION")
-                let alert = UIAlertController(title: "WAKE UP!", message: "You are now arriving at your destination", preferredStyle: .alert)
-                let action = UIAlertAction(title: "Thank you!", style: .cancel, handler: { (action) in
-                    self.napper.destination.removeFirst()
-                })
-                alert.addAction(action)
-                self.present(alert, animated: true, completion: nil)
                 
+                // SOUND THE ALARM!!!!
+//                print("SENDING NOTIFICATION")
+//                let alert = UIAlertController(title: "WAKE UP!", message: "You are now arriving at your destination", preferredStyle: .alert)
+//                let action = UIAlertAction(title: "Thank you!", style: .cancel, handler: { (action) in
+//                    self.napper.destination.removeFirst()
+//                })
+//                alert.addAction(action)
+//                self.present(alert, animated: true, completion: nil)
+ 
                 
                 // Notification Center Alarm
                  let region = CLCircularRegion(center: nextDestination.coordinate2D, radius: proximityRadius as CLLocationDistance, identifier: "Next Destination")
@@ -466,7 +494,7 @@ extension HomeViewController: GMSMapViewDelegate, CLLocationManagerDelegate {
                  
                  content.title = NSString.localizedUserNotificationString(forKey: "this is the content title", arguments: nil)
                  content.body = "this is the content body"
-                 
+                 content.sound = UNNotificationSound.default()
                  
                  let request = UNNotificationRequest(identifier: "Alarm for \(nextDestination.name)", content: content, trigger: trigger)
                  
@@ -489,6 +517,18 @@ extension HomeViewController: GMSMapViewDelegate, CLLocationManagerDelegate {
         
     }
     
+    
+}
+
+extension HomeViewController {
+    
+    
+
+    func registerLocal() {
+
+        
+    }
+
     
 }
 

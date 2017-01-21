@@ -41,6 +41,7 @@
 /* Begin PBXFileReference section */
 		50F3416CE54F7A65A039E1FD /* Pods_TrainNapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrainNapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EFC08F9D02137DF76CF2314 /* Pods-TrainNapper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainNapper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrainNapper/Pods-TrainNapper.debug.xcconfig"; sourceTree = "<group>"; };
+		E82DF2F61E32B79F0045733B /* TrainNapper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrainNapper.entitlements; sourceTree = "<group>"; };
 		E833DF5A1E0EEFFE006438C4 /* TrainNapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainNapper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E833DF5D1E0EEFFE006438C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E833DF5F1E0EEFFE006438C4 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -127,7 +128,7 @@
 		E833DF5C1E0EEFFE006438C4 /* TrainNapper */ = {
 			isa = PBXGroup;
 			children = (
-				E833DF5D1E0EEFFE006438C4 /* AppDelegate.swift */,
+				E82DF2F61E32B79F0045733B /* TrainNapper.entitlements */,
 				E878609E1E28936B00DE089C /* Model */,
 				E878609D1E28935F00DE089C /* Views */,
 				E87860A01E28937E00DE089C /* Controller */,
@@ -184,6 +185,7 @@
 		E87860A01E28937E00DE089C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				E833DF5D1E0EEFFE006438C4 /* AppDelegate.swift */,
 				E833DF5F1E0EEFFE006438C4 /* HomeViewController.swift */,
 			);
 			name = Controller;
@@ -242,10 +244,13 @@
 				TargetAttributes = {
 					E833DF591E0EEFFE006438C4 = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = 9TAE6F86BV;
+						DevelopmentTeam = Y95395R97T;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -480,12 +485,14 @@
 			baseConfigurationReference = 5EFC08F9D02137DF76CF2314 /* Pods-TrainNapper.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TrainNapper/TrainNapper.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 9TAE6F86BV;
+				DEVELOPMENT_TEAM = Y95395R97T;
 				INFOPLIST_FILE = TrainNapper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = rob.TrainNapper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rob.TrainNapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -495,11 +502,12 @@
 			baseConfigurationReference = FF5D0224BD5F193A0943E482 /* Pods-TrainNapper.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TrainNapper/TrainNapper.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 9TAE6F86BV;
+				DEVELOPMENT_TEAM = Y95395R97T;
 				INFOPLIST_FILE = TrainNapper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = rob.TrainNapper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rob.TrainNapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

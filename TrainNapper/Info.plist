@@ -28,6 +28,7 @@
 	<string>Allow access to remind you when station is approaching</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string></string>
 		<string>location</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
