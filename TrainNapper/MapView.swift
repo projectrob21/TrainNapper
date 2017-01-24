@@ -73,10 +73,9 @@ class MapView: UIView {
     }
 }
 
-extension MapView: FilterViewDelegate {
+extension MapView: FilterDelegate {
     
     func addStationsToMap(stations: [GMSMarker]) {
-        print("filterview delegate is RUNNING!!!!")
         stationsMap.clear()
         for marker in stations {
             marker.map = stationsMap

@@ -63,6 +63,8 @@ class HomeViewController: UIViewController {
         alarmsListView = AlarmsListView()
         
         mapViewModel.filterDelegate = mapView
+        filterView.searchBar.delegate = mapViewModel
+        
         mapViewModel.addStationsToMap()
         
         // Initializes advertising banner
@@ -74,10 +76,10 @@ class HomeViewController: UIViewController {
         // Sets up navigationBar
         navigationItem.title = "TrainNapper"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilterView))
-        /*navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarms", style: .plain, target: self, action: #selector(showAlarmsView))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarms", style: .plain, target: self, action: #selector(showAlarmsView))
         
 
-        
+        /*
         // Sets up TableView
         alarmsListView.alarmsTableView.delegate = self
         alarmsListView.alarmsTableView.dataSource = self
@@ -126,11 +128,8 @@ class HomeViewController: UIViewController {
             
         }
         
-//        filterView.searchView.addSubview(searchBar)
-//        searchBar.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//        }
-        
+        // Used to test region distances
+        /*
         mapView.addSubview(distanceLabel)
         distanceLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-50)
@@ -141,18 +140,11 @@ class HomeViewController: UIViewController {
         distanceLabel.backgroundColor = UIColor.white
         distanceLabel.textColor = UIColor.black
         distanceLabel.textAlignment = .center
-        
-        
-        let filterbackgroundGradient = CALayer.makeGradient(firstColor: UIColor.njTransitColor, secondColor: UIColor.metroNorthColor)
-        filterbackgroundGradient.frame = mapView.bounds
-        mapView.layer.insertSublayer(filterbackgroundGradient, at: 0)
-        viewDidLayoutSubviews()
-        
+        */
     }
     
 
     
-    // MARK: Filter Buttons
     func toggleFilterView() {
         showFilter = !showFilter
         view.layoutIfNeeded()
@@ -177,14 +169,7 @@ class HomeViewController: UIViewController {
         }
     }
     
-
-    
-}
-/*
-
-extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
-    // MARK: Alarm Functions
-   func showAlarmsView() {
+    func showAlarmsView() {
         print("ALARMS ARE \(napper.destination[0].name)")
         if showAlarms {
             navigationItem.title = "Alarms"
@@ -200,8 +185,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         showAlarms = !showAlarms
-        
     }
+    
+}
+
+/*
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    // MARK: Alarm Functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return napper.destination.count
@@ -290,14 +280,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 */
-// MARK: GMSMapViewDelegate
 
-extension HomeViewController: GMSMapViewDelegate, CLLocationManagerDelegate {
-    
-    
-    
-    
-    
-}
 
 

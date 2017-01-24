@@ -11,24 +11,20 @@ import UIKit
 import SnapKit
 import GoogleMaps
 
-protocol FilterViewDelegate: class {
-    func addStationsToMap(stations: [GMSMarker])
-}
 
-class FilterView: UIView, UISearchBarDelegate {
+
+class FilterView: UIView {
     
     lazy var stackView = UIStackView()
-    lazy var searchButton = UIButton()
     lazy var lirrButton = UIButton()
     lazy var metroNorthButton = UIButton()
     lazy var njTransitButton = UIButton()
+   
+    lazy var searchButton = UIButton()
     lazy var searchView = UIView()
-    var gradient: CAGradientLayer!
-    var showFilter = false
-
     lazy var searchBar = UISearchBar()
     var showSearch = false
-
+    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -71,7 +67,6 @@ class FilterView: UIView, UISearchBarDelegate {
         
         searchBar.showsCancelButton = false
         searchBar.placeholder = "Destination"
-        searchBar.delegate = self
         searchBar.endEditing(true)
 
         
