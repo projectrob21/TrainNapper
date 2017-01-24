@@ -20,6 +20,8 @@ class MapView: UIView {
     var stationsMap: GMSMapView!
     var advertisingView: GADBannerView!
     
+    lazy var filterView = FilterView()
+    weak var filterBranchesDelegate: FilterBranchesDelegate?
     
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
@@ -51,6 +53,9 @@ class MapView: UIView {
         advertisingView = GADBannerView()
         advertisingView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         
+        for button in filterView.buttonsArray {
+            button.addTarget(self, action: #selector(filterBranches(_:)), for: .touchUpInside)
+        }
         
     }
     
@@ -69,11 +74,23 @@ class MapView: UIView {
             $0.bottom.equalTo(advertisingView.snp.top)
         }
         
-        
+        addSubview(filterView)
+        filterView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(stationsMap.snp.top).offset(-132)
+            $0.height.equalTo(44)
+            
+        }
     }
+    
+    func filterBranches(_ sender: UIButton) {
+        print("filter branches button pressed")
+        filterBranchesDelegate?.filterBranches(sender: sender)
+    }
+    
 }
 
-extension MapView: FilterDelegate {
+extension MapView: AddToMapDelegate {
     
     func addStationsToMap(stations: [GMSMarker]) {
         stationsMap.clear()
@@ -81,5 +98,4 @@ extension MapView: FilterDelegate {
             marker.map = stationsMap
         }
     }
-    
 }

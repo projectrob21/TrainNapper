@@ -9,8 +9,12 @@
 import Foundation
 import GoogleMaps
 
-protocol FilterDelegate: class {
+protocol AddToMapDelegate: class {
     func addStationsToMap(stations: [GMSMarker])
+}
+
+protocol FilterBranchesDelegate: class {
+    func filterBranches(sender: UIButton)
 }
 
 final class MapViewModel: NSObject {
@@ -18,7 +22,7 @@ final class MapViewModel: NSObject {
     let store = DataStore.sharedInstance
     var stations = [Station]()
     
-    weak var filterDelegate: FilterDelegate?
+    weak var addToMapDelegate: AddToMapDelegate?
     
     var markerWindowView: MarkerWindowView!
     var tappedMarker = GMSMarker()
@@ -34,8 +38,6 @@ final class MapViewModel: NSObject {
     func configure() {
         store.populateAllStations()
         stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
-        print("stations = \(stations.count)")
-        
         addStationsToMap()
         
     }
@@ -60,11 +62,15 @@ final class MapViewModel: NSObject {
             
         }
         print("ADD STATIONS MAP RUNNING IN VIEWMODEL WITH \(markerArray.count) MARKERS")
-        filterDelegate?.addStationsToMap(stations: markerArray)
+        addToMapDelegate?.addStationsToMap(stations: markerArray)
         
     }
+}
+
+extension MapViewModel: FilterBranchesDelegate {
     
-    @objc func filterBranches(_ sender: UIButton) {
+    func filterBranches(sender: UIButton) {
+        print("delegate sent message")
         guard let stationName = sender.titleLabel?.text else { print("could not retrieve station name"); return }
         
         if sender.backgroundColor == UIColor.filterButtonColor {
@@ -117,3 +123,5 @@ extension MapViewModel: UISearchBarDelegate {
     }
     
 }
+
+

@@ -19,6 +19,8 @@ class FilterView: UIView {
     lazy var lirrButton = UIButton()
     lazy var metroNorthButton = UIButton()
     lazy var njTransitButton = UIButton()
+    var buttonsArray = [UIButton]()
+
    
     lazy var searchButton = UIButton()
     lazy var searchView = UIView()
@@ -53,23 +55,19 @@ class FilterView: UIView {
         metroNorthButton.setTitle("Metro North", for: .normal)
         njTransitButton.setTitle("NJ Transit", for: .normal)
         
-        let buttonsArray = [lirrButton, metroNorthButton, njTransitButton]
-        
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         
+        buttonsArray = [lirrButton, metroNorthButton, njTransitButton]
         for button in buttonsArray {
             button.backgroundColor = UIColor.filterButtonColor
             button.layer.cornerRadius = 15
             button.titleLabel?.adjustsFontSizeToFitWidth = true
             button.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
-//            button.addTarget(self, action: #selector(filterBranches), for: .touchUpInside)
         }
         
         searchBar.showsCancelButton = false
         searchBar.placeholder = "Destination"
         searchBar.endEditing(true)
-
-        
         
     }
     

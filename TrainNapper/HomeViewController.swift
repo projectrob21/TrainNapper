@@ -24,11 +24,9 @@ class HomeViewController: UIViewController {
     var mapViewModel: MapViewModel!
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
-    lazy var filterView = FilterView()
+
     var showFilter = false
 
-    
     var alarmsListView: AlarmsListView!
     var showAlarms = false
     
@@ -39,15 +37,12 @@ class HomeViewController: UIViewController {
         configure()
         constrain()
 
-
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     
     func initializeUserLocation() {
 
@@ -62,8 +57,9 @@ class HomeViewController: UIViewController {
         mapViewModel = MapViewModel()
         alarmsListView = AlarmsListView()
         
-        mapViewModel.filterDelegate = mapView
-        filterView.searchBar.delegate = mapViewModel
+        mapViewModel.addToMapDelegate = mapView
+        mapView.filterView.searchBar.delegate = mapViewModel
+        mapView.filterBranchesDelegate = mapViewModel
         
         mapViewModel.addStationsToMap()
         
@@ -120,13 +116,6 @@ class HomeViewController: UIViewController {
             $0.top.bottom.leading.trailing.equalToSuperview()
         }
         
-        mapView.addSubview(filterView)
-        filterView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(mapView.snp.top).offset(-132)
-            $0.height.equalTo(44)
-            
-        }
         
         // Used to test region distances
         /*
@@ -150,7 +139,7 @@ class HomeViewController: UIViewController {
         view.layoutIfNeeded()
         if showFilter {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                self.filterView.snp.remakeConstraints {
+                self.mapView.filterView.snp.remakeConstraints {
                     $0.leading.trailing.equalToSuperview()
                     $0.top.equalToSuperview()
                     $0.height.equalTo(50)
@@ -159,9 +148,9 @@ class HomeViewController: UIViewController {
             }, completion: nil)
         } else {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                self.filterView.snp.remakeConstraints {
+                self.mapView.filterView.snp.remakeConstraints {
                     $0.leading.trailing.equalToSuperview()
-                    $0.bottom.equalTo(self.mapView.snp.top).offset(-132)
+                    $0.bottom.equalTo(self.mapView.stationsMap.snp.top).offset(-132)
                     $0.height.equalTo(64)
                 }
                 self.view.layoutIfNeeded()
