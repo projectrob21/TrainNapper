@@ -12,20 +12,22 @@ import GoogleMaps
 final class NapperViewModel: NSObject {
     
     let locationManager = CLLocationManager()
+    var napper: Napper!
     
     override init() {
         super.init()
-        setupManager()
+        setupLocationManager()
     }
     
     
 }
 
 
-// MARK: - Map Management
+// MARK: Location Management
 extension NapperViewModel: CLLocationManagerDelegate {
     
-    func setupManager() {
+    func setupLocationManager() {
+        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestAlwaysAuthorization()
@@ -34,115 +36,110 @@ extension NapperViewModel: CLLocationManagerDelegate {
         
         if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways{
             locationManager.startUpdatingLocation()
+            napper = Napper(coordinate: locationManager.location, destination: [])
         } else {
             locationManager.requestAlwaysAuthorization()
+            napper = Napper(coordinate: nil, destination: [])
         }
+        
+    }
 
+    private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        
+        if status == CLAuthorizationStatus.authorizedWhenInUse || status == CLAuthorizationStatus.authorizedAlways {
+            // what if they selected a station, and then authorized use...? The destination array should be updated
+            locationManager.startUpdatingLocation()
+            napper = Napper(coordinate: locationManager.location, destination: [])
+            
+        }
     }
     
 }
+
+extension NapperViewModel: NapperAlarmsDelegate {
+    
+    func addAlarm(station: Station) {
+        guard let napperLocation = napper.coordinate else { print("error getting napper coordinate"); return }
+        
+        napper.destination.append(station)
+        
+        // Sorts destination array by proximity
+        if napper.destination.count > 1 {
+            napper.destination = napper.destination.sorted(by: { ($0.coordinateCL.distance(from: napperLocation) < $1.coordinateCL.distance(from: napperLocation))
+            })
+        }
+        
+        // Create alarm through:
+        //      - region monitoring / push notification
+        //      - EKEvents
+        //      - locationManager's didEnterRegion
+        //      - locationManager's didUpdateLocation
+        
+        
+    }
+    
+    func removeAlarm(station: Station) {
+        
+        for (index, destination) in napper.destination.enumerated() {
+            if destination.name == station.name {
+                napper.destination.remove(at: index)
+            }
+        }
+        
+    }
+
+}
+
+
+
 
 /*
-private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-    
-    if status == CLAuthorizationStatus.authorizedWhenInUse || status == CLAuthorizationStatus.authorizedAlways {
-        
-        locationManager.startUpdatingLocation()
-        guard let unwrappedLocation = locationManager.location else { print("error initializing user's location"); return }
-        napper = Napper(coordinate: unwrappedLocation, destination: [])
-        
-    }
-}
-
-// MARK: GMSMapViewDelegate
-
-func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
-    
-    markerWindowView = MarkerWindowView()
-    markerWindowView.stationLabel.text = marker.title
-    return markerWindowView
-    
-}
-
-func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-    // if station has not been selected
-    addAlarm(marker)
-    marker.icon = GMSMarker.markerImage(with: .blue)
-    // else if station is currently selected
-    // removeAlarm(marker)
-}
-
-
 func addAlarm(_ sender: GMSMarker) {
+ 
     
-    guard let myDestination = store.stationsDictionary[sender.title!] else { print("error setting alarm"); return }
-    guard let napperLocation = napper.coordinate else { print("error getting napper coordinate"); return }
-    
-    // Adds station to napper's destination array
-    napper.destination.append(myDestination)
-    print("Napper's destination(s): \(napper.destination)")
-    
-    // Sorts destination array by proximity
-    if napper.destination.count > 1 {
-        napper.destination = napper.destination.sorted(by: { ($0.coordinateCL.distance(from: napperLocation) < $1.coordinateCL.distance(from: napperLocation))
-        })
+    // Creates an alarm using Region Monitoring
+    for destination in napper.destination {
+        let region = CLCircularRegion(center: destination.coordinate2D, radius: proximityRadius, identifier: destination.name)
+        region.notifyOnEntry = true
+        region.notifyOnExit = false
+        locationManager.startMonitoring(for: region)
+        print("Monitored Regions count: \(locationManager.monitoredRegions.count)")
+        
     }
     
-    /*
-     
-     // Creates an alarm using Region Monitoring
-     for destination in napper.destination {
-     let region = CLCircularRegion(center: destination.coordinate2D, radius: proximityRadius, identifier: destination.name)
-     region.notifyOnEntry = true
-     region.notifyOnExit = false
-     locationManager.startMonitoring(for: region)
-     print("Monitored Regions count: \(locationManager.monitoredRegions.count)")
-     
-     }
-     
-     
-     // Creates an alarm using EKEvents
-     
-     let nextDestination = napper.destination[0]
-     guard let eventStore = appDelegate.eventStore else { print("error casting event store in didupdatelocation"); return }
-     
-     let destinationReminder = EKReminder(eventStore: eventStore)
-     destinationReminder.title = nextDestination.name
-     destinationReminder.calendar = eventStore.defaultCalendarForNewReminders()
-     
-     
-     let stationLocation = EKStructuredLocation(title: "Alarm will sound at \(nextDestination.name)")
-     stationLocation.geoLocation = nextDestination.coordinateCL
-     stationLocation.radius = proximityRadius
-     
-     let alarm = EKAlarm()
-     alarm.structuredLocation = stationLocation
-     alarm.proximity = EKAlarmProximity.enter
-     
-     destinationReminder.addAlarm(alarm)
-     
-     do {
-     try eventStore.save(destinationReminder, commit: true)
-     print("EVENT WAS ADDED TO STORE with name \(destinationReminder.title)\nCoordinates \(destinationReminder.alarms![0].structuredLocation!.geoLocation!)\nWithin \(destinationReminder.alarms![0].structuredLocation!.radius) meters")
-     } catch let error {
-     print("Reminder failed with error \(error.localizedDescription)")
-     }
-     
-     */
+    
+    // Creates an alarm using EKEvents
+    
+    let nextDestination = napper.destination[0]
+    guard let eventStore = appDelegate.eventStore else { print("error casting event store in didupdatelocation"); return }
+    
+    let destinationReminder = EKReminder(eventStore: eventStore)
+    destinationReminder.title = nextDestination.name
+    destinationReminder.calendar = eventStore.defaultCalendarForNewReminders()
+    
+    
+    let stationLocation = EKStructuredLocation(title: "Alarm will sound at \(nextDestination.name)")
+    stationLocation.geoLocation = nextDestination.coordinateCL
+    stationLocation.radius = proximityRadius
+    
+    let alarm = EKAlarm()
+    alarm.structuredLocation = stationLocation
+    alarm.proximity = EKAlarmProximity.enter
+    
+    destinationReminder.addAlarm(alarm)
+    
+    do {
+        try eventStore.save(destinationReminder, commit: true)
+        print("EVENT WAS ADDED TO STORE with name \(destinationReminder.title)\nCoordinates \(destinationReminder.alarms![0].structuredLocation!.geoLocation!)\nWithin \(destinationReminder.alarms![0].structuredLocation!.radius) meters")
+    } catch let error {
+        print("Reminder failed with error \(error.localizedDescription)")
+    }
+    
+    
     
     
 }
 
-func removeAlarm(_ sender: GMSMarker) {
-    guard let myDestination = store.stationsDictionary[sender.title!] else { print("error removing alarm destination"); return }
-    
-    for (index, destination) in napper.destination.enumerated() {
-        if destination.name == myDestination.name {
-            napper.destination.remove(at: index)
-        }
-    }
-    
-}
 
 func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
     
@@ -184,26 +181,27 @@ func locationManager(_ manager: CLLocationManager, didUpdateLocations locations:
             self.present(alert, animated: true, completion: nil)
             
             
-            /*
-             let region = CLCircularRegion(center: nextDestination.coordinate2D, radius: proximityRadius as CLLocationDistance, identifier: "Next Destination")
-             region.notifyOnEntry = true
-             region.notifyOnExit = false
-             
-             let trigger = UNLocationNotificationTrigger(region: region, repeats: false)
-             let content = UNMutableNotificationContent()
-             
-             content.title = NSString.localizedUserNotificationString(forKey: "this is the content title", arguments: nil)
-             content.body = "this is the content body"
-             
-             
-             let request = UNNotificationRequest(identifier: "Alarm for \(nextDestination.name)", content: content, trigger: trigger)
-             
-             appDelegate.center.add(request)
-             
-             */
+            
+            let region = CLCircularRegion(center: nextDestination.coordinate2D, radius: proximityRadius as CLLocationDistance, identifier: "Next Destination")
+            region.notifyOnEntry = true
+            region.notifyOnExit = false
+            
+            let trigger = UNLocationNotificationTrigger(region: region, repeats: false)
+            let content = UNMutableNotificationContent()
+            
+            content.title = NSString.localizedUserNotificationString(forKey: "this is the content title", arguments: nil)
+            content.body = "this is the content body"
+            
+            
+            let request = UNNotificationRequest(identifier: "Alarm for \(nextDestination.name)", content: content, trigger: trigger)
+            
+            appDelegate.center.add(request)
+            
+            
             
         }
     }
     
 }
+
 */

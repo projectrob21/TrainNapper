@@ -34,6 +34,7 @@ class MarkerWindowView: UIView {
         stationLabel.font = UIFont(name: "HelveticaNeue", size: 34)
         
         setAlarmLabel.text = "Set Alarm"
+        setAlarmLabel.textAlignment = .center
         setAlarmLabel.textColor = UIColor.white
         setAlarmLabel.backgroundColor = UIColor.blue
     }

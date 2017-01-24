@@ -17,19 +17,16 @@ import GoogleMobileAds
 class HomeViewController: UIViewController {
     
     var distanceLabel = UILabel()
-
-    var napper: Napper!
-
     var mapView: MapView!
     var mapViewModel: MapViewModel!
 
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
-    var showFilter = false
-
+    var napperViewModel: NapperViewModel!
+    
     var alarmsListView: AlarmsListView!
     var showAlarms = false
+    var showFilter = false
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,23 +41,22 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func initializeUserLocation() {
-
-//        mapView.stationsMap.delegate = self
-//        guard let unwrappedLocation = napperViewModel.locationManager.location else { print("error initializing user's location in configure()"); return }
-//        napper = Napper(coordinate: unwrappedLocation, destination: [store.lirrStationsArray[0]])
-    }
-    
     // MARK: Initial Setup
     func configure() {
         mapView = MapView()
         mapViewModel = MapViewModel()
+        napperViewModel = NapperViewModel()
         alarmsListView = AlarmsListView()
         
+        // Assing delegates
         mapViewModel.addToMapDelegate = mapView
         mapView.filterView.searchBar.delegate = mapViewModel
         mapView.filterBranchesDelegate = mapViewModel
+        mapView.stationsMap.delegate = mapViewModel
+        mapViewModel.napperAlarmsDelegate = napperViewModel
+
         
+        // Must assign delegates before adding stations to map!
         mapViewModel.addStationsToMap()
         
         // Initializes advertising banner
@@ -159,7 +155,6 @@ class HomeViewController: UIViewController {
     }
     
     func showAlarmsView() {
-        print("ALARMS ARE \(napper.destination[0].name)")
         if showAlarms {
             navigationItem.title = "Alarms"
             navigationItem.rightBarButtonItem?.title = "Map"

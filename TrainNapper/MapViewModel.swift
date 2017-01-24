@@ -17,19 +17,23 @@ protocol FilterBranchesDelegate: class {
     func filterBranches(sender: UIButton)
 }
 
+protocol NapperAlarmsDelegate: class {
+    func addAlarm(station: Station)
+    func removeAlarm(station: Station)
+}
+
 final class MapViewModel: NSObject {
     
     let store = DataStore.sharedInstance
     var stations = [Station]()
     
-    weak var addToMapDelegate: AddToMapDelegate?
-    
     var markerWindowView: MarkerWindowView!
-    var tappedMarker = GMSMarker()
-    var proximityRadius = 6275.0
-    
-    var showFilter = false
 
+    
+    weak var addToMapDelegate: AddToMapDelegate?
+    weak var napperAlarmsDelegate: NapperAlarmsDelegate?
+
+    
     override init() {
         super.init()
         configure()
@@ -38,8 +42,6 @@ final class MapViewModel: NSObject {
     func configure() {
         store.populateAllStations()
         stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
-        addStationsToMap()
-        
     }
     
     
@@ -61,16 +63,14 @@ final class MapViewModel: NSObject {
             markerArray.append(marker)
             
         }
-        print("ADD STATIONS MAP RUNNING IN VIEWMODEL WITH \(markerArray.count) MARKERS")
         addToMapDelegate?.addStationsToMap(stations: markerArray)
-        
     }
+    
 }
 
 extension MapViewModel: FilterBranchesDelegate {
     
     func filterBranches(sender: UIButton) {
-        print("delegate sent message")
         guard let stationName = sender.titleLabel?.text else { print("could not retrieve station name"); return }
         
         if sender.backgroundColor == UIColor.filterButtonColor {
@@ -104,10 +104,36 @@ extension MapViewModel: FilterBranchesDelegate {
     }
     
 }
+extension MapViewModel: GMSMapViewDelegate {
+    
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        markerWindowView = MarkerWindowView()
+        markerWindowView.stationLabel.text = marker.title
+        return markerWindowView
+        
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        print("MARKER TITLE IS \(marker.title!)")
+        
+        guard let selectedStation = store.stationsDictionary[marker.title!] else { print("error getting station from dictionary"); return }
+        
+        print("DICTIONARY IS \(store.stationsDictionary.count)")
+        
+        
+//        if something {
+            napperAlarmsDelegate?.addAlarm(station: selectedStation)
+            marker.icon = GMSMarker.markerImage(with: .blue)
+//        } else {
+//        if marker.icon == GMSMarker.markerImage(with: .blue) {
+            //change color back to original
+//            napperAlarmsDelegate?.removeAlarm(station: selectedStation)
+        
+    }
+}
 
 extension MapViewModel: UISearchBarDelegate {
     
-
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let lowercasedSearchText = searchText.lowercased()
         print("stations count is \(stations.count)")
@@ -123,5 +149,7 @@ extension MapViewModel: UISearchBarDelegate {
     }
     
 }
+
+
 
 

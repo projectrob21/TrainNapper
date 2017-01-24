@@ -33,7 +33,6 @@ final class DataStore {
     func populateLIRRStationsFromJSON() {
         getJSONStationsDictionary(with: "LIRRStations") { lirrDictionary in
             self.lirrStationsArray = []
-            self.stationsDictionary = [String:Station]()
             if let stationsDictionary = lirrDictionary["stops"]?["stop"] as? [[String : Any]] {
                 for station in stationsDictionary.map({ Station(jsonData: $0) }) {
                     self.stationsDictionary[station.name] = station
@@ -47,7 +46,6 @@ final class DataStore {
     func populateMetroNorthStationsFromJSON() {
         getJSONStationsDictionary(with: "MetroNorthStations") { (metroNorthDictionary) in
             self.metroNorthStationsArray = []
-            self.stationsDictionary = [String:Station]()
             if let stationsDictionary = metroNorthDictionary["stops"]?["stop"] as? [[String : Any]] {
                 for station in stationsDictionary.map({ Station(jsonData: $0) }) {
                     self.stationsDictionary[station.name] = station
@@ -61,7 +59,6 @@ final class DataStore {
     func populateNJTStationsFromJSON() {
         getJSONStationsDictionary(with: "NJTransit") { njtDictionary in
             self.njTransitStationsArray = []
-            self.stationsDictionary = [String:Station]()
             if let stationsDictionary = njtDictionary["stops"]?["stop"] as? [[String : Any]] {
                 for station in stationsDictionary.map({ Station(jsonData: $0) }) {
                     self.stationsDictionary[station.name] = station
@@ -73,6 +70,7 @@ final class DataStore {
     }
     
     func populateAllStations() {
+        stationsDictionary = [String:Station]()
         populateLIRRStationsFromJSON()
         populateMetroNorthStationsFromJSON()
         populateNJTStationsFromJSON()

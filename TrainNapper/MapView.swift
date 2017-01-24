@@ -84,7 +84,6 @@ class MapView: UIView {
     }
     
     func filterBranches(_ sender: UIButton) {
-        print("filter branches button pressed")
         filterBranchesDelegate?.filterBranches(sender: sender)
     }
     
@@ -99,3 +98,4 @@ extension MapView: AddToMapDelegate {
         }
     }
 }
+
