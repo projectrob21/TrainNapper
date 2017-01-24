@@ -22,9 +22,19 @@ class MapView: UIView {
     
     
     // MARK: Initialization
-    required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
-    override init(frame: CGRect) { super.init(frame: frame) }
-    convenience init() { self.init(frame: CGRect.zero); configure(); constrain() }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    convenience init() {
+        self.init(frame: CGRect.zero)
+        configure()
+        constrain()
+    }
     
     
     // MARK: View Configuration
@@ -40,7 +50,6 @@ class MapView: UIView {
         
         advertisingView = GADBannerView()
         advertisingView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        
         
         
     }

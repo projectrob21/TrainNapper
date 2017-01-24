@@ -31,7 +31,7 @@ final class MapViewModel: NSObject {
         store.populateAllStations()
         stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
         print("stations = \(stations.count)")
-
+        
         addStationsToMap()
         
     }

@@ -20,28 +20,27 @@ class HomeViewController: UIViewController {
 
     var napper: Napper!
 
-    let napperViewModel = NapperViewModel()
+    var mapView: MapView!
     var mapViewModel: MapViewModel!
+
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    let mapView = MapView()
     lazy var filterView = FilterView()
     var showFilter = false
 
     
-    lazy var alarmsListView = AlarmsListView()
+    var alarmsListView: AlarmsListView!
     var showAlarms = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initializeUserLocation()
         configure()
         constrain()
 
-        mapViewModel.filterDelegate = mapView
 
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -59,11 +58,12 @@ class HomeViewController: UIViewController {
     
     // MARK: Initial Setup
     func configure() {
-
+        mapView = MapView()
         mapViewModel = MapViewModel()
-
+        alarmsListView = AlarmsListView()
         
-        
+        mapViewModel.filterDelegate = mapView
+        mapViewModel.addStationsToMap()
         
         // Initializes advertising banner
         mapView.advertisingView.rootViewController = self
