@@ -19,7 +19,6 @@ final class NapperViewModel: NSObject {
         setupLocationManager()
     }
     
-    
 }
 
 
@@ -56,6 +55,27 @@ extension NapperViewModel: CLLocationManagerDelegate {
     
 }
 
+// Tableview
+extension NapperViewModel: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return napper.destination.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath)
+        let station = napper.destination[indexPath.row].name
+        
+        cell.textLabel?.text = station
+        
+        return cell
+        
+    }
+    
+}
+
+
+// Alarms Delegate
 extension NapperViewModel: NapperAlarmsDelegate {
     
     func addAlarm(station: Station) {

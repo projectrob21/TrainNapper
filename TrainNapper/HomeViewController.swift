@@ -54,6 +54,11 @@ class HomeViewController: UIViewController {
         mapView.filterBranchesDelegate = mapViewModel
         mapView.stationsMap.delegate = mapViewModel
         mapViewModel.napperAlarmsDelegate = napperViewModel
+        
+        alarmsListView.alarmsTableView.delegate = napperViewModel
+        alarmsListView.alarmsTableView.dataSource = napperViewModel
+        alarmsListView.alarmsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "AlarmCell")
+        alarmsListView.isHidden = true
 
         
         // Must assign delegates before adding stations to map!
@@ -70,15 +75,6 @@ class HomeViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilterView))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarms", style: .plain, target: self, action: #selector(showAlarmsView))
         
-
-        /*
-        // Sets up TableView
-        alarmsListView.alarmsTableView.delegate = self
-        alarmsListView.alarmsTableView.dataSource = self
-        alarmsListView.alarmsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "AlarmCell")
-        alarmsListView.isHidden = true
-        
-        */
         // Event store... ?
         if appDelegate.eventStore == nil {
             appDelegate.eventStore = EKEventStore()
@@ -172,98 +168,6 @@ class HomeViewController: UIViewController {
     }
     
 }
-
-/*
-extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
-    // MARK: Alarm Functions
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return napper.destination.count
-    }
-    
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath)
-        let destinationName = napper.destination[indexPath.row].name
-        cell.textLabel?.text = destinationName
-        cell.backgroundColor = UIColor.clear
-        return cell
-        
-    }
-    
- 
-    
-    func addAlarm(_ sender: GMSMarker) {
-        
-        guard let myDestination = store.stationsDictionary[sender.title!] else { print("error setting alarm"); return }
-        guard let napperLocation = napper.coordinate else { print("error getting napper coordinate"); return }
-        
-        // Adds station to napper's destination array
-        napper.destination.append(myDestination)
-        
-        // Sorts destination array by proximity
-        if napper.destination.count > 1 {
-            napper.destination = napper.destination.sorted(by: { ($0.coordinateCL.distance(from: napperLocation) < $1.coordinateCL.distance(from: napperLocation))
-            })
-        }
-        
-        /*
-         // Creates an alarm using Region Monitoring
-         for destination in napper.destination {
-         let region = CLCircularRegion(center: destination.coordinate2D, radius: proximityRadius, identifier: destination.name)
-         region.notifyOnEntry = true
-         region.notifyOnExit = false
-         locationManager.startMonitoring(for: region)
-         print("Monitored Regions count: \(locationManager.monitoredRegions.count)")
-         
-         }
-         */
-         
-         // Creates an alarm using EKEvents
-         
-         let nextDestination = napper.destination[0]
-         guard let eventStore = appDelegate.eventStore else { print("error casting event store in didupdatelocation"); return }
-         
-         let destinationReminder = EKReminder(eventStore: eventStore)
-         destinationReminder.title = nextDestination.name
-         destinationReminder.calendar = eventStore.defaultCalendarForNewReminders()
-         
-         
-         let stationLocation = EKStructuredLocation(title: "Alarm will sound at \(nextDestination.name)")
-         stationLocation.geoLocation = nextDestination.coordinateCL
-         stationLocation.radius = proximityRadius
-         
-         let alarm = EKAlarm()
-         alarm.structuredLocation = stationLocation
-         alarm.proximity = EKAlarmProximity.enter
-         
-         destinationReminder.addAlarm(alarm)
-         
-         do {
-         try eventStore.save(destinationReminder, commit: true)
-         print("EVENT WAS ADDED TO STORE with name \(destinationReminder.title)\nCoordinates \(destinationReminder.alarms![0].structuredLocation!.geoLocation!)\nWithin \(destinationReminder.alarms![0].structuredLocation!.radius) meters")
-         } catch let error {
-         print("Reminder failed with error \(error.localizedDescription)")
-         }
-        
-        
-        
-    }
-    
-    func removeAlarm(_ sender: GMSMarker) {
-        guard let myDestination = store.stationsDictionary[sender.title!] else { print("error removing alarm destination"); return }
-        
-        for (index, destination) in napper.destination.enumerated() {
-            if destination.name == myDestination.name {
-                napper.destination.remove(at: index)
-            }
-        }
-        
-    }
-}
-
-
-*/
 
 
 
