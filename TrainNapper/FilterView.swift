@@ -9,8 +9,13 @@
 import Foundation
 import UIKit
 import SnapKit
+import GoogleMaps
 
-class FilterView: UIView {
+protocol FilterViewDelegate: class {
+    func addStationsToMap(stations: [GMSMarker])
+}
+
+class FilterView: UIView, UISearchBarDelegate {
     
     lazy var stackView = UIStackView()
     lazy var searchButton = UIButton()
@@ -19,6 +24,11 @@ class FilterView: UIView {
     lazy var njTransitButton = UIButton()
     lazy var searchView = UIView()
     var gradient: CAGradientLayer!
+    var showFilter = false
+
+    lazy var searchBar = UISearchBar()
+    var showSearch = false
+
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -49,15 +59,25 @@ class FilterView: UIView {
         
         let buttonsArray = [lirrButton, metroNorthButton, njTransitButton]
         
+        searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+        
         for button in buttonsArray {
             button.backgroundColor = UIColor.filterButtonColor
             button.layer.cornerRadius = 15
             button.titleLabel?.adjustsFontSizeToFitWidth = true
             button.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
+//            button.addTarget(self, action: #selector(filterBranches), for: .touchUpInside)
         }
+        
+        searchBar.showsCancelButton = false
+        searchBar.placeholder = "Destination"
+        searchBar.delegate = self
+        searchBar.endEditing(true)
 
         
+        
     }
+    
     
     func constrain() {
 
@@ -86,6 +106,11 @@ class FilterView: UIView {
             
         }
         searchView.backgroundColor = UIColor.purple
+        
+        searchView.addSubview(searchBar)
+        searchBar.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
 
     }
     
@@ -97,25 +122,39 @@ class FilterView: UIView {
         self.layer.insertSublayer(backgroundGradient, at: 0)
     }
     
-}
-
-@IBDesignable class GradientFilter: UIView {
-    var gradientLayer: CAGradientLayer!
-    @IBInspectable var topColor: UIColor = UIColor.njTransitColor {
-        didSet {
-            setNeedsDisplay()
+    func searchButtonTapped() {
+        showSearch = !showSearch
+        
+        if showSearch {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                
+                self.searchView.snp.remakeConstraints {
+                    $0.top.bottom.trailing.equalToSuperview()
+                    $0.leading.equalTo(self.searchButton.snp.trailing)
+                }
+                
+                self.searchBar.snp.remakeConstraints {
+                    $0.edges.equalToSuperview()
+                }
+                
+                self.layoutIfNeeded()
+            }, completion: nil)
+        } else {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                
+                self.searchView.snp.remakeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                    $0.trailing.leading.equalTo(self.searchButton.snp.trailing)
+                }
+                self.searchBar.snp.remakeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                    $0.trailing.leading.equalTo(self.searchButton.snp.trailing)
+                }
+                self.layoutIfNeeded()
+                
+            }, completion: nil)
         }
     }
     
-    @IBInspectable var bottomColor: UIColor = UIColor.lirrColor {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
     
-    @IBInspectable var bottomYPoint: CGFloat = 0.6 {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
 }

@@ -21,6 +21,8 @@
 		E87860A61E28A16200DE089C /* AdvertisingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87860A51E28A16200DE089C /* AdvertisingView.swift */; };
 		E887E2851E2D5AB400A9D8F2 /* AlarmsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E887E2841E2D5AB400A9D8F2 /* AlarmsListView.swift */; };
 		E887E2871E2D803600A9D8F2 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E887E2861E2D803600A9D8F2 /* ColorExtensions.swift */; };
+		E8B544B61E353E4F00FDF48D /* NapperViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B544B51E353E4F00FDF48D /* NapperViewModel.swift */; };
+		E8B544B91E354C6E00FDF48D /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B544B81E354C6E00FDF48D /* MapViewModel.swift */; };
 		E8C2AF451E24A77C00BE8338 /* LIRRStations.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF431E24A77C00BE8338 /* LIRRStations.json */; };
 		E8C2AF461E24A77C00BE8338 /* MetroNorthStations.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF441E24A77C00BE8338 /* MetroNorthStations.json */; };
 		E8C2AF481E24BBCD00BE8338 /* NJTransit.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF471E24BBCD00BE8338 /* NJTransit.json */; };
@@ -59,6 +61,8 @@
 		E87860A51E28A16200DE089C /* AdvertisingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvertisingView.swift; sourceTree = "<group>"; };
 		E887E2841E2D5AB400A9D8F2 /* AlarmsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmsListView.swift; sourceTree = "<group>"; };
 		E887E2861E2D803600A9D8F2 /* ColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
+		E8B544B51E353E4F00FDF48D /* NapperViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NapperViewModel.swift; sourceTree = "<group>"; };
+		E8B544B81E354C6E00FDF48D /* MapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		E8C2AF431E24A77C00BE8338 /* LIRRStations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LIRRStations.json; sourceTree = "<group>"; };
 		E8C2AF441E24A77C00BE8338 /* MetroNorthStations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MetroNorthStations.json; sourceTree = "<group>"; };
 		E8C2AF471E24BBCD00BE8338 /* NJTransit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NJTransit.json; sourceTree = "<group>"; };
@@ -131,6 +135,7 @@
 				E82DF2F61E32B79F0045733B /* TrainNapper.entitlements */,
 				E878609E1E28936B00DE089C /* Model */,
 				E878609D1E28935F00DE089C /* Views */,
+				E8B544B71E353E5D00FDF48D /* View Model */,
 				E87860A01E28937E00DE089C /* Controller */,
 				E878609F1E28937800DE089C /* Data */,
 				E833DF641E0EEFFE006438C4 /* Assets.xcassets */,
@@ -189,6 +194,15 @@
 				E833DF5F1E0EEFFE006438C4 /* HomeViewController.swift */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		E8B544B71E353E5D00FDF48D /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				E8B544B51E353E4F00FDF48D /* NapperViewModel.swift */,
+				E8B544B81E354C6E00FDF48D /* MapViewModel.swift */,
+			);
+			name = "View Model";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -362,11 +376,13 @@
 				E833DF801E0EF766006438C4 /* MapView.swift in Sources */,
 				E869CCF31E11C929003A3FC2 /* Napper.swift in Sources */,
 				E8C2AF4A1E2565D700BE8338 /* FilterView.swift in Sources */,
+				E8B544B61E353E4F00FDF48D /* NapperViewModel.swift in Sources */,
 				E833DF5E1E0EEFFE006438C4 /* AppDelegate.swift in Sources */,
 				E87860A61E28A16200DE089C /* AdvertisingView.swift in Sources */,
 				E887E2851E2D5AB400A9D8F2 /* AlarmsListView.swift in Sources */,
 				E833DF7E1E0EF097006438C4 /* Station.swift in Sources */,
 				E869CCF51E11E55E003A3FC2 /* MarkerWindowView.swift in Sources */,
+				E8B544B91E354C6E00FDF48D /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

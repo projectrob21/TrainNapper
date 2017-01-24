@@ -15,9 +15,11 @@ import GoogleMobileAds
 class MapView: UIView {
     
     // MARK: Properties
+    
     var camera: GMSCameraPosition!
     var stationsMap: GMSMapView!
     var advertisingView: GADBannerView!
+    
     
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
@@ -37,6 +39,8 @@ class MapView: UIView {
         stationsMap.padding = mapInsets
         
         advertisingView = GADBannerView()
+        advertisingView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        
         
         
     }
@@ -44,18 +48,30 @@ class MapView: UIView {
     // MARK: View Constraints
     func constrain() {
 
-//        addSubview(advertisingView)
-//        advertisingView.snp.makeConstraints {
-//            $0.leading.trailing.bottom.equalToSuperview()
-//            $0.height.equalToSuperview().dividedBy(10)
-//        }
-//        
-//        addSubview(stationsMap)
-//        stationsMap.snp.makeConstraints {
-//            $0.top.leading.trailing.equalToSuperview()
-//            $0.bottom.equalTo(advertisingView.snp.top)
-//        }
+        addSubview(advertisingView)
+        advertisingView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalToSuperview().dividedBy(10)
+        }
+        
+        addSubview(stationsMap)
+        stationsMap.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(advertisingView.snp.top)
+        }
         
         
     }
+}
+
+extension MapView: FilterViewDelegate {
+    
+    func addStationsToMap(stations: [GMSMarker]) {
+        print("filterview delegate is RUNNING!!!!")
+        stationsMap.clear()
+        for marker in stations {
+            marker.map = stationsMap
+        }
+    }
+    
 }
