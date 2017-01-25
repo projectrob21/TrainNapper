@@ -6,7 +6,6 @@
 //  Copyright © 2016 Robert Deans. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class MarkerWindowView: UIView {

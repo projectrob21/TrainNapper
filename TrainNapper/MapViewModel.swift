@@ -6,7 +6,6 @@
 //  Copyright © 2017 Robert Deans. All rights reserved.
 //
 
-import Foundation
 import GoogleMaps
 
 protocol AddToMapDelegate: class {
@@ -29,7 +28,6 @@ final class MapViewModel: NSObject {
     
     var markerWindowView: MarkerWindowView!
 
-    
     weak var addToMapDelegate: AddToMapDelegate?
     weak var napperAlarmsDelegate: NapperAlarmsDelegate?
 

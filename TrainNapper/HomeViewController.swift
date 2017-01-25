@@ -8,18 +8,13 @@
 
 import UIKit
 import SnapKit
-import EventKit
-import UserNotifications
-import GoogleMaps
-import GooglePlaces
 import GoogleMobileAds
+
 
 class HomeViewController: UIViewController {
     
-    var distanceLabel = UILabel()
     var mapView: MapView!
     var mapViewModel: MapViewModel!
-
     var napperViewModel: NapperViewModel!
     
     var alarmsListView: AlarmsListView!
@@ -30,16 +25,10 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configure()
         constrain()
+    }
 
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     // MARK: Initial Setup
     func configure() {
@@ -48,11 +37,12 @@ class HomeViewController: UIViewController {
         napperViewModel = NapperViewModel()
         alarmsListView = AlarmsListView()
         
-        // Assing delegates
+        // Assigning delegates
         mapViewModel.addToMapDelegate = mapView
+        
+        mapView.stationsMap.delegate = mapViewModel
         mapView.filterView.searchBar.delegate = mapViewModel
         mapView.filterBranchesDelegate = mapViewModel
-        mapView.stationsMap.delegate = mapViewModel
         mapViewModel.napperAlarmsDelegate = napperViewModel
         
         alarmsListView.alarmsTableView.delegate = napperViewModel
@@ -74,25 +64,7 @@ class HomeViewController: UIViewController {
         navigationItem.title = "TrainNapper"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilterView))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarms", style: .plain, target: self, action: #selector(showAlarmsView))
-        
-        // Event store... ?
-        if appDelegate.eventStore == nil {
-            appDelegate.eventStore = EKEventStore()
-            appDelegate.eventStore?.requestAccess(to: EKEntityType.reminder, completion: { (granted, error) in
-                if !granted {
-                    print("Access to EventStore not granted")
-                } else {
-                    print("Access to EventStore granted")
-                }
-            })
-        }
-        
-//        let color2 = UIColor(red: 141/255.0, green: 191/255.9, blue: 103/255.0, alpha: 1.0)        
-//        let backgroundGradient = CALayer.makeGradient(firstColor: UIColor.lirrColor, secondColor: color2)
-//        backgroundGradient.frame = view.frame
-//        self.view.layer.insertSublayer(backgroundGradient, at: 0)
-        
-        
+
         
     }
     
@@ -105,12 +77,12 @@ class HomeViewController: UIViewController {
         
         view.addSubview(mapView)
         mapView.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
-        
         
         // Used to test region distances
         /*
+        var distanceLabel = UILabel()
         mapView.addSubview(distanceLabel)
         distanceLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-50)
@@ -151,20 +123,22 @@ class HomeViewController: UIViewController {
     }
     
     func showAlarmsView() {
+        showAlarms = !showAlarms
+
         if showAlarms {
             navigationItem.title = "Alarms"
             navigationItem.rightBarButtonItem?.title = "Map"
             alarmsListView.alarmsTableView.reloadData()
             alarmsListView.isHidden = false
             mapView.isHidden = true
+            navigationItem.leftBarButtonItem = nil
         } else {
             navigationItem.title = "TrainNapper"
             navigationItem.rightBarButtonItem?.title = "Alarms"
             alarmsListView.isHidden = true
             mapView.isHidden = false
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilterView))
         }
-        
-        showAlarms = !showAlarms
     }
     
 }

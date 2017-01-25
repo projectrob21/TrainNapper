@@ -6,11 +6,8 @@
 //  Copyright © 2017 Robert Deans. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import SnapKit
-import GoogleMaps
-
 
 
 class FilterView: UIView {

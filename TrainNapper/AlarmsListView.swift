@@ -12,7 +12,7 @@ import SnapKit
 class AlarmsListView: UIView {
 
     
-    lazy var alarmsTableView = UITableView()
+    var alarmsTableView: UITableView!
     lazy var imageView = UIView()
     
     
@@ -33,9 +33,13 @@ class AlarmsListView: UIView {
     }
 
     func configure() {
+        alarmsTableView = UITableView()
         alarmsTableView.separatorColor = UIColor.clear
         alarmsTableView.backgroundColor = UIColor.white.withAlphaComponent(0.3)
-        backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "backgroundImage"))
+        let backgroundImage = #imageLiteral(resourceName: "backgroundImage")
+        // change frame/bounds??
+        backgroundColor = UIColor(patternImage: backgroundImage)
+
         
     }
     

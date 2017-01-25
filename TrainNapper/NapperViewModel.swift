@@ -6,7 +6,6 @@
 //  Copyright © 2017 Robert Deans. All rights reserved.
 //
 
-import Foundation
 import GoogleMaps
 
 final class NapperViewModel: NSObject {
@@ -55,7 +54,7 @@ extension NapperViewModel: CLLocationManagerDelegate {
     
 }
 
-// Tableview
+// MARK: Tableview Delegate
 extension NapperViewModel: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -75,7 +74,7 @@ extension NapperViewModel: UITableViewDelegate, UITableViewDataSource {
 }
 
 
-// Alarms Delegate
+// MARK: Alarms Delegate
 extension NapperViewModel: NapperAlarmsDelegate {
     
     func addAlarm(station: Station) {
@@ -130,6 +129,17 @@ func addAlarm(_ sender: GMSMarker) {
     
     // Creates an alarm using EKEvents
     
+    if appDelegate.eventStore == nil {
+        appDelegate.eventStore = EKEventStore()
+        appDelegate.eventStore?.requestAccess(to: EKEntityType.reminder, completion: { (granted, error) in
+            if !granted {
+                print("Access to EventStore not granted")
+            } else {
+                print("Access to EventStore granted")
+            }
+        })
+    }
+ 
     let nextDestination = napper.destination[0]
     guard let eventStore = appDelegate.eventStore else { print("error casting event store in didupdatelocation"); return }
     

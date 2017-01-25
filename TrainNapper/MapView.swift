@@ -6,10 +6,9 @@
 //  Copyright © 2016 Robert Deans. All rights reserved.
 //
 
-import Foundation
 import UIKit
-import GoogleMaps
 import SnapKit
+import GoogleMaps
 import GoogleMobileAds
 
 class MapView: UIView {
