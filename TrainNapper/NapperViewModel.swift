@@ -7,11 +7,14 @@
 //
 
 import GoogleMaps
+import UserNotifications
 
 final class NapperViewModel: NSObject {
     
     let locationManager = CLLocationManager()
     var napper: Napper!
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let proximityRadius = 8000.0
     
     override init() {
         super.init()
@@ -50,6 +53,43 @@ extension NapperViewModel: CLLocationManagerDelegate {
             napper = Napper(coordinate: locationManager.location, destination: [])
             
         }
+    }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        
+        print("DID ENTER THE REGION!!!!!!")
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        napper.coordinate = locations.last
+        print("Napper's current location is \(napper.coordinate!)")
+        
+        guard let napperLocation = napper.coordinate else { print("error getting napper coordinate"); return }
+        
+        if napper.destination.count > 1 {
+            napper.destination = napper.destination.sorted(by: { ($0.coordinateCL.distance(from: napperLocation) < $1.coordinateCL.distance(from: napperLocation))
+            })
+        }
+        
+        if napper.destination.count > 0 {
+            
+            let nextDestination = napper.destination[0]
+
+            print("Napper is currently \(nextDestination.coordinateCL.distance(from: napperLocation)) meters from their next destination")
+            
+            
+            
+            if napperLocation.distance(from: nextDestination.coordinateCL) < proximityRadius {
+
+                print("SENDING NOTIFICATION")
+                
+                
+                
+            }
+        }
+        
     }
     
 }
@@ -93,7 +133,29 @@ extension NapperViewModel: NapperAlarmsDelegate {
         //      - EKEvents
         //      - locationManager's didEnterRegion
         //      - locationManager's didUpdateLocation
+        // Send by region maping
         
+        let region = CLCircularRegion(center: station.coordinate2D, radius: proximityRadius as CLLocationDistance, identifier: "Next Destination")
+        region.notifyOnEntry = true
+        region.notifyOnExit = false
+        
+        let triggerRegion = UNLocationNotificationTrigger(region: region, repeats: false)
+        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: true)
+        
+        
+        let content = UNMutableNotificationContent()
+        content.title = NSString.localizedUserNotificationString(forKey: "this is the content title", arguments: nil)
+        content.body = "this is the content body"
+        
+        
+        let request = UNNotificationRequest(identifier: "Alarm for \(station.name)", content: content, trigger: triggerRegion)
+        
+        let center = UNUserNotificationCenter.current()
+        center.add(request) { (error) in
+            print(error)
+        }
+        
+        appDelegate.center.add(request)
         
     }
     
@@ -108,9 +170,6 @@ extension NapperViewModel: NapperAlarmsDelegate {
     }
 
 }
-
-
-
 
 /*
 func addAlarm(_ sender: GMSMarker) {
@@ -169,19 +228,10 @@ func addAlarm(_ sender: GMSMarker) {
     
     
 }
+*/
 
 
-func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-    
-    print("DID ENTER THE REGION!!!!!!")
-    
-    let alert = UIAlertController(title: "WAKE UP!", message: "You are now arriving at your destination", preferredStyle: .alert)
-    let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-    alert.addAction(action)
-    self.present(alert, animated: true, completion: nil)
-    
-}
-
+/*
 func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     
     napper.coordinate = locations.last

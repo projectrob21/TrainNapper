@@ -64,6 +64,10 @@ class FilterView: UIView {
         
         searchBar.showsCancelButton = false
         searchBar.placeholder = "Destination"
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+
+        self.addGestureRecognizer(tap)
         searchBar.endEditing(true)
         
     }
@@ -104,6 +108,9 @@ class FilterView: UIView {
 
     }
     
+    func dismissKeyboard() {
+        searchBar.endEditing(true)
+    }
     
     func setupGradientLayer() {
         let color2 = UIColor(red: 141/255.0, green: 191/255.9, blue: 103/255.0, alpha: 1.0)

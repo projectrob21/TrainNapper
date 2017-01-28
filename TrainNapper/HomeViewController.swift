@@ -21,12 +21,23 @@ class HomeViewController: UIViewController {
     var showAlarms = false
     var showFilter = false
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var advertisingView: GADBannerView!
+
+//    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
         constrain()
+        
+        
+        /*
+        let alert = UIAlertController(title: "WAKE UP!", message: "You are now arriving at your destination", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil) 
+         */
+        
     }
 
     
@@ -39,15 +50,14 @@ class HomeViewController: UIViewController {
         
         // Assigning delegates
         mapViewModel.addToMapDelegate = mapView
-        
         mapView.stationsMap.delegate = mapViewModel
         mapView.filterView.searchBar.delegate = mapViewModel
         mapView.filterBranchesDelegate = mapViewModel
-        mapViewModel.napperAlarmsDelegate = napperViewModel
         
+        mapViewModel.napperAlarmsDelegate = napperViewModel
         alarmsListView.alarmsTableView.delegate = napperViewModel
         alarmsListView.alarmsTableView.dataSource = napperViewModel
-        alarmsListView.alarmsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "AlarmCell")
+        
         alarmsListView.isHidden = true
 
         
@@ -55,10 +65,12 @@ class HomeViewController: UIViewController {
         mapViewModel.addStationsToMap()
         
         // Initializes advertising banner
-        mapView.advertisingView.rootViewController = self
+        advertisingView = GADBannerView()
+        advertisingView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        advertisingView.rootViewController = self
         let request = GADRequest()
         request.testDevices = ["ca-app-pub-3940256099942544/2934735716"]
-        mapView.advertisingView.load(request)
+        advertisingView.load(request)
         
         // Sets up navigationBar
         navigationItem.title = "TrainNapper"
@@ -72,14 +84,21 @@ class HomeViewController: UIViewController {
         
         view.addSubview(alarmsListView)
         alarmsListView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.leading.trailing.top.equalToSuperview()
+            $0.height.equalToSuperview().multipliedBy(0.9)
         }
         
         view.addSubview(mapView)
         mapView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.leading.trailing.top.equalToSuperview()
+            $0.height.equalToSuperview().multipliedBy(0.9)
         }
         
+        view.addSubview(advertisingView)
+        advertisingView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalToSuperview().dividedBy(10)
+        }
         // Used to test region distances
         /*
         var distanceLabel = UILabel()

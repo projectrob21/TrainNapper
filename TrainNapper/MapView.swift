@@ -17,7 +17,6 @@ class MapView: UIView {
     
     var camera: GMSCameraPosition!
     var stationsMap: GMSMapView!
-    var advertisingView: GADBannerView!
     
     lazy var filterView = FilterView()
     weak var filterBranchesDelegate: FilterBranchesDelegate?
@@ -49,9 +48,6 @@ class MapView: UIView {
         let mapInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
         stationsMap.padding = mapInsets
         
-        advertisingView = GADBannerView()
-        advertisingView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        
         for button in filterView.buttonsArray {
             button.addTarget(self, action: #selector(filterBranches(_:)), for: .touchUpInside)
         }
@@ -60,17 +56,10 @@ class MapView: UIView {
     
     // MARK: View Constraints
     func constrain() {
-
-        addSubview(advertisingView)
-        advertisingView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalToSuperview().dividedBy(10)
-        }
         
         addSubview(stationsMap)
         stationsMap.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(advertisingView.snp.top)
+            $0.edges.equalToSuperview()
         }
         
         addSubview(filterView)

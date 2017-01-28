@@ -45,7 +45,6 @@ struct Station {
             case "NJTransit" : self.branch = .NJTransit;
             default: self.branch = .unknown
         }
-        
     }
     
 }

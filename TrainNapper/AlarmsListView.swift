@@ -13,8 +13,7 @@ class AlarmsListView: UIView {
 
     
     var alarmsTableView: UITableView!
-    lazy var imageView = UIView()
-    
+    var backgroundView: UIImageView!
     
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
@@ -36,16 +35,24 @@ class AlarmsListView: UIView {
         alarmsTableView = UITableView()
         alarmsTableView.separatorColor = UIColor.clear
         alarmsTableView.backgroundColor = UIColor.white.withAlphaComponent(0.3)
-        let backgroundImage = #imageLiteral(resourceName: "backgroundImage")
-        // change frame/bounds??
-        backgroundColor = UIColor(patternImage: backgroundImage)
+        alarmsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "AlarmCell")
+        
+        var backgroundImage = #imageLiteral(resourceName: "backgroundImage")
+        
+        backgroundView = UIImageView(frame: CGRect(origin: CGPoint.init(x: -400, y: -100), size: backgroundImage.size))
+        backgroundView.image = backgroundImage
+
+        
+//        backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "backgroundImage"))
 
         
     }
     
     func constrain() {
-        
-        
+        addSubview(backgroundView)
+//        backgroundView.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
         addSubview(alarmsTableView)
         alarmsTableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
