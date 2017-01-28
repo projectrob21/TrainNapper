@@ -19,6 +19,15 @@ final class NapperViewModel: NSObject {
     override init() {
         super.init()
         setupLocationManager()
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+            if granted {
+                print("UNUserNotification request granted")
+            } else {
+                print("UNUserNotification request NOT granted")
+            }
+        }
+        
     }
     
 }
@@ -64,8 +73,6 @@ extension NapperViewModel: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         napper.coordinate = locations.last
-        print("Napper's current location is \(napper.coordinate!)")
-        
         guard let napperLocation = napper.coordinate else { print("error getting napper coordinate"); return }
         
         if napper.destination.count > 1 {
@@ -115,7 +122,7 @@ extension NapperViewModel: UITableViewDelegate, UITableViewDataSource {
 
 
 // MARK: Alarms Delegate
-extension NapperViewModel: NapperAlarmsDelegate {
+extension NapperViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegate {
     
     func addAlarm(station: Station) {
         guard let napperLocation = napper.coordinate else { print("error getting napper coordinate"); return }
@@ -133,15 +140,18 @@ extension NapperViewModel: NapperAlarmsDelegate {
         //      - EKEvents
         //      - locationManager's didEnterRegion
         //      - locationManager's didUpdateLocation
-        // Send by region maping
         
-        let region = CLCircularRegion(center: station.coordinate2D, radius: proximityRadius as CLLocationDistance, identifier: "Next Destination")
-        region.notifyOnEntry = true
+        // Send by region maping
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self // <--- Why??
+        
+//        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: true)
+        
+        let region = CLCircularRegion(center: station.coordinate2D, radius: proximityRadius, identifier: "identifier")
         region.notifyOnExit = false
+        region.notifyOnEntry = true
         
         let triggerRegion = UNLocationNotificationTrigger(region: region, repeats: false)
-        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: true)
-        
         
         let content = UNMutableNotificationContent()
         content.title = NSString.localizedUserNotificationString(forKey: "this is the content title", arguments: nil)
@@ -149,23 +159,32 @@ extension NapperViewModel: NapperAlarmsDelegate {
         
         
         let request = UNNotificationRequest(identifier: "Alarm for \(station.name)", content: content, trigger: triggerRegion)
-        
-        let center = UNUserNotificationCenter.current()
+
         center.add(request) { (error) in
-            print(error)
+            if let error = error {
+                print(error)
+            } else {
+                print("notification added")
+            }
         }
         
-        appDelegate.center.add(request)
-        
+        locationManager.startMonitoring(for: region)
+        print("Monitored Regions count: \(locationManager.monitoredRegions.count)")
     }
     
     func removeAlarm(station: Station) {
-        
+        print("remove alarm pressed")
         for (index, destination) in napper.destination.enumerated() {
             if destination.name == station.name {
                 napper.destination.remove(at: index)
             }
         }
+        
+        // Also need to remove notification... once they get made
+        
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
     }
 
@@ -174,18 +193,6 @@ extension NapperViewModel: NapperAlarmsDelegate {
 /*
 func addAlarm(_ sender: GMSMarker) {
  
-    
-    // Creates an alarm using Region Monitoring
-    for destination in napper.destination {
-        let region = CLCircularRegion(center: destination.coordinate2D, radius: proximityRadius, identifier: destination.name)
-        region.notifyOnEntry = true
-        region.notifyOnExit = false
-        locationManager.startMonitoring(for: region)
-        print("Monitored Regions count: \(locationManager.monitoredRegions.count)")
-        
-    }
-    
-    
     // Creates an alarm using EKEvents
     
     if appDelegate.eventStore == nil {
@@ -224,64 +231,5 @@ func addAlarm(_ sender: GMSMarker) {
         print("Reminder failed with error \(error.localizedDescription)")
     }
     
-    
-    
-    
 }
-*/
-
-
-/*
-func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    
-    napper.coordinate = locations.last
-    print("Napper's current location is \(napper.coordinate!)")
-    guard let napperLocation = napper.coordinate else { print("error getting napper coordinate"); return }
-    
-    if napper.destination.count > 1 {
-        napper.destination = napper.destination.sorted(by: { ($0.coordinateCL.distance(from: napperLocation) < $1.coordinateCL.distance(from: napperLocation))
-        })
-    }
-    
-    if napper.destination.count > 0 {
-        print("Napper is currently \(napper.destination[0].coordinateCL.distance(from: napperLocation)) meters from their next destination")
-        
-        let nextDestination = napper.destination[0]
-        
-        
-        if napperLocation.distance(from: nextDestination.coordinateCL) < proximityRadius {
-            //SOUND THE ALARM!!!!
-            print("SENDING NOTIFICATION")
-            
-            let alert = UIAlertController(title: "WAKE UP!", message: "You are now arriving at your destination", preferredStyle: .alert)
-            let action = UIAlertAction(title: "Thank you!", style: .cancel, handler: { (action) in
-                self.napper.destination.removeFirst()
-            })
-            alert.addAction(action)
-            self.present(alert, animated: true, completion: nil)
-            
-            
-            
-            let region = CLCircularRegion(center: nextDestination.coordinate2D, radius: proximityRadius as CLLocationDistance, identifier: "Next Destination")
-            region.notifyOnEntry = true
-            region.notifyOnExit = false
-            
-            let trigger = UNLocationNotificationTrigger(region: region, repeats: false)
-            let content = UNMutableNotificationContent()
-            
-            content.title = NSString.localizedUserNotificationString(forKey: "this is the content title", arguments: nil)
-            content.body = "this is the content body"
-            
-            
-            let request = UNNotificationRequest(identifier: "Alarm for \(nextDestination.name)", content: content, trigger: trigger)
-            
-            appDelegate.center.add(request)
-            
-            
-            
-        }
-    }
-    
-}
-
 */

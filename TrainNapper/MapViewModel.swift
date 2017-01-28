@@ -27,10 +27,10 @@ final class MapViewModel: NSObject {
     var stations = [Station]()
     
     var markerWindowView: MarkerWindowView!
-
+    
     weak var addToMapDelegate: AddToMapDelegate?
     weak var napperAlarmsDelegate: NapperAlarmsDelegate?
-
+    
     
     override init() {
         super.init()
@@ -50,14 +50,12 @@ final class MapViewModel: NSObject {
             let marker = GMSMarker(position: station.coordinate2D)
             marker.appearAnimation = kGMSMarkerAnimationPop
             marker.title = station.name
-            if station.branch == .LIRR {
-                marker.icon = GMSMarker.markerImage(with: .lirrColor)
-            } else if station.branch == .MetroNorth {
-                marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
-            } else if station.branch == .NJTransit {
-                marker.icon = GMSMarker.markerImage(with: .blue)
+            switch station.branch {
+            case .LIRR: marker.icon = GMSMarker.markerImage(with: .lirrColor)
+            case .MetroNorth: marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
+            case .NJTransit: marker.icon = GMSMarker.markerImage(with: .njTransitColor)
+            default: break
             }
-            
             markerArray.append(marker)
             
         }
@@ -112,21 +110,27 @@ extension MapViewModel: GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        print("MARKER TITLE IS \(marker.title!)")
         
         guard let selectedStation = store.stationsDictionary[marker.title!] else { print("error getting station from dictionary"); return }
         
-        print("DICTIONARY IS \(store.stationsDictionary.count)")
-        
-        
-//        if something {
+        if marker.snippet == nil {
             napperAlarmsDelegate?.addAlarm(station: selectedStation)
+
             marker.icon = GMSMarker.markerImage(with: .blue)
-//        } else {
-//        if marker.icon == GMSMarker.markerImage(with: .blue) {
-            //change color back to original
-//            napperAlarmsDelegate?.removeAlarm(station: selectedStation)
-        
+            marker.snippet = "Station selected"
+        } else {
+            napperAlarmsDelegate?.removeAlarm(station: selectedStation)
+            
+            switch selectedStation.branch {
+            case .LIRR: marker.icon = GMSMarker.markerImage(with: .lirrColor)
+            case .MetroNorth: marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
+            case .NJTransit: marker.icon = GMSMarker.markerImage(with: .njTransitColor)
+            default: break
+                
+            }
+            marker.snippet = nil
+            
+        }
     }
 }
 

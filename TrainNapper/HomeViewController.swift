@@ -23,14 +23,14 @@ class HomeViewController: UIViewController {
     
     var advertisingView: GADBannerView!
 
-//    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
         constrain()
         
-        
+
         /*
         let alert = UIAlertController(title: "WAKE UP!", message: "You are now arriving at your destination", preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)

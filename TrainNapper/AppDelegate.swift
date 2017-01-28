@@ -11,7 +11,6 @@ import GooglePlaces
 import GoogleMaps
 import Firebase
 import GoogleMobileAds
-import UserNotifications
 import EventKit
 
 
@@ -25,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var homeViewController: UIViewController!
     var navigationController: UINavigationController!
     
-    let center = UNUserNotificationCenter.current()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -34,15 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSServices.provideAPIKey(googleAPI)
         GMSPlacesClient.provideAPIKey(googleAPI)
-        
-
-        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
-            if granted {
-                print("UNUserNotification request granted")
-            } else {
-                print("UNUserNotification request NOT granted")
-            }
-        }
         
         window = UIWindow(frame: UIScreen.main.bounds)
         homeViewController = HomeViewController()
