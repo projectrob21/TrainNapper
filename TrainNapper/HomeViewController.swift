@@ -380,7 +380,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
          
          
          // Creates an alarm using EKEvents
-         
+         /*
          let nextDestination = napper.destination[0]
          guard let eventStore = appDelegate.eventStore else { print("error casting event store in didupdatelocation"); return }
          
@@ -407,7 +407,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
          }
         
         
-        
+        */
     }
     
     func removeAlarm(_ sender: GMSMarker) {
