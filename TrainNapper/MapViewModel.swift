@@ -24,7 +24,7 @@ protocol NapperAlarmsDelegate: class {
 final class MapViewModel: NSObject {
     
     let store = DataStore.sharedInstance
-    var stations = [Station]()
+    var stations = [String:Station]()
     
     var markerWindowView: MarkerWindowView!
     
@@ -39,13 +39,13 @@ final class MapViewModel: NSObject {
     
     func configure() {
         store.populateAllStations()
-        stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
+        stations = store.stationsDictionary
     }
     
     
     func addStationsToMap() {
         var markerArray = [GMSMarker]()
-        for station in stations {
+        for (_, station) in stations {
             
             let marker = GMSMarker(position: station.coordinate2D)
             marker.appearAnimation = kGMSMarkerAnimationPop
@@ -73,11 +73,23 @@ extension MapViewModel: FilterBranchesDelegate {
             
             switch stationName {
             case "LIRR":
-                stations = stations.filter { $0.branch != .LIRR }
+                for (key, station) in stations {
+                    if station.branch == .LIRR  {
+                        stations.removeValue(forKey: key)
+                    }
+                }
             case "Metro North":
-                stations = stations.filter { $0.branch != .MetroNorth }
+                for (key, station) in stations {
+                    if station.branch == .MetroNorth  {
+                        stations.removeValue(forKey: key)
+                    }
+                }
             case "NJ Transit":
-                stations = stations.filter { $0.branch != .NJTransit }
+                for (key, station) in stations {
+                    if station.branch == .NJTransit  {
+                        stations.removeValue(forKey: key)
+                    }
+                }
             default: break
             }
             addStationsToMap()
@@ -86,11 +98,29 @@ extension MapViewModel: FilterBranchesDelegate {
         } else {
             switch stationName {
             case "LIRR":
-                stations = stations + store.lirrStationsArray
+                store.getJSONStationsDictionary(with: "LIRRStations", completion: { (lirrJSON) in
+                    if let stationsDictionary = lirrJSON["stops"]?["stop"] as? [[String : Any]] {
+                        for stationDict in stationsDictionary.map({ Station(jsonData: $0) }) {
+                            self.stations[stationDict.name] = stationDict
+                        }
+                    }
+                })
             case "Metro North":
-                stations = stations + store.metroNorthStationsArray
+                store.getJSONStationsDictionary(with: "MetroNorthStations", completion: { (metroNorthJSON) in
+                    if let stationsDictionary = metroNorthJSON["stops"]?["stop"] as? [[String : Any]] {
+                        for stationDict in stationsDictionary.map({ Station(jsonData: $0) }) {
+                            self.stations[stationDict.name] = stationDict
+                        }
+                    }
+                })
             case "NJ Transit":
-                stations = stations + store.njTransitStationsArray
+                store.getJSONStationsDictionary(with: "NJTransit", completion: { (njtJSON) in
+                    if let stationsDictionary = njtJSON["stops"]?["stop"] as? [[String : Any]] {
+                        for stationDict in stationsDictionary.map({ Station(jsonData: $0) }) {
+                            self.stations[stationDict.name] = stationDict
+                        }
+                    }
+                })
             default: break
             }
             addStationsToMap()
@@ -141,11 +171,15 @@ extension MapViewModel: UISearchBarDelegate {
         print("stations count is \(stations.count)")
         print("search text: \(lowercasedSearchText)")
         if lowercasedSearchText != "" {
-            stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
-            stations = stations.filter { $0.name.lowercased().contains(lowercasedSearchText) }
+            
+            for (key, station) in stations {
+                if !station.name.lowercased().contains(lowercasedSearchText) {
+                    stations.removeValue(forKey: key)
+                }
+            }
             addStationsToMap()
         } else {
-            stations = store.lirrStationsArray + store.metroNorthStationsArray + store.njTransitStationsArray
+            stations = store.stationsDictionary
             addStationsToMap()
         }
     }

@@ -12,6 +12,7 @@ struct Station {
     let id: Int
     let name: String
     let branch: Branch
+    var isSelected = false
     let latitude: Double
     let longitude: Double
     var coordinate2D: CLLocationCoordinate2D {
