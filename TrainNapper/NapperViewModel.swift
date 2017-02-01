@@ -9,17 +9,27 @@
 import GoogleMaps
 import UserNotifications
 
+protocol GetDistanceDelegate: class {
+    func distanceToStation(distance: Double)
+    
+}
+
 final class NapperViewModel: NSObject {
+    
     
     let locationManager = CLLocationManager()
     var napper: Napper!
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let proximityRadius = 8000.0
+    let proximityRadius = 1785.0
+    var distanceToStation = 0.0
+    var distanceDelegate: GetDistanceDelegate?
     
     override init() {
         super.init()
         setupLocationManager()
         
+        UNUserNotificationCenter.current().delegate = self
+
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
             if granted {
                 print("UNUserNotification request granted")
@@ -27,10 +37,6 @@ final class NapperViewModel: NSObject {
                 print("UNUserNotification request NOT granted")
             }
         }
-        
-        // Allows local notifications to be shown while app is running in foreground
-        UNUserNotificationCenter.current().delegate = self
-        
     }
     
 }
@@ -62,7 +68,7 @@ extension NapperViewModel: CLLocationManagerDelegate {
     private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
         if status == CLAuthorizationStatus.authorizedAlways {
-            // what if they selected a station, and then authorized use...? The destination array should be updated
+            // *** what if they selected a station, and then authorized use...? The destination array should be updated
             locationManager.startUpdatingLocation()
             napper = Napper(coordinate: locationManager.location, destination: [])
             print("napper re-initialized with location coordinate")
@@ -72,6 +78,19 @@ extension NapperViewModel: CLLocationManagerDelegate {
     
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        
+        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
+        
+        let content = UNMutableNotificationContent()
+        content.title = NSString.localizedUserNotificationString(forKey: "This is the locationManager", arguments: nil)
+        content.body = "You are now entering the region!"
+        content.sound = UNNotificationSound.default()
+        
+        
+        let request = UNNotificationRequest(identifier: "RegionManagerAlarm", content: content, trigger: triggerTime)
+        
+        let center = UNUserNotificationCenter.current()
+        center.add(request)
         
         print("DID ENTER THE REGION!!!!!!")
         
@@ -89,21 +108,19 @@ extension NapperViewModel: CLLocationManagerDelegate {
         if napper.destination.count > 0 {
             
             let nextDestination = napper.destination[0]
-
-            print("Napper is currently \(nextDestination.coordinateCL.distance(from: napperLocation)) meters from their next destination")
+            distanceToStation = nextDestination.coordinateCL.distance(from: napperLocation)
+            distanceDelegate?.distanceToStation(distance: distanceToStation)
+            print("Napper is currently \(distanceToStation) meters from their next destination")    
             
-            
-            
-            if napperLocation.distance(from: nextDestination.coordinateCL) < proximityRadius {
+            if distanceToStation < proximityRadius {
 
                 print("SENDING NOTIFICATION")
-                
-                
-                
+
             }
         }
         
     }
+    
     
 }
 
@@ -119,9 +136,23 @@ extension NapperViewModel: UITableViewDelegate, UITableViewDataSource {
         let station = napper.destination[indexPath.row].name
         
         cell.textLabel?.text = station
-        
+        cell.backgroundColor = UIColor.clear
         return cell
         
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            let destination = self.napper.destination[indexPath.row].name
+            
+            let center = UNUserNotificationCenter.current()
+            center.removeDeliveredNotifications(withIdentifiers: ["Alarm for \(destination)"])
+            
+            self.napper.destination.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+
+        }
+        return [delete]
     }
     
 }
@@ -148,45 +179,55 @@ extension NapperViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegat
         //      - locationManager's didUpdateLocation
         
         // Send by region maping
-/*
+
         let region = CLCircularRegion(center: station.coordinate2D, radius: proximityRadius, identifier: "identifier")
         region.notifyOnExit = false
         region.notifyOnEntry = true
+        locationManager.startMonitoring(for: region)
+        
+        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
         let triggerRegion = UNLocationNotificationTrigger(region: region, repeats: false)
-        
-         locationManager.startMonitoring(for: region)
-
-*/
-        
-        
-        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
 
         let content = UNMutableNotificationContent()
         content.title = NSString.localizedUserNotificationString(forKey: "Time to wake up!", arguments: nil)
-        content.body = "You are now arriving at your destination"
+        content.body = "You are now arriving at \(station.name)"
         content.sound = UNNotificationSound.default()
         
         
-        let request = UNNotificationRequest(identifier: "Alarm", content: content, trigger: triggerTime)
+        let request = UNNotificationRequest(identifier: "Alarm for \(station.name)", content: content, trigger: triggerTime)
 
         let center = UNUserNotificationCenter.current()
         center.add(request)
+        
+        center.getPendingNotificationRequests { (requests) in
+            print("added- there are now \(requests.count) requests in pending notifications")
+        }
 
     }
     
+    
+    
     func removeAlarm(station: Station) {
-        print("remove alarm pressed")
+
         for (index, destination) in napper.destination.enumerated() {
             if destination.name == station.name {
                 napper.destination.remove(at: index)
             }
         }
+    
+        // Also need to remove notification
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: ["Alarm for \(station.name)"])
         
-        // Also need to remove notification... once they get made
-        
+        center.getPendingNotificationRequests { (requests) in
+            print("removed- there are now \(requests.count) requests in pending notifications")
+        }
+
     }
+    
+    // Used to present notifications while app is in foreground
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler(.alert)
+        completionHandler([.alert, .sound])
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {

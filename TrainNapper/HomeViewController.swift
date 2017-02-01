@@ -25,18 +25,14 @@ class HomeViewController: UIViewController {
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
+    
+    var distanceLabel: UILabel!
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
         constrain()
-        
-
-        /*
-        let alert = UIAlertController(title: "WAKE UP!", message: "You are now arriving at your destination", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil) 
-         */
         
     }
 
@@ -53,6 +49,8 @@ class HomeViewController: UIViewController {
         mapView.stationsMap.delegate = mapViewModel
         mapView.filterView.searchBar.delegate = mapViewModel
         mapView.filterBranchesDelegate = mapViewModel
+        
+        napperViewModel.distanceDelegate = self
         
         mapViewModel.napperAlarmsDelegate = napperViewModel
         alarmsListView.alarmsTableView.delegate = napperViewModel
@@ -101,19 +99,16 @@ class HomeViewController: UIViewController {
             $0.height.equalToSuperview().dividedBy(10)
         }
         // Used to test region distances
-        /*
-        var distanceLabel = UILabel()
+    
+        distanceLabel = UILabel()
         mapView.addSubview(distanceLabel)
         distanceLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-50)
-            $0.leading.equalToSuperview()
+            $0.bottom.leading.width.equalToSuperview()
             $0.height.equalToSuperview().dividedBy(8)
-            $0.width.equalToSuperview()
         }
         distanceLabel.backgroundColor = UIColor.white
         distanceLabel.textColor = UIColor.black
         distanceLabel.textAlignment = .center
-        */
     }
     
 
@@ -163,5 +158,9 @@ class HomeViewController: UIViewController {
     
 }
 
-
+extension HomeViewController: GetDistanceDelegate {
+    func distanceToStation(distance: Double) {
+        distanceLabel.text = "\(distance)"
+    }
+}
 
