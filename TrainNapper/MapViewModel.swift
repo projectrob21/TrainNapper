@@ -150,6 +150,7 @@ extension MapViewModel: UISearchBarDelegate {
         }
     }
     
+    
 }
 
 

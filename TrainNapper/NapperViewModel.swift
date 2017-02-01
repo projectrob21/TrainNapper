@@ -28,6 +28,9 @@ final class NapperViewModel: NSObject {
             }
         }
         
+        // Allows local notifications to be shown while app is running in foreground
+        UNUserNotificationCenter.current().delegate = self
+        
     }
     
 }
@@ -47,19 +50,22 @@ extension NapperViewModel: CLLocationManagerDelegate {
         if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways{
             locationManager.startUpdatingLocation()
             napper = Napper(coordinate: locationManager.location, destination: [])
+            print("napper initialized with coordinate")
         } else {
             locationManager.requestAlwaysAuthorization()
             napper = Napper(coordinate: nil, destination: [])
+            print("napper coordinate is nil")
         }
         
     }
 
     private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
-        if status == CLAuthorizationStatus.authorizedWhenInUse || status == CLAuthorizationStatus.authorizedAlways {
+        if status == CLAuthorizationStatus.authorizedAlways {
             // what if they selected a station, and then authorized use...? The destination array should be updated
             locationManager.startUpdatingLocation()
             napper = Napper(coordinate: locationManager.location, destination: [])
+            print("napper re-initialized with location coordinate")
             
         }
     }
@@ -142,34 +148,30 @@ extension NapperViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegat
         //      - locationManager's didUpdateLocation
         
         // Send by region maping
-        let center = UNUserNotificationCenter.current()
-        center.delegate = self // <--- Why??
-        
-//        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: true)
-        
+/*
         let region = CLCircularRegion(center: station.coordinate2D, radius: proximityRadius, identifier: "identifier")
         region.notifyOnExit = false
         region.notifyOnEntry = true
-        
         let triggerRegion = UNLocationNotificationTrigger(region: region, repeats: false)
         
-        let content = UNMutableNotificationContent()
-        content.title = NSString.localizedUserNotificationString(forKey: "this is the content title", arguments: nil)
-        content.body = "this is the content body"
-        
-        
-        let request = UNNotificationRequest(identifier: "Alarm for \(station.name)", content: content, trigger: triggerRegion)
+         locationManager.startMonitoring(for: region)
 
-        center.add(request) { (error) in
-            if let error = error {
-                print(error)
-            } else {
-                print("notification added")
-            }
-        }
+*/
         
-        locationManager.startMonitoring(for: region)
-        print("Monitored Regions count: \(locationManager.monitoredRegions.count)")
+        
+        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
+
+        let content = UNMutableNotificationContent()
+        content.title = NSString.localizedUserNotificationString(forKey: "Time to wake up!", arguments: nil)
+        content.body = "You are now arriving at your destination"
+        content.sound = UNNotificationSound.default()
+        
+        
+        let request = UNNotificationRequest(identifier: "Alarm", content: content, trigger: triggerTime)
+
+        let center = UNUserNotificationCenter.current()
+        center.add(request)
+
     }
     
     func removeAlarm(station: Station) {
@@ -183,6 +185,9 @@ extension NapperViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegat
         // Also need to remove notification... once they get made
         
     }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler(.alert)
+    }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
@@ -191,7 +196,7 @@ extension NapperViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegat
 }
 
 /*
-func addAlarm(_ sender: GMSMarker) {
+func addEKAlarm(_ sender: GMSMarker) {
  
     // Creates an alarm using EKEvents
     
