@@ -51,6 +51,9 @@ class HomeViewController: UIViewController {
         mapView.filterBranchesDelegate = mapViewModel
         
         napperViewModel.distanceDelegate = self
+
+        napperViewModel.presentAlertDelegate = self
+        napperViewModel.requestLocationAuthorization()
         
         mapViewModel.napperAlarmsDelegate = napperViewModel
         alarmsListView.alarmsTableView.delegate = napperViewModel
@@ -161,6 +164,29 @@ class HomeViewController: UIViewController {
 extension HomeViewController: GetDistanceDelegate {
     func distanceToStation(distance: Double) {
         distanceLabel.text = "\(distance)"
+    }
+}
+
+extension HomeViewController: PresentAlertDelegate {
+    func presentAlert() {
+        print("present alert delegate called")
+        
+        let alertController = UIAlertController(
+            title: "Background Location Access Disabled",
+            message: "In order to be notified about adorable kittens near you, please open this app's settings and set location access to 'Always'.",
+            preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
+            if let url = URL(string:UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        alertController.addAction(openAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 

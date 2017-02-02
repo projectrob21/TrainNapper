@@ -14,23 +14,29 @@ protocol GetDistanceDelegate: class {
     
 }
 
+protocol PresentAlertDelegate: class {
+    func presentAlert()
+}
+
 final class NapperViewModel: NSObject {
     
-    
-    let locationManager = CLLocationManager()
+    var locationManager: CLLocationManager!
     var napper: Napper!
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let center = UNUserNotificationCenter.current()
+
+
     let proximityRadius = 1785.0
     var distanceToStation = 0.0
-    var distanceDelegate: GetDistanceDelegate?
-    var changeColorDelegate: ChangeMarkerColorDelegate?
+    
+    weak var distanceDelegate: GetDistanceDelegate?
+    weak var changeColorDelegate: ChangeMarkerColorDelegate?
+    var presentAlertDelegate: PresentAlertDelegate?
     
     override init() {
         super.init()
         setupLocationManager()
         
         UNUserNotificationCenter.current().delegate = self
-
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
             if granted {
                 print("UNUserNotification request granted")
@@ -48,35 +54,70 @@ extension NapperViewModel: CLLocationManagerDelegate {
     
     func setupLocationManager() {
         
+        napper = Napper(coordinate: nil, destination: [])
+        
+        locationManager = CLLocationManager()
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestAlwaysAuthorization()
+
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.activityType = .otherNavigation
         locationManager.pausesLocationUpdatesAutomatically = true
-        
-        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways{
-            locationManager.startUpdatingLocation()
-            napper = Napper(coordinate: locationManager.location, destination: [])
-            print("napper initialized with coordinate")
+
+    }
+    
+    func requestLocationAuthorization() {
+        if CLLocationManager.authorizationStatus() != .authorizedAlways {
+            print("authorization for location is NOT ALWAYS; hashValue: \(CLLocationManager.authorizationStatus().hashValue)")
+            presentAlertDelegate?.presentAlert()
+            
         } else {
-            locationManager.requestAlwaysAuthorization()
-            napper = Napper(coordinate: nil, destination: [])
-            print("napper coordinate is nil")
+            locationManager.requestLocation()
+            print("authorized for location")
         }
-        
     }
 
     private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
         if status == CLAuthorizationStatus.authorizedAlways {
             // *** what if they selected a station, and then authorized use...? The destination array should be updated
-            locationManager.startUpdatingLocation()
-            napper = Napper(coordinate: locationManager.location, destination: [])
+            locationManager.requestLocation()
             print("napper re-initialized with location coordinate")
             
+        } else {
+            presentAlertDelegate?.presentAlert()
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("ERROR: \(error)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        napper.coordinate = locations.last
+        
+        guard let napperLocation = napper.coordinate else { print("didUpdateLocations - error getting napper coordinate"); return }
+        print("didUpdateLocations - napper coordinate = \(napperLocation)")
+
+        if napper.destination.count > 1 {
+            napper.destination = napper.destination.sorted(by: { ($0.coordinateCL.distance(from: napperLocation) < $1.coordinateCL.distance(from: napperLocation))
+            })
+        }
+        
+        if napper.destination.count > 0 {
+            
+            let nextDestination = napper.destination[0]
+            distanceToStation = nextDestination.coordinateCL.distance(from: napperLocation)
+            distanceDelegate?.distanceToStation(distance: distanceToStation)
+            print("Napper is currently \(distanceToStation) meters from their next destination")    
+            
+            if distanceToStation < proximityRadius {
+
+                print("SENDING NOTIFICATION")
+
+            }
+        }
+    }
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         
@@ -97,65 +138,6 @@ extension NapperViewModel: CLLocationManagerDelegate {
         
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        napper.coordinate = locations.last
-        guard let napperLocation = napper.coordinate else { print("error getting napper coordinate"); return }
-        
-        if napper.destination.count > 1 {
-            napper.destination = napper.destination.sorted(by: { ($0.coordinateCL.distance(from: napperLocation) < $1.coordinateCL.distance(from: napperLocation))
-            })
-        }
-        
-        if napper.destination.count > 0 {
-            
-            let nextDestination = napper.destination[0]
-            distanceToStation = nextDestination.coordinateCL.distance(from: napperLocation)
-            distanceDelegate?.distanceToStation(distance: distanceToStation)
-            print("Napper is currently \(distanceToStation) meters from their next destination")    
-            
-            if distanceToStation < proximityRadius {
-
-                print("SENDING NOTIFICATION")
-
-            }
-        }
-        
-    }
-    
-    
-}
-
-// MARK: Tableview Delegate
-extension NapperViewModel: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return napper.destination.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath)
-        let station = napper.destination[indexPath.row].name
-        
-        cell.textLabel?.text = station
-        cell.backgroundColor = UIColor.clear
-        return cell
-        
-    }
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-            let destination = self.napper.destination[indexPath.row].name
-            
-            let center = UNUserNotificationCenter.current()
-            center.removeDeliveredNotifications(withIdentifiers: ["Alarm for \(destination)"])
-            
-            self.napper.destination.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-
-        }
-        return [delete]
-    }
-    
 }
 
 
@@ -163,7 +145,7 @@ extension NapperViewModel: UITableViewDelegate, UITableViewDataSource {
 extension NapperViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegate {
     
     func addAlarm(station: Station) {
-        guard let napperLocation = napper.coordinate else { print("error getting napper coordinate"); return }
+        guard let napperLocation = napper.coordinate else { print("error getting napper coordinate - addAlarm"); return }
         
         napper.destination.append(station)
         
@@ -197,7 +179,6 @@ extension NapperViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegat
         
         let request = UNNotificationRequest(identifier: "Alarm for \(station.name)", content: content, trigger: triggerTime)
 
-        let center = UNUserNotificationCenter.current()
         center.add(request)
         
         center.getPendingNotificationRequests { (requests) in
@@ -205,8 +186,7 @@ extension NapperViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegat
         }
 
     }
-    
-    
+
     
     func removeAlarm(station: Station) {
 
@@ -216,8 +196,6 @@ extension NapperViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegat
             }
         }
     
-        // Also need to remove notification
-        let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: ["Alarm for \(station.name)"])
         
         center.getPendingNotificationRequests { (requests) in
@@ -257,46 +235,35 @@ extension NapperViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegat
 
 }
 
-/*
-func addEKAlarm(_ sender: GMSMarker) {
- 
-    // Creates an alarm using EKEvents
+// MARK: Tableview Delegate
+extension NapperViewModel: UITableViewDelegate, UITableViewDataSource {
     
-    if appDelegate.eventStore == nil {
-        appDelegate.eventStore = EKEventStore()
-        appDelegate.eventStore?.requestAccess(to: EKEntityType.reminder, completion: { (granted, error) in
-            if !granted {
-                print("Access to EventStore not granted")
-            } else {
-                print("Access to EventStore granted")
-            }
-        })
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return napper.destination.count
     }
- 
-    let nextDestination = napper.destination[0]
-    guard let eventStore = appDelegate.eventStore else { print("error casting event store in didupdatelocation"); return }
     
-    let destinationReminder = EKReminder(eventStore: eventStore)
-    destinationReminder.title = nextDestination.name
-    destinationReminder.calendar = eventStore.defaultCalendarForNewReminders()
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath)
+        let station = napper.destination[indexPath.row].name
+        
+        cell.textLabel?.text = station
+        cell.backgroundColor = UIColor.clear
+        return cell
+        
+    }
     
-    
-    let stationLocation = EKStructuredLocation(title: "Alarm will sound at \(nextDestination.name)")
-    stationLocation.geoLocation = nextDestination.coordinateCL
-    stationLocation.radius = proximityRadius
-    
-    let alarm = EKAlarm()
-    alarm.structuredLocation = stationLocation
-    alarm.proximity = EKAlarmProximity.enter
-    
-    destinationReminder.addAlarm(alarm)
-    
-    do {
-        try eventStore.save(destinationReminder, commit: true)
-        print("EVENT WAS ADDED TO STORE with name \(destinationReminder.title)\nCoordinates \(destinationReminder.alarms![0].structuredLocation!.geoLocation!)\nWithin \(destinationReminder.alarms![0].structuredLocation!.radius) meters")
-    } catch let error {
-        print("Reminder failed with error \(error.localizedDescription)")
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            let destination = self.napper.destination[indexPath.row].name
+            
+            center.removeDeliveredNotifications(withIdentifiers: [destination])
+            
+            self.napper.destination.remove(at: indexPath.row)
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+        }
+        return [delete]
     }
     
 }
-*/
