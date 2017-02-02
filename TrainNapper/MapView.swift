@@ -78,7 +78,7 @@ class MapView: UIView {
     
 }
 
-extension MapView: AddToMapDelegate {
+extension MapView: AddToMapDelegate, GetMapViewDelegate {
     
     func addStationsToMap(stations: [GMSMarker]) {
         stationsMap.clear()
@@ -86,5 +86,10 @@ extension MapView: AddToMapDelegate {
             marker.map = stationsMap
         }
     }
+    
+    func getInfoForMap() -> GMSMapView {
+        return stationsMap
+    }
+    
 }
 

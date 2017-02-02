@@ -23,6 +23,7 @@ final class NapperViewModel: NSObject {
     let proximityRadius = 1785.0
     var distanceToStation = 0.0
     var distanceDelegate: GetDistanceDelegate?
+    var changeColorDelegate: ChangeMarkerColorDelegate?
     
     override init() {
         super.init()
@@ -185,7 +186,7 @@ extension NapperViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegat
         region.notifyOnEntry = true
         locationManager.startMonitoring(for: region)
         
-        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
         let triggerRegion = UNLocationNotificationTrigger(region: region, repeats: false)
 
         let content = UNMutableNotificationContent()
@@ -227,11 +228,31 @@ extension NapperViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegat
     
     // Used to present notifications while app is in foreground
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        center.getDeliveredNotifications { (requests) in
+            print("get delivered called in willPResent")
+            for request in requests {
+                let stationName = request.request.identifier
+                print("presented notification for \(stationName)")
+                self.changeColorDelegate?.changeMarkerColor(for: stationName)
+            }
+        }
+        
         completionHandler([.alert, .sound])
+        
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
+        center.getDeliveredNotifications { (requests) in
+            print("get delivered called in didReceive")
+
+            for request in requests {
+                let stationName = request.request.identifier
+                self.changeColorDelegate?.changeMarkerColor(for: stationName)
+            }
+        }
+        completionHandler()
     }
 
 }

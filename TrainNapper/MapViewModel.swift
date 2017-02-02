@@ -21,15 +21,25 @@ protocol NapperAlarmsDelegate: class {
     func removeAlarm(station: Station)
 }
 
+protocol ChangeMarkerColorDelegate: class {
+    func changeMarkerColor(for stationName: String)
+}
+
+protocol GetMapViewDelegate: class {
+    func getInfoForMap() -> GMSMapView
+}
+
 final class MapViewModel: NSObject {
     
     let store = DataStore.sharedInstance
     var stations = [String:Station]()
     
     var markerWindowView: MarkerWindowView!
-    
+    var markerArray = [GMSMarker]()
+
     weak var addToMapDelegate: AddToMapDelegate?
     weak var napperAlarmsDelegate: NapperAlarmsDelegate?
+    weak var getMapViewDelegate: GetMapViewDelegate?
     
     
     override init() {
@@ -44,17 +54,22 @@ final class MapViewModel: NSObject {
     
     
     func addStationsToMap() {
-        var markerArray = [GMSMarker]()
+        markerArray = [GMSMarker]()
+
         for (_, station) in stations {
+            
             if !station.isHidden {
                 let marker = GMSMarker(position: station.coordinate2D)
                 marker.appearAnimation = kGMSMarkerAnimationPop
                 marker.title = station.name
                 switch station.branch {
-                case .LIRR: marker.icon = GMSMarker.markerImage(with: .lirrColor)
-                case .MetroNorth: marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
-                case .NJTransit: marker.icon = GMSMarker.markerImage(with: .njTransitColor)
-                default: break
+                    case .LIRR: marker.icon = GMSMarker.markerImage(with: .lirrColor)
+                    case .MetroNorth: marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
+                    case .NJTransit: marker.icon = GMSMarker.markerImage(with: .njTransitColor)
+                    default: break
+                }
+                if station.isSelected {
+                    marker.icon = GMSMarker.markerImage(with: .blue)
                 }
                 markerArray.append(marker)
             }
@@ -81,21 +96,39 @@ extension MapViewModel: GMSMapViewDelegate {
             napperAlarmsDelegate?.addAlarm(station: selectedStation)
             
             marker.icon = GMSMarker.markerImage(with: .blue)
+            stations[marker.title!]?.isSelected = true
             marker.snippet = "Station selected"
         } else {
             napperAlarmsDelegate?.removeAlarm(station: selectedStation)
             
             switch selectedStation.branch {
-            case .LIRR: marker.icon = GMSMarker.markerImage(with: .lirrColor)
-            case .MetroNorth: marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
-            case .NJTransit: marker.icon = GMSMarker.markerImage(with: .njTransitColor)
-            default: break
-                
+                case .LIRR: marker.icon = GMSMarker.markerImage(with: .lirrColor)
+                case .MetroNorth: marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
+                case .NJTransit: marker.icon = GMSMarker.markerImage(with: .njTransitColor)
+                default: break
             }
+            stations[marker.title!]?.isSelected = false
             marker.snippet = nil
             
         }
     }
+}
+
+extension MapViewModel: ChangeMarkerColorDelegate {
+    
+    func changeMarkerColor(for stationName: String) {
+        print("Chamge marker color called in mapviewmodel")
+
+        guard let gmsMapView = getMapViewDelegate?.getInfoForMap() else { print("error getting GMSMapview"); return }
+        
+        for marker in markerArray {
+            if marker.title == stationName {
+                mapView(gmsMapView, didTapInfoWindowOf: marker)
+
+            }
+        }
+    }
+    
 }
 
 extension MapViewModel: FilterBranchesDelegate {
