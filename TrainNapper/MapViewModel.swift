@@ -46,90 +46,24 @@ final class MapViewModel: NSObject {
     func addStationsToMap() {
         var markerArray = [GMSMarker]()
         for (_, station) in stations {
-            
-            let marker = GMSMarker(position: station.coordinate2D)
-            marker.appearAnimation = kGMSMarkerAnimationPop
-            marker.title = station.name
-            switch station.branch {
-            case .LIRR: marker.icon = GMSMarker.markerImage(with: .lirrColor)
-            case .MetroNorth: marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
-            case .NJTransit: marker.icon = GMSMarker.markerImage(with: .njTransitColor)
-            default: break
+            if !station.isHidden {
+                let marker = GMSMarker(position: station.coordinate2D)
+                marker.appearAnimation = kGMSMarkerAnimationPop
+                marker.title = station.name
+                switch station.branch {
+                case .LIRR: marker.icon = GMSMarker.markerImage(with: .lirrColor)
+                case .MetroNorth: marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
+                case .NJTransit: marker.icon = GMSMarker.markerImage(with: .njTransitColor)
+                default: break
+                }
+                markerArray.append(marker)
             }
-            markerArray.append(marker)
-            
         }
         addToMapDelegate?.addStationsToMap(stations: markerArray)
     }
     
 }
 
-extension MapViewModel: FilterBranchesDelegate {
-    
-    func filterBranches(sender: UIButton) {
-        guard let stationName = sender.titleLabel?.text else { print("could not retrieve station name"); return }
-        
-        if sender.backgroundColor == UIColor.filterButtonColor {
-            
-            switch stationName {
-            case "LIRR":
-                for (key, station) in stations {
-                    if station.branch == .LIRR  {
-                        stations.removeValue(forKey: key)
-                    }
-                }
-            case "Metro North":
-                for (key, station) in stations {
-                    if station.branch == .MetroNorth  {
-                        stations.removeValue(forKey: key)
-                    }
-                }
-            case "NJ Transit":
-                for (key, station) in stations {
-                    if station.branch == .NJTransit  {
-                        stations.removeValue(forKey: key)
-                    }
-                }
-            default: break
-            }
-            addStationsToMap()
-            sender.backgroundColor = UIColor.gray
-            
-        } else {
-            switch stationName {
-            case "LIRR":
-                store.getJSONStationsDictionary(with: "LIRRStations", completion: { (lirrJSON) in
-                    if let stationsDictionary = lirrJSON["stops"]?["stop"] as? [[String : Any]] {
-                        for stationDict in stationsDictionary.map({ Station(jsonData: $0) }) {
-                            self.stations[stationDict.name] = stationDict
-                        }
-                    }
-                })
-            case "Metro North":
-                store.getJSONStationsDictionary(with: "MetroNorthStations", completion: { (metroNorthJSON) in
-                    if let stationsDictionary = metroNorthJSON["stops"]?["stop"] as? [[String : Any]] {
-                        for stationDict in stationsDictionary.map({ Station(jsonData: $0) }) {
-                            self.stations[stationDict.name] = stationDict
-                        }
-                    }
-                })
-            case "NJ Transit":
-                store.getJSONStationsDictionary(with: "NJTransit", completion: { (njtJSON) in
-                    if let stationsDictionary = njtJSON["stops"]?["stop"] as? [[String : Any]] {
-                        for stationDict in stationsDictionary.map({ Station(jsonData: $0) }) {
-                            self.stations[stationDict.name] = stationDict
-                        }
-                    }
-                })
-            default: break
-            }
-            addStationsToMap()
-            sender.backgroundColor = UIColor.filterButtonColor
-        }
-        
-    }
-    
-}
 extension MapViewModel: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
@@ -145,7 +79,7 @@ extension MapViewModel: GMSMapViewDelegate {
         
         if marker.snippet == nil {
             napperAlarmsDelegate?.addAlarm(station: selectedStation)
-
+            
             marker.icon = GMSMarker.markerImage(with: .blue)
             marker.snippet = "Station selected"
         } else {
@@ -164,6 +98,68 @@ extension MapViewModel: GMSMapViewDelegate {
     }
 }
 
+extension MapViewModel: FilterBranchesDelegate {
+    
+    func filterBranches(sender: UIButton) {
+        guard let stationName = sender.titleLabel?.text else { print("could not retrieve station name"); return }
+        
+        if sender.backgroundColor == UIColor.filterButtonColor {
+            
+            switch stationName {
+            case "LIRR":
+                for (key, station) in stations {
+                    if station.branch == .LIRR  {
+                        stations[key]?.isHidden = true
+                    }
+                }
+            case "Metro North":
+                for (key, station) in stations {
+                    if station.branch == .MetroNorth  {
+                        stations[key]?.isHidden = true
+                    }
+                }
+            case "NJ Transit":
+                for (key, station) in stations {
+                    if station.branch == .NJTransit  {
+                        stations[key]?.isHidden = true
+                    }
+                }
+            default: break
+            }
+            addStationsToMap()
+            sender.backgroundColor = UIColor.gray
+            
+        } else {
+            switch stationName {
+            case "LIRR":
+                for (key, station) in stations {
+                    if station.branch == .LIRR  {
+                        stations[key]?.isHidden = false
+                    }
+                }
+            case "Metro North":
+                for (key, station) in stations {
+                    if station.branch == .MetroNorth  {
+                        stations[key]?.isHidden = false
+                    }
+                }
+            case "NJ Transit":
+                for (key, station) in stations {
+                    if station.branch == .NJTransit  {
+                        stations[key]?.isHidden = false
+                    }
+                }
+            default: break
+            }
+            addStationsToMap()
+            sender.backgroundColor = UIColor.filterButtonColor
+        }
+        
+    }
+    
+}
+
+
 extension MapViewModel: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -174,12 +170,16 @@ extension MapViewModel: UISearchBarDelegate {
             
             for (key, station) in stations {
                 if !station.name.lowercased().contains(lowercasedSearchText) {
-                    stations.removeValue(forKey: key)
+                    stations[key]?.isHidden = true
                 }
             }
             addStationsToMap()
         } else {
-            stations = store.stationsDictionary
+            for (key, station) in stations {
+                if !station.name.lowercased().contains(lowercasedSearchText) {
+                    stations[key]?.isHidden = false
+                }
+            }
             addStationsToMap()
         }
     }
