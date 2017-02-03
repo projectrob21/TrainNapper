@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import GoogleMobileAds
 
 
 class HomeViewController: UIViewController {
@@ -17,7 +18,8 @@ class HomeViewController: UIViewController {
 
     let mapView = MapView()
     let alarmsListView = AlarmsListView(napper: napper)
-    let advertisingView = AdvertisingView()
+//    let advertisingView = AdvertisingView()
+    var bannerView: GADBannerView!
     let mapViewModel = MapViewModel()
     let destinationViewModel = DestinationViewModel(napper: napper)
     let locationViewModel = LocationViewModel(napper: napper)
@@ -39,7 +41,12 @@ class HomeViewController: UIViewController {
     // MARK: Initial Setup
     func configure() {
         
-        advertisingView.bannerView.rootViewController = self
+        bannerView = GADBannerView()
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.rootViewController = self
+        let request = GADRequest()
+        request.testDevices = ["ca-app-pub-3940256099942544/2934735716"]
+        bannerView.load(request)
         
         // Assigning delegates
         mapView.filterView.searchBar.delegate = mapViewModel
@@ -80,8 +87,8 @@ class HomeViewController: UIViewController {
             $0.height.equalToSuperview().multipliedBy(0.9)
         }
         
-        view.addSubview(advertisingView)
-        advertisingView.snp.makeConstraints {
+        view.addSubview(bannerView)
+        bannerView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalToSuperview().dividedBy(10)
         }
