@@ -256,7 +256,7 @@ extension NapperViewModel: UITableViewDelegate, UITableViewDataSource {
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             let destination = self.napper.destination[indexPath.row].name
             
-            center.removeDeliveredNotifications(withIdentifiers: [destination])
+            self.center.removeDeliveredNotifications(withIdentifiers: [destination])
             
             self.napper.destination.remove(at: indexPath.row)
             
