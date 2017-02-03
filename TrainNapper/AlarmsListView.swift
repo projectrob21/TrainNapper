@@ -8,12 +8,14 @@
 
 import UIKit
 import SnapKit
+import UserNotifications
 
 class AlarmsListView: UIView {
 
     
     var alarmsTableView: UITableView!
     var backgroundView: UIImageView!
+    var napper: Napper!
     
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
@@ -24,39 +26,74 @@ class AlarmsListView: UIView {
         super.init(frame: frame)
     }
     
-    convenience init() {
+    convenience init(napper: Napper) {
         self.init(frame: CGRect.zero)
-        
+        self.napper = napper
         configure()
         constrain()
     }
 
     func configure() {
         alarmsTableView = UITableView()
+        alarmsTableView.delegate = self
+        alarmsTableView.dataSource = self
+        
         alarmsTableView.separatorColor = UIColor.clear
         alarmsTableView.backgroundColor = UIColor.white.withAlphaComponent(0.3)
         alarmsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "AlarmCell")
         
-        var backgroundImage = #imageLiteral(resourceName: "backgroundImage")
+        let backgroundImage = #imageLiteral(resourceName: "backgroundImage")
         
         backgroundView = UIImageView(frame: CGRect(origin: CGPoint.init(x: -400, y: -100), size: backgroundImage.size))
         backgroundView.image = backgroundImage
-
-        
-//        backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "backgroundImage"))
-
         
     }
     
     func constrain() {
         addSubview(backgroundView)
-//        backgroundView.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//        }
+
         addSubview(alarmsTableView)
         alarmsTableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
 
+}
+
+// MARK: Tableview Delegate
+extension AlarmsListView: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return napper.destination.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath)
+        let station = napper.destination[indexPath.row].name
+        
+        cell.textLabel?.text = station
+        cell.backgroundColor = UIColor.clear
+        return cell
+        
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            let destination = self.napper.destination[indexPath.row].name
+            
+            // *** User Notifications in UIView??
+            
+            let center = UNUserNotificationCenter.current()
+            
+            center.removeDeliveredNotifications(withIdentifiers: [destination])
+            
+            
+            self.napper.destination.remove(at: indexPath.row)
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+        }
+        return [delete]
+    }
+    
 }

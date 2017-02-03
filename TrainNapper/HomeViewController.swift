@@ -8,23 +8,21 @@
 
 import UIKit
 import SnapKit
-import GoogleMobileAds
 
 
 class HomeViewController: UIViewController {
     
-    var mapView: MapView!
-    var mapViewModel: MapViewModel!
-    var napperViewModel: NapperViewModel!
+    static let napper = Napper(coordinate: nil)
     
-    var alarmsListView: AlarmsListView!
+    let mapView = MapView()
+    let alarmsListView = AlarmsListView(napper: napper)
+    let advertisingView = AdvertisingView()
+    let mapViewModel = MapViewModel()
+    let destinationViewModel = DestinationViewModel(napper: napper)
+    let locationViewModel = LocationViewModel(napper: napper)
+    
     var showAlarms = false
     var showFilter = false
-    
-    var advertisingView: GADBannerView!
-
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
     
     var distanceLabel: UILabel!
 
@@ -39,39 +37,26 @@ class HomeViewController: UIViewController {
     
     // MARK: Initial Setup
     func configure() {
-        mapView = MapView()
-        mapViewModel = MapViewModel()
-        napperViewModel = NapperViewModel()
-        alarmsListView = AlarmsListView()
+        
+        advertisingView.bannerView.rootViewController = self
         
         // Assigning delegates
+        mapView.filterBranchesDelegate = mapViewModel
         mapViewModel.addToMapDelegate = mapView
+        
         mapView.stationsMap.delegate = mapViewModel
         mapView.filterView.searchBar.delegate = mapViewModel
-        mapView.filterBranchesDelegate = mapViewModel
         
-        napperViewModel.distanceDelegate = self
-
-        napperViewModel.presentAlertDelegate = self
-        napperViewModel.requestLocationAuthorization()
         
-        mapViewModel.napperAlarmsDelegate = napperViewModel
-        alarmsListView.alarmsTableView.delegate = napperViewModel
-        alarmsListView.alarmsTableView.dataSource = napperViewModel
+        destinationViewModel.distanceDelegate = self
+        destinationViewModel.presentAlertDelegate = self
+        
+        mapViewModel.napperAlarmsDelegate = destinationViewModel
         
         alarmsListView.isHidden = true
+    
+        mapView.addStationsToMap(stations: mapViewModel.stations)
 
-        
-        // Must assign delegates before adding stations to map!
-        mapViewModel.addStationsToMap()
-        
-        // Initializes advertising banner
-        advertisingView = GADBannerView()
-        advertisingView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        advertisingView.rootViewController = self
-        let request = GADRequest()
-        request.testDevices = ["ca-app-pub-3940256099942544/2934735716"]
-        advertisingView.load(request)
         
         // Sets up navigationBar
         navigationItem.title = "TrainNapper"
