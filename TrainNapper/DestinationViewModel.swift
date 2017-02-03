@@ -9,16 +9,20 @@
 import GoogleMaps
 import UserNotifications
 
+// Used for testing distance to destination
 protocol GetDistanceDelegate: class {
     func distanceToStation(distance: Double)
     
 }
 
-protocol PresentAlertDelegate: class {
-    func presentAlert()
+protocol NapperAlarmsDelegate: class {
+    func addAlarm(station: Station)
+    func removeAlarm(station: Station)
 }
 
 final class DestinationViewModel: NSObject {
+    
+    let store = DataStore.sharedInstance
     
     var napper: Napper!
     let center = UNUserNotificationCenter.current()
@@ -54,17 +58,24 @@ final class DestinationViewModel: NSObject {
 extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegate {
     
     func addAlarm(station: Station) {
+
+        station.isSelected = true
+        napper.destination.append(station)
+
+        
+        /*
+        // Sorts destination array by proximity
+        
         guard let napperLocation = napper.coordinate else { print("error getting napper coordinate - addAlarm"); return }
         
-        napper.destination.append(station)
-        
-        // Sorts destination array by proximity
         if napper.destination.count > 1 {
             napper.destination = napper.destination.sorted(by: { ($0.coordinateCL.distance(from: napperLocation) < $1.coordinateCL.distance(from: napperLocation))
             })
         }
         
         // ^^ may not be necessary depending on region mapping
+        
+        
         
         // Send by region maping
 
@@ -89,24 +100,32 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
         
         center.getPendingNotificationRequests { (requests) in
             print("added- there are now \(requests.count) requests in pending notifications")
+            
+ 
         }
-
+        */
     }
 
     
     func removeAlarm(station: Station) {
-
+        
+        station.isSelected = false
+        
         for (index, destination) in napper.destination.enumerated() {
             if destination.name == station.name {
                 napper.destination.remove(at: index)
             }
         }
-    
+        
+        /*
+         
         center.removePendingNotificationRequests(withIdentifiers: [station.name])
         
         center.getPendingNotificationRequests { (requests) in
             print("removed- there are now \(requests.count) requests in pending notifications")
         }
+        
+        */
 
     }
     

@@ -8,7 +8,7 @@
 
 import GoogleMaps
 
-struct Station {
+class Station {
     let id: Int
     let name: String
     let branch: Branch

@@ -13,7 +13,8 @@ import SnapKit
 class HomeViewController: UIViewController {
     
     static let napper = Napper(coordinate: nil)
-    
+    let store = DataStore.sharedInstance
+
     let mapView = MapView()
     let alarmsListView = AlarmsListView(napper: napper)
     let advertisingView = AdvertisingView()
@@ -33,7 +34,7 @@ class HomeViewController: UIViewController {
         constrain()
         
     }
-
+    
     
     // MARK: Initial Setup
     func configure() {
@@ -41,18 +42,16 @@ class HomeViewController: UIViewController {
         advertisingView.bannerView.rootViewController = self
         
         // Assigning delegates
-        mapView.filterBranchesDelegate = mapViewModel
-        mapViewModel.addToMapDelegate = mapView
-        
-        mapView.stationsMap.delegate = mapViewModel
         mapView.filterView.searchBar.delegate = mapViewModel
-        
+        mapView.filterBranchesDelegate = mapViewModel
+        mapView.napperAlarmsDelegate = destinationViewModel
+        alarmsListView.napperAlarmsDelegate = destinationViewModel
+        mapViewModel.addToMapDelegate = mapView
+
         
         destinationViewModel.distanceDelegate = self
         destinationViewModel.presentAlertDelegate = self
-        
-        mapViewModel.napperAlarmsDelegate = destinationViewModel
-        
+                
         alarmsListView.isHidden = true
     
         mapView.addStationsToMap(stations: mapViewModel.stations)
@@ -127,7 +126,7 @@ class HomeViewController: UIViewController {
     
     func showAlarmsView() {
         showAlarms = !showAlarms
-
+        print("HVC napper destionation count = \(HomeViewController.napper.destination.count)")
         if showAlarms {
             navigationItem.title = "Alarms"
             navigationItem.rightBarButtonItem?.title = "Map"
@@ -138,6 +137,7 @@ class HomeViewController: UIViewController {
         } else {
             navigationItem.title = "TrainNapper"
             navigationItem.rightBarButtonItem?.title = "Alarms"
+            mapViewModel.reloadStationsMap(with: store.stationsDictionary)
             alarmsListView.isHidden = true
             mapView.isHidden = false
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilterView))

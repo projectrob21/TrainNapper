@@ -8,13 +8,12 @@
 
 import UIKit
 import SnapKit
-import UserNotifications
 
 class AlarmsListView: UIView {
 
-    
     var alarmsTableView: UITableView!
     var backgroundView: UIImageView!
+    var napperAlarmsDelegate: NapperAlarmsDelegate?
     var napper: Napper!
     
     // MARK: Initialization
@@ -34,6 +33,7 @@ class AlarmsListView: UIView {
     }
 
     func configure() {
+        
         alarmsTableView = UITableView()
         alarmsTableView.delegate = self
         alarmsTableView.dataSource = self
@@ -79,16 +79,9 @@ extension AlarmsListView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-            let destination = self.napper.destination[indexPath.row].name
-            
-            // *** User Notifications in UIView??
-            
-            let center = UNUserNotificationCenter.current()
-            
-            center.removeDeliveredNotifications(withIdentifiers: [destination])
-            
-            
-            self.napper.destination.remove(at: indexPath.row)
+            let station = self.napper.destination[indexPath.row]
+
+            self.napperAlarmsDelegate?.removeAlarm(station: station)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
             

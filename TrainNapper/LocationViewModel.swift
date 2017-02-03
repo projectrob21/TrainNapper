@@ -8,6 +8,10 @@
 
 import GoogleMaps
 
+protocol PresentAlertDelegate: class {
+    func presentAlert()
+}
+
 final class LocationViewModel: NSObject {
     
     var locationManager: CLLocationManager!

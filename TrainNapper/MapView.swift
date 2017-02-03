@@ -15,6 +15,8 @@ class MapView: UIView {
     
     // MARK: Properties
     
+    let store = DataStore.sharedInstance
+    
     var camera: GMSCameraPosition!
     var stationsMap: GMSMapView!
     var markerWindowView: MarkerWindowView!
@@ -24,6 +26,8 @@ class MapView: UIView {
     lazy var filterView = FilterView()
     
     weak var filterBranchesDelegate: FilterBranchesDelegate?
+    weak var napperAlarmsDelegate: NapperAlarmsDelegate?
+
     
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
@@ -44,11 +48,14 @@ class MapView: UIView {
     // MARK: View Configuration
     func configure() {
         
+        
         camera = GMSCameraPosition.camera(withLatitude: 40.7485, longitude: -73.9854, zoom: 8)
         stationsMap = GMSMapView.map(withFrame: .zero, camera: camera)
         stationsMap.isMyLocationEnabled = true
         stationsMap.settings.myLocationButton = true
         stationsMap.mapType = kGMSTypeNormal
+        stationsMap.delegate = self
+
         
         let mapInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
         stationsMap.padding = mapInsets
@@ -137,7 +144,7 @@ extension MapView: AddToMapDelegate {
     }
 }
 
-extension MapViewModel: GMSMapViewDelegate {
+extension MapView: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
         markerWindowView = MarkerWindowView()
@@ -147,27 +154,22 @@ extension MapViewModel: GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        
-        guard let selectedStation = store.stationsDictionary[marker.title!] else { print("error getting station from dictionary"); return }
+        guard let station = store.stationsDictionary[marker.title!] else { print("mapview - trouble unwrapping station"); return }
         
         if marker.snippet == nil {
-            napperAlarmsDelegate?.addAlarm(station: selectedStation)
-            
+            napperAlarmsDelegate?.addAlarm(station: station)
             marker.icon = GMSMarker.markerImage(with: .blue)
-            stations[marker.title!]?.isSelected = true
             marker.snippet = "Station selected"
         } else {
-            napperAlarmsDelegate?.removeAlarm(station: selectedStation)
-            
-            switch selectedStation.branch {
-            case .LIRR: marker.icon = GMSMarker.markerImage(with: .lirrColor)
-            case .MetroNorth: marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
-            case .NJTransit: marker.icon = GMSMarker.markerImage(with: .njTransitColor)
-            default: break
-            }
-            stations[marker.title!]?.isSelected = false
+            napperAlarmsDelegate?.removeAlarm(station: station)
             marker.snippet = nil
             
+            switch station.branch {
+                case .LIRR: marker.icon = GMSMarker.markerImage(with: .lirrColor)
+                case .MetroNorth: marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
+                case .NJTransit: marker.icon = GMSMarker.markerImage(with: .njTransitColor)
+                default: break
+            }
         }
     }
 }

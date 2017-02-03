@@ -16,17 +16,10 @@ protocol FilterBranchesDelegate: class {
     func filterBranches(branch: Branch, isHidden: Bool)
 }
 
-protocol NapperAlarmsDelegate: class {
-    func addAlarm(station: Station)
-    func removeAlarm(station: Station)
-}
-
-typealias StationDictionary = [String:Station]
-
 final class MapViewModel: NSObject {
     
     let store = DataStore.sharedInstance
-    var stations = StationDictionary()
+    var stations: StationDictionary = [:]
 
     var markerWindowView: MarkerWindowView!
     var markerArray = [GMSMarker]()
