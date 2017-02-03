@@ -34,7 +34,6 @@ class MapView: UIView {
         self.init(frame: CGRect.zero)
         configure()
         constrain()
-        self.endEditing(true)
     }
     
     
