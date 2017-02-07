@@ -13,6 +13,7 @@ typealias StationDictionary = [String:Station]
 final class DataStore {
     
     static let sharedInstance = DataStore()
+//    static let napper = Napper(coordinate: nil)
 
     var stationsDictionary = StationDictionary()
     // Napper Singleton!
