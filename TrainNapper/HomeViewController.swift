@@ -17,10 +17,9 @@ class HomeViewController: UIViewController {
     let store = DataStore.sharedInstance
 
     let mapView = MapView()
-    let alarmsListView = AlarmsListView(napper: napper)
-//    let advertisingView = AdvertisingView()
     var bannerView: GADBannerView!
     let mapViewModel = MapViewModel()
+    let alarmsListView = AlarmsListView(napper: napper)
     let destinationViewModel = DestinationViewModel(napper: napper)
     let locationViewModel = LocationViewModel(napper: napper)
     
@@ -40,7 +39,12 @@ class HomeViewController: UIViewController {
     
     // MARK: Initial Setup
     func configure() {
-        
+        // Sets up navigationBar
+        navigationItem.title = "TrainNapper"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilterView))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarms", style: .plain, target: self, action: #selector(toggleAlarmsListView))
+        alarmsListView.isHidden = true
+
         bannerView = GADBannerView()
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
@@ -54,24 +58,12 @@ class HomeViewController: UIViewController {
         mapView.napperAlarmsDelegate = destinationViewModel
         alarmsListView.napperAlarmsDelegate = destinationViewModel
         mapViewModel.addToMapDelegate = mapView
-
-        
-        destinationViewModel.distanceDelegate = self
         destinationViewModel.presentAlertDelegate = self
-                
-        alarmsListView.isHidden = true
-    
+//        destinationViewModel.distanceDelegate = self
+        
         mapView.addStationsToMap(stations: mapViewModel.stations)
 
-        
-        // Sets up navigationBar
-        navigationItem.title = "TrainNapper"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilterView))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarms", style: .plain, target: self, action: #selector(showAlarmsView))
-
-
     }
-    
     
     func constrain() {
         
@@ -93,7 +85,7 @@ class HomeViewController: UIViewController {
             $0.height.equalToSuperview().dividedBy(10)
         }
         // Used to test region distances
-    
+        /*
         distanceLabel = UILabel()
         mapView.addSubview(distanceLabel)
         distanceLabel.snp.makeConstraints {
@@ -103,9 +95,8 @@ class HomeViewController: UIViewController {
         distanceLabel.backgroundColor = UIColor.white
         distanceLabel.textColor = UIColor.black
         distanceLabel.textAlignment = .center
+        */
     }
-    
-
     
     func toggleFilterView() {
         showFilter = !showFilter
@@ -131,7 +122,7 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func showAlarmsView() {
+    func toggleAlarmsListView() {
         showAlarms = !showAlarms
         print("HVC napper destionation count = \(HomeViewController.napper.destination.count)")
         if showAlarms {

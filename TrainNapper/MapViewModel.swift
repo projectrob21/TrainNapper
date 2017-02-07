@@ -21,12 +21,7 @@ final class MapViewModel: NSObject {
     let store = DataStore.sharedInstance
     var stations: StationDictionary = [:]
 
-    var markerWindowView: MarkerWindowView!
-    var markerArray = [GMSMarker]()
-
     weak var addToMapDelegate: AddToMapDelegate?
-    weak var napperAlarmsDelegate: NapperAlarmsDelegate?
-    
     
     override init() {
         super.init()

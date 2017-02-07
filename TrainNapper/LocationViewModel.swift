@@ -8,8 +8,12 @@
 
 import GoogleMaps
 
+// Used for testing distance to destination
 protocol PresentAlertDelegate: class {
     func presentAlert()
+}
+protocol GetDistanceDelegate: class {
+    func distanceToStation(distance: Double)    
 }
 
 final class LocationViewModel: NSObject {
@@ -37,11 +41,11 @@ final class LocationViewModel: NSObject {
 extension LocationViewModel: CLLocationManagerDelegate {
     
     func setupLocationManager() {
-        
+        //General setup
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        
+        //Energy efficiency
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.activityType = .otherNavigation
         locationManager.pausesLocationUpdatesAutomatically = true

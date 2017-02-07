@@ -9,11 +9,6 @@
 import GoogleMaps
 import UserNotifications
 
-// Used for testing distance to destination
-protocol GetDistanceDelegate: class {
-    func distanceToStation(distance: Double)
-    
-}
 
 protocol NapperAlarmsDelegate: class {
     func addAlarm(station: Station)
@@ -31,7 +26,7 @@ final class DestinationViewModel: NSObject {
     let proximityRadius = 1785.0
     var distanceToStation = 0.0
     
-    weak var distanceDelegate: GetDistanceDelegate?
+//    weak var distanceDelegate: GetDistanceDelegate?
     var presentAlertDelegate: PresentAlertDelegate?
     
     
@@ -108,9 +103,7 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
 
     
     func removeAlarm(station: Station) {
-        
         station.isSelected = false
-        
         for (index, destination) in napper.destination.enumerated() {
             if destination.name == station.name {
                 napper.destination.remove(at: index)
@@ -118,15 +111,11 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
         }
         
         /*
-         
         center.removePendingNotificationRequests(withIdentifiers: [station.name])
-        
         center.getPendingNotificationRequests { (requests) in
             print("removed- there are now \(requests.count) requests in pending notifications")
         }
-        
         */
-
     }
     
     // Used to present notifications while app is in foreground
