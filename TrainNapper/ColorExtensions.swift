@@ -20,7 +20,7 @@ extension UIColor {
     
     public static let metroNorthColor = UIColor(red: 51 / 255, green: 77 / 255, blue: 92 / 255, alpha: 1)
     
-    public static let njTransitColor = UIColor(red: 255 / 255, green: 238 / 255, blue: 97 / 255, alpha: 1)
+    public static let njTransitColor = UIColor.purple
     
 }
 

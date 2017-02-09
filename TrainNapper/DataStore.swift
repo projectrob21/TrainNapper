@@ -8,14 +8,15 @@
 
 import Foundation
 
+typealias StationDictionary = [String:Station]
+
 final class DataStore {
     
     static let sharedInstance = DataStore()
+//    static let napper = Napper(coordinate: nil)
 
-    var lirrStationsArray = [Station]()
-    var metroNorthStationsArray = [Station]()
-    var njTransitStationsArray = [Station]()
-    var stationsDictionary: Dictionary = [String:Station]()
+    var stationsDictionary = StationDictionary()
+    // Napper Singleton!
     
     func getJSONStationsDictionary(with jsonFilename: String, completion: @escaping ([String : [String : Any]]) -> Void) {
         guard let filePath = Bundle.main.path(forResource: jsonFilename, ofType: "json") else { print("error unwrapping json file path"); return }
@@ -31,48 +32,40 @@ final class DataStore {
     }
     
     func populateLIRRStationsFromJSON() {
-        getJSONStationsDictionary(with: "LIRRStations") { lirrDictionary in
-            self.lirrStationsArray = []
-            self.stationsDictionary = [String:Station]()
-            if let stationsDictionary = lirrDictionary["stops"]?["stop"] as? [[String : Any]] {
+
+        getJSONStationsDictionary(with: "LIRRStations") { lirrJSON in
+            if let stationsDictionary = lirrJSON["stops"]?["stop"] as? [[String : Any]] {
                 for station in stationsDictionary.map({ Station(jsonData: $0) }) {
                     self.stationsDictionary[station.name] = station
-                    self.lirrStationsArray.append(station)
                 }
-                
             }
         }
     }
     
     func populateMetroNorthStationsFromJSON() {
-        getJSONStationsDictionary(with: "MetroNorthStations") { (metroNorthDictionary) in
-            self.metroNorthStationsArray = []
-            self.stationsDictionary = [String:Station]()
-            if let stationsDictionary = metroNorthDictionary["stops"]?["stop"] as? [[String : Any]] {
+
+        getJSONStationsDictionary(with: "MetroNorthStations") { (metroNorthJSON) in
+            if let stationsDictionary = metroNorthJSON["stops"]?["stop"] as? [[String : Any]] {
                 for station in stationsDictionary.map({ Station(jsonData: $0) }) {
                     self.stationsDictionary[station.name] = station
-                    self.metroNorthStationsArray.append(station)
                 }
             }
         }
-        
     }
     
     func populateNJTStationsFromJSON() {
-        getJSONStationsDictionary(with: "NJTransit") { njtDictionary in
-            self.njTransitStationsArray = []
-            self.stationsDictionary = [String:Station]()
-            if let stationsDictionary = njtDictionary["stops"]?["stop"] as? [[String : Any]] {
+
+        getJSONStationsDictionary(with: "NJTransit") { njTransitJSON in
+            if let stationsDictionary = njTransitJSON["stops"]?["stop"] as? [[String : Any]] {
                 for station in stationsDictionary.map({ Station(jsonData: $0) }) {
                     self.stationsDictionary[station.name] = station
-                    self.njTransitStationsArray.append(station)
                 }
-                
             }
         }
     }
     
     func populateAllStations() {
+        stationsDictionary = [String:Station]()
         populateLIRRStationsFromJSON()
         populateMetroNorthStationsFromJSON()
         populateNJTStationsFromJSON()

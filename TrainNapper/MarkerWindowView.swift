@@ -6,7 +6,6 @@
 //  Copyright © 2016 Robert Deans. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class MarkerWindowView: UIView {
@@ -34,6 +33,7 @@ class MarkerWindowView: UIView {
         stationLabel.font = UIFont(name: "HelveticaNeue", size: 34)
         
         setAlarmLabel.text = "Set Alarm"
+        setAlarmLabel.textAlignment = .center
         setAlarmLabel.textColor = UIColor.white
         setAlarmLabel.backgroundColor = UIColor.blue
     }

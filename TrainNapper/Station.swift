@@ -6,13 +6,14 @@
 //  Copyright © 2016 Robert Deans. All rights reserved.
 //
 
-import Foundation
 import GoogleMaps
 
-struct Station {
+class Station {
     let id: Int
     let name: String
     let branch: Branch
+    var isSelected = false
+    var isHidden = false
     let latitude: Double
     let longitude: Double
     var coordinate2D: CLLocationCoordinate2D {
@@ -46,7 +47,6 @@ struct Station {
             case "NJTransit" : self.branch = .NJTransit;
             default: self.branch = .unknown
         }
-        
     }
     
 }

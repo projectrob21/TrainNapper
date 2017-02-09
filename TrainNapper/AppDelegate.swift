@@ -12,11 +12,10 @@ import GoogleMaps
 import Firebase
 import GoogleMobileAds
 import UserNotifications
-import EventKit
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let googleAPI = "AIzaSyDLkK5fHf0Q6p0l1g521hqlg1UWAVZ7kgo"
     let appID = "ca-app-pub-2779558823377577~4750570444"
@@ -25,10 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var homeViewController: UIViewController!
     var navigationController: UINavigationController!
     
-    var eventStore: EKEventStore?
-    
-    let center = UNUserNotificationCenter.current()
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -37,14 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         GMSServices.provideAPIKey(googleAPI)
         GMSPlacesClient.provideAPIKey(googleAPI)
-        
-        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
-            if granted {
-                print("UNUserNotification request granted")
-            } else {
-                print("UNUserNotification request NOT granted")
-            }
-        }
         
         window = UIWindow(frame: UIScreen.main.bounds)
         homeViewController = HomeViewController()
@@ -83,7 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
 
 }
 

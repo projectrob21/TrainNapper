@@ -6,12 +6,15 @@
 //  Copyright © 2016 Robert Deans. All rights reserved.
 //
 
-import Foundation
 import GoogleMaps
 
-struct Napper {
+final class Napper {
     
     var coordinate: CLLocation?
     var destination = [Station]()
+    
+    init(coordinate: CLLocation?) {
+        self.coordinate = coordinate
+    }
     
 }
