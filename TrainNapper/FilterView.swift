@@ -31,17 +31,17 @@ class FilterView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupGradientLayer()
     }
     
     convenience init() {
         self.init(frame: CGRect.zero)
         configure()
-        constrain()
+//        constrain()
+//        setupGradientLayer()
     }
     
     func configure() {
-        backgroundColor = UIColor.clear
+        backgroundColor = UIColor.mainColor
 
         stackView.distribution = .fillEqually
         stackView.spacing = 8
@@ -68,10 +68,8 @@ class FilterView: UIView {
         
     }
     
-    
     func constrain() {
 
-        
         addSubview(searchButton)
         searchButton.snp.makeConstraints {
             $0.leading.top.bottom.equalToSuperview()

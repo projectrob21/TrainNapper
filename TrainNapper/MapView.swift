@@ -23,7 +23,7 @@ class MapView: UIView {
     var markerArray = [GMSMarker]()
 
     
-    lazy var filterView = FilterView()
+    let filterView = FilterView()
     
     weak var filterBranchesDelegate: FilterBranchesDelegate?
     weak var napperAlarmsDelegate: NapperAlarmsDelegate?
@@ -71,7 +71,7 @@ class MapView: UIView {
         
         addSubview(filterView)
         filterView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.width.equalToSuperview()
             $0.bottom.equalTo(stationsMap.snp.top).offset(-132)
             $0.height.equalTo(44)
             
