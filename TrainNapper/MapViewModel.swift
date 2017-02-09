@@ -16,6 +16,10 @@ protocol FilterBranchesDelegate: class {
     func filterBranches(branch: Branch, isHidden: Bool)
 }
 
+protocol SearchStationDelegate: class {
+    func searchBarFilter(with text: String)
+}
+
 final class MapViewModel: NSObject {
     
     let store = DataStore.sharedInstance
@@ -97,32 +101,27 @@ extension MapViewModel: FilterBranchesDelegate {
 }
 
 
-extension MapViewModel: UISearchBarDelegate {
+extension MapViewModel: SearchStationDelegate {
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let lowercasedSearchText = searchText.lowercased()
-        print("stations count is \(stations.count)")
-        print("search text: \(lowercasedSearchText)")
+    func searchBarFilter(with text: String) {
         var searchStations = stations
         
-        if lowercasedSearchText != "" {
+        if text != "" {
             for (key, station) in searchStations {
-                if !station.name.lowercased().contains(lowercasedSearchText) {
+                if !station.name.lowercased().contains(text) {
                     searchStations[key]?.isHidden = true
+                } else {
+                    searchStations[key]?.isHidden = false
                 }
             }
             reloadStationsMap(with: searchStations)
         } else {
-            for (key, station) in stations {
-                if !station.name.lowercased().contains(lowercasedSearchText) {
-                    stations[key]?.isHidden = false
-                }
+            for (key, _) in stations {
+                searchStations[key]?.isHidden = false
             }
             reloadStationsMap(with: searchStations)
         }
     }
-    
-    
 }
 
 

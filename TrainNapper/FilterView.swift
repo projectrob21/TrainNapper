@@ -23,6 +23,7 @@ class FilterView: UIView {
     lazy var searchView = UIView()
     lazy var searchBar = UISearchBar()
     var showSearch = false
+    var searchStationDelegate: SearchStationDelegate?
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -63,8 +64,8 @@ class FilterView: UIView {
             button.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
         }
         
+        searchBar.delegate = self
         searchBar.showsCancelButton = true
-        
         searchBar.placeholder = "Destination"
         self.endEditing(true)
         
@@ -143,5 +144,19 @@ class FilterView: UIView {
         }
     }
     
+    
+}
+
+extension FilterView: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let lowercasedSearchText = searchText.lowercased()
+        searchStationDelegate?.searchBarFilter(with: lowercasedSearchText)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchStationDelegate?.searchBarFilter(with: "")
+        searchButtonTapped()
+    }
     
 }

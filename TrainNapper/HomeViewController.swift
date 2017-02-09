@@ -66,7 +66,7 @@ class HomeViewController: UIViewController {
         bannerView.load(request)
         
         // Assigning delegates
-        mapView.filterView.searchBar.delegate = mapViewModel
+        mapView.filterView.searchStationDelegate = mapViewModel
         mapView.filterBranchesDelegate = mapViewModel
         mapView.napperAlarmsDelegate = destinationViewModel
         alarmsListView.napperAlarmsDelegate = destinationViewModel
