@@ -155,6 +155,7 @@ extension FilterView: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
         searchStationDelegate?.searchBarFilter(with: "")
         searchButtonTapped()
     }
