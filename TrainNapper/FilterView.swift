@@ -56,12 +56,15 @@ class FilterView: UIView {
         buttonsArray = [lirrButton, metroNorthButton, njTransitButton]
         for button in buttonsArray {
             button.backgroundColor = UIColor.filterButtonColor
+            button.layer.borderColor = UIColor.filterButtonBorderColor.cgColor
+            button.layer.borderWidth = 1
             button.layer.cornerRadius = 15
             button.titleLabel?.adjustsFontSizeToFitWidth = true
             button.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
         }
         
-        searchBar.showsCancelButton = false
+        searchBar.showsCancelButton = true
+        
         searchBar.placeholder = "Destination"
         self.endEditing(true)
         
@@ -114,8 +117,7 @@ class FilterView: UIView {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
                 
                 self.searchView.snp.remakeConstraints {
-                    $0.top.bottom.trailing.equalToSuperview()
-                    $0.leading.equalTo(self.searchButton.snp.trailing)
+                    $0.edges.equalToSuperview()
                 }
                 
                 self.searchBar.snp.remakeConstraints {

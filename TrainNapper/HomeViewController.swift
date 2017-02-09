@@ -38,11 +38,11 @@ class HomeViewController: UIViewController {
         
         
         backgroundGradient = CAGradientLayer()
-        
+
         backgroundGradient.colors = [UIColor.mainColor.cgColor, UIColor.clear.cgColor]
         backgroundGradient.locations = [0, 1]
-        backgroundGradient.startPoint = CGPoint(x: 0, y: 0.2)
-        backgroundGradient.endPoint = CGPoint(x: 0, y: 0.75)
+        backgroundGradient.startPoint = CGPoint(x: 0, y: 0.05)
+        backgroundGradient.endPoint = CGPoint(x: 0, y: 1)
         let width = self.view.frame.width
         backgroundGradient.frame = CGRect(x: 0, y: 0, width: width, height: 54)
         mapView.filterView.layer.insertSublayer(backgroundGradient, at: 0)
