@@ -60,6 +60,8 @@ extension UIImage {
     
     static let metroNorthIcon = #imageLiteral(resourceName: "mta").resizedImage(newSize: CGSize(width: iconSize, height: iconSize))
     
+    static let alarmClock = #imageLiteral(resourceName: "alarmclock").resizedImage(newSize: CGSize(width: iconSize, height: iconSize))
+    
     func resizedImage(newSize: CGSize) -> UIImage {
         guard self.size != newSize else { return self }
         

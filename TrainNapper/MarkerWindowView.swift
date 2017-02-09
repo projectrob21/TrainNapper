@@ -18,6 +18,7 @@ class MarkerWindowView: UIView {
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
     override init(frame: CGRect) { super.init(frame: frame) }
+    
     convenience init() {
         let width = UIScreen.main.bounds.width / 1.2
         let height = width / 3
@@ -29,6 +30,8 @@ class MarkerWindowView: UIView {
     
     func configure() {
         layer.cornerRadius = 10
+        clipsToBounds = true
+        self.backgroundColor = UIColor.white
         
         stationLabel.font = UIFont(name: "HelveticaNeue", size: 34)
         
@@ -51,7 +54,7 @@ class MarkerWindowView: UIView {
             $0.top.equalToSuperview().offset(8)
         }
         
-        addSubview(setAlarmLabel)
+        blurView.addSubview(setAlarmLabel)
         setAlarmLabel.snp.makeConstraints {
             $0.centerX.width.equalToSuperview()
             $0.height.equalToSuperview().dividedBy(4)

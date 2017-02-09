@@ -44,8 +44,9 @@ class HomeViewController: UIViewController {
         backgroundGradient.startPoint = CGPoint(x: 0, y: 0.05)
         backgroundGradient.endPoint = CGPoint(x: 0, y: 1)
         let width = self.view.frame.width
-        backgroundGradient.frame = CGRect(x: 0, y: 0, width: width, height: 54)
+        backgroundGradient.frame = CGRect(x: 0, y: 0, width: width, height: 34)
         mapView.filterView.layer.insertSublayer(backgroundGradient, at: 0)
+        
         
     }
     

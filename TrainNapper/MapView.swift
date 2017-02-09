@@ -21,7 +21,6 @@ class MapView: UIView {
     var stationsMap: GMSMapView!
     var markerWindowView: MarkerWindowView!
     var markerArray = [GMSMarker]()
-
     
     let filterView = FilterView()
     
@@ -58,7 +57,6 @@ class MapView: UIView {
         for button in filterView.buttonsArray {
             button.addTarget(self, action: #selector(filterBranches(_:)), for: .touchUpInside)
         }
-        
     }
     
     // MARK: View Constraints
@@ -156,16 +154,16 @@ extension MapView: GMSMapViewDelegate {
         
         if marker.snippet == nil {
             napperAlarmsDelegate?.addAlarm(station: station)
-            marker.icon = GMSMarker.markerImage(with: .blue)
+            marker.icon = UIImage.alarmClock
             marker.snippet = "Station selected"
         } else {
             napperAlarmsDelegate?.removeAlarm(station: station)
             marker.snippet = nil
             
             switch station.branch {
-                case .LIRR: marker.icon = GMSMarker.markerImage(with: .lirrColor)
-                case .MetroNorth: marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
-                case .NJTransit: marker.icon = GMSMarker.markerImage(with: .njTransitColor)
+                case .LIRR: marker.icon = UIImage.lirrIcon
+                case .MetroNorth: marker.icon = UIImage.metroNorthIcon
+                case .NJTransit: marker.icon = UIImage.njTransitIcon
                 default: break
             }
         }

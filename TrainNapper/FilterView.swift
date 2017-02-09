@@ -67,8 +67,7 @@ class FilterView: UIView {
         searchBar.delegate = self
         searchBar.showsCancelButton = true
         searchBar.placeholder = "Destination"
-        self.endEditing(true)
-        
+
     }
     
     func constrain() {
@@ -158,6 +157,8 @@ extension FilterView: UISearchBarDelegate {
         searchBar.text = ""
         searchStationDelegate?.searchBarFilter(with: "")
         searchButtonTapped()
+        searchBar.resignFirstResponder()
+
     }
     
 }
