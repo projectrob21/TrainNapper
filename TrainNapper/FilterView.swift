@@ -36,12 +36,11 @@ class FilterView: UIView {
     convenience init() {
         self.init(frame: CGRect.zero)
         configure()
-//        constrain()
-//        setupGradientLayer()
+        constrain()
     }
     
     func configure() {
-        backgroundColor = UIColor.mainColor
+//        backgroundColor = UIColor.magenta
 
         stackView.distribution = .fillEqually
         stackView.spacing = 8

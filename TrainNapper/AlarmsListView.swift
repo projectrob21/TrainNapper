@@ -29,7 +29,7 @@ class AlarmsListView: UIView {
         self.init(frame: CGRect.zero)
         self.napper = napper
         configure()
-//        constrain()
+        constrain()
     }
     
     func configure() {

@@ -95,9 +95,12 @@ extension MapView: AddToMapDelegate {
                 marker.appearAnimation = kGMSMarkerAnimationPop
                 marker.title = station.name
                 switch station.branch {
-                case .LIRR: marker.icon = GMSMarker.markerImage(with: .lirrColor)
-                case .MetroNorth: marker.icon = GMSMarker.markerImage(with: .metroNorthColor)
-                case .NJTransit: marker.icon = GMSMarker.markerImage(with: .njTransitColor)
+                case .LIRR: marker.icon = UIImage.lirrIcon
+//                    = GMSMarker.markerImage(with: .lirrColor)
+                case .MetroNorth: marker.icon = UIImage.metroNorthIcon
+//                    = GMSMarker.markerImage(with: .metroNorthColor)
+                case .NJTransit: marker.icon = UIImage.njTransitIcon
+//                    = GMSMarker.markerImage(with: .njTransitColor)
                 default: break
                 }
                 if station.isSelected {

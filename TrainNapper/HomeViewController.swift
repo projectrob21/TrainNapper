@@ -36,11 +36,15 @@ class HomeViewController: UIViewController {
         configure()
         constrain()
         
-        let color2 = UIColor(red: 141/255.0, green: 191/255.9, blue: 103/255.0, alpha: 1.0)
-        backgroundGradient = CALayer.makeGradient(firstColor: UIColor.lirrColor, secondColor: color2)
+        
+        backgroundGradient = CAGradientLayer()
+        
+        backgroundGradient.colors = [UIColor.mainColor.cgColor, UIColor.clear.cgColor]
+        backgroundGradient.locations = [0, 1]
+        backgroundGradient.startPoint = CGPoint(x: 0, y: 0.2)
+        backgroundGradient.endPoint = CGPoint(x: 0, y: 0.75)
         let width = self.view.frame.width
-        print("Width is \(width)")
-        backgroundGradient.frame = CGRect(x: 0, y: 0, width: width, height: 44)
+        backgroundGradient.frame = CGRect(x: 0, y: 0, width: width, height: 54)
         mapView.filterView.layer.insertSublayer(backgroundGradient, at: 0)
         
     }

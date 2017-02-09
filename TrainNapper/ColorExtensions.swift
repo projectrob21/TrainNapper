@@ -12,7 +12,7 @@ import UIKit
 // MARK: Custom Colors
 
 extension UIColor {
-    public static let mainColor = UIColor(red: 16 / 255, green: 91 / 255, blue: 99 / 255, alpha: 1)
+    public static let mainColor = UIColor(red: 0 / 255, green: 61 / 255, blue: 92 / 255, alpha: 1)
     
     public static let filterButtonColor = UIColor(red: 255 / 255, green: 211 / 255, blue: 78 / 255, alpha: 1)
     
@@ -20,7 +20,7 @@ extension UIColor {
     
     public static let metroNorthColor = UIColor(red: 51 / 255, green: 77 / 255, blue: 92 / 255, alpha: 1)
     
-    public static let njTransitColor = UIColor.purple
+    public static let njTransitColor = UIColor.blue
     
 }
 
@@ -43,4 +43,26 @@ extension CALayer {
         
         return backgroundGradient
     }
+}
+
+let iconSize = 30
+extension UIImage {
+    static let njTransitIcon = #imageLiteral(resourceName: "NJ-Transit").resizedImage(newSize: CGSize(width: iconSize, height: iconSize))
+    
+    static let lirrIcon = #imageLiteral(resourceName: "oldLIRR").resizedImage(newSize: CGSize(width: iconSize, height: iconSize))
+    
+    static let metroNorthIcon = #imageLiteral(resourceName: "mta").resizedImage(newSize: CGSize(width: iconSize, height: iconSize))
+    
+    func resizedImage(newSize: CGSize) -> UIImage {
+        guard self.size != newSize else { return self }
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
+
+    
 }
