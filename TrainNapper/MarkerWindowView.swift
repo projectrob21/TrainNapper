@@ -29,9 +29,11 @@ class MarkerWindowView: UIView {
     }
     
     func configure() {
+        backgroundColor = UIColor.white
+
         layer.cornerRadius = 10
-        clipsToBounds = true
-        self.backgroundColor = UIColor.white
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.black.cgColor
         
         stationLabel.font = UIFont(name: "HelveticaNeue", size: 34)
         
