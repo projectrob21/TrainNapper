@@ -12,6 +12,7 @@ final class Napper {
     
     var coordinate: CLLocation?
     var destination = [Station]()
+    var isUpdating = false
     
     init(coordinate: CLLocation?) {
         self.coordinate = coordinate

@@ -44,16 +44,18 @@ extension LocationViewModel: CLLocationManagerDelegate {
         //General setup
         locationManager = CLLocationManager()
         locationManager.delegate = self
-        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
         //Energy efficiency
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.activityType = .otherNavigation
         locationManager.pausesLocationUpdatesAutomatically = true
         
+        locationManager.stopUpdatingLocation()
+        
     }
     
     func requestLocationAuthorization() {
-        if CLLocationManager.authorizationStatus() != .authorizedAlways {
+        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
             print("authorization for location is NOT ALWAYS; hashValue: \(CLLocationManager.authorizationStatus().hashValue)")
             presentAlertDelegate?.presentAlert()
             
@@ -65,7 +67,7 @@ extension LocationViewModel: CLLocationManagerDelegate {
     
     private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
-        if status == CLAuthorizationStatus.authorizedAlways {
+        if status == CLAuthorizationStatus.authorizedWhenInUse {
             // *** what if they selected a station, and then authorized use...? The destination array should be updated
             locationManager.requestLocation()
             print("napper re-initialized with location coordinate")
@@ -109,4 +111,18 @@ extension LocationViewModel: CLLocationManagerDelegate {
     
 }
 
+extension LocationViewModel: AddRegionToMonitor {
+    
+    func addRegionToMonitor(region: CLCircularRegion) {
+        locationManager.startMonitoring(for: region)
+    }
+
+    
+}
+
+protocol AddRegionToMonitor {
+    
+    func addRegionToMonitor(region: CLCircularRegion)
+    
+}
 

@@ -27,8 +27,8 @@ final class DestinationViewModel: NSObject {
     var distanceToStation = 0.0
     
 //    weak var distanceDelegate: GetDistanceDelegate?
-    var presentAlertDelegate: PresentAlertDelegate?
-    
+
+    var addRegionToMonitorDelegate: AddRegionToMonitor?
     
     
     convenience init(napper: Napper) {
@@ -78,7 +78,7 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
         region.notifyOnExit = false
         region.notifyOnEntry = true
         
-//        *** locationManager.startMonitoring(for: region)
+        addRegionToMonitorDelegate?.addRegionToMonitor(region: region)
         
         let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
         let triggerRegion = UNLocationNotificationTrigger(region: region, repeats: false)
