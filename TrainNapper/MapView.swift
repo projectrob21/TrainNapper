@@ -105,18 +105,6 @@ extension MapView: AddToMapDelegate {
             let clusterStation = StationCluster(position: station.coordinate2D, name: station.name)
             
             if !station.isHidden {
-                switch station.branch {
-                    case .LIRR:
-                        clusterStation.icon = UIImage.lirrIcon
-                    case .MetroNorth:
-                        clusterStation.icon = UIImage.metroNorthIcon
-                    case .NJTransit:
-                        clusterStation.icon = UIImage.njTransitIcon
-                    default: break
-                }
-                if station.isSelected {
-                    clusterStation.icon = UIImage.alarmClock
-                }
                 clusterManager.add(clusterStation)
             }
         }
@@ -126,31 +114,34 @@ extension MapView: AddToMapDelegate {
     func filterBranches(_ sender: UIButton) {
         guard let stationName = sender.titleLabel?.text else { print("could not retrieve station name"); return }
         
+        var branch: Branch = .unknown
+        var isHidden = false
+        
         if sender.backgroundColor == UIColor.filterButtonColor {
             
             switch stationName {
             case "LIRR":
-                filterBranchesDelegate?.filterBranches(branch: Branch.LIRR, isHidden: true)
+                branch = .LIRR; isHidden = true
             case "Metro North":
-                filterBranchesDelegate?.filterBranches(branch: Branch.MetroNorth, isHidden: true)
+                branch = .MetroNorth; isHidden = true
             case "NJ Transit":
-                filterBranchesDelegate?.filterBranches(branch: Branch.NJTransit, isHidden: true)
+                branch = .NJTransit; isHidden = true
             default: break
             }
             sender.backgroundColor = UIColor.gray
-            
         } else {
             switch stationName {
             case "LIRR":
-                filterBranchesDelegate?.filterBranches(branch: Branch.LIRR, isHidden: false)
+                branch = .LIRR
             case "Metro North":
-                filterBranchesDelegate?.filterBranches(branch: Branch.MetroNorth, isHidden: false)
+                branch = .MetroNorth
             case "NJ Transit":
-                filterBranchesDelegate?.filterBranches(branch: Branch.NJTransit, isHidden: false)
+                branch = .NJTransit
             default: break
             }
             sender.backgroundColor = UIColor.filterButtonColor
         }
+        filterBranchesDelegate?.filterBranches(branch: branch, isHidden: isHidden)
     }
 }
 
@@ -186,11 +177,12 @@ extension MapView: GMUClusterManagerDelegate, GMUClusterRendererDelegate {
 
     func renderer(_ renderer: GMUClusterRenderer, willRenderMarker marker: GMSMarker) {
         print("rendering")
-        print("marker.userData = )")
 
         
         
         guard let stationData = marker.userData as? StationCluster else { print("error unwrapping station in willRenderMarker"); return }
+
+        print("marker.userData = \(stationData.name)")
         
         guard let station = store.stationsDictionary[stationData.name] else { print("mapview - trouble unwrapping station"); return }
             print("station = \(station.name)")
