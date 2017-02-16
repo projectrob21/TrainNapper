@@ -102,7 +102,7 @@ extension MapView: AddToMapDelegate {
                 default: break
                 }
                 if station.isSelected {
-                    marker.icon = GMSMarker.markerImage(with: .blue)
+                    marker.icon = UIImage.alarmClock
                 }
                 marker.map = stationsMap
             }

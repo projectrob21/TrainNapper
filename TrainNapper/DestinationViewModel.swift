@@ -70,7 +70,7 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
         
         // ^^ may not be necessary depending on region mapping
         
-        
+        */
         
         // Send by region maping
 
@@ -89,7 +89,7 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
         content.sound = UNNotificationSound.default()
         
         
-        let request = UNNotificationRequest(identifier: station.name, content: content, trigger: triggerTime)
+        let request = UNNotificationRequest(identifier: station.name, content: content, trigger: triggerRegion)
 
         center.add(request)
         
@@ -98,7 +98,7 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
             
  
         }
-        */
+        
     }
 
     
@@ -110,12 +110,10 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
             }
         }
         
-        /*
         center.removePendingNotificationRequests(withIdentifiers: [station.name])
         center.getPendingNotificationRequests { (requests) in
             print("removed- there are now \(requests.count) requests in pending notifications")
         }
-        */
     }
     
     // Used to present notifications while app is in foreground
@@ -126,7 +124,8 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
             for request in requests {
                 let stationName = request.request.identifier
                 print("presented notification for \(stationName)")
-                // *** REMOVE ALARM!
+                guard let station = self.store.stationsDictionary[stationName] else { print("no such station in willPresent"); return }
+                self.removeAlarm(station: station)
             }
         }
         
@@ -141,7 +140,8 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
 
             for request in requests {
                 let stationName = request.request.identifier
-                // *** REMOVE ALARM!
+                guard let station = self.store.stationsDictionary[stationName] else { print("no such station in willPresent"); return }
+                self.removeAlarm(station: station)
             }
         }
         completionHandler()
