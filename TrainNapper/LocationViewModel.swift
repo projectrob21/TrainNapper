@@ -109,6 +109,14 @@ extension LocationViewModel: CLLocationManagerDelegate {
         
     }
     
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
+        print("Location Manager PAUSED updates")
+    }
+    
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
+        print("Location Manager RESUMED updates")
+    }
+    
 }
 
 extension LocationViewModel: RegionsToMonitorDelegate {

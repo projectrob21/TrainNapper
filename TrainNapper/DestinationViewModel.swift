@@ -67,7 +67,7 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
         
         
         // Create Notification
-        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+//        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
         let triggerRegion = UNLocationNotificationTrigger(region: region, repeats: false)
         
         let content = UNMutableNotificationContent()
