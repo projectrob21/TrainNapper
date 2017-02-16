@@ -28,7 +28,7 @@ final class DestinationViewModel: NSObject {
     
 //    weak var distanceDelegate: GetDistanceDelegate?
 
-    var addRegionToMonitorDelegate: AddRegionToMonitor?
+    var regionsToMonitorDelegate: RegionsToMonitorDelegate?
     
     
     convenience init(napper: Napper) {
@@ -57,45 +57,31 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
         station.isSelected = true
         napper.destination.append(station)
 
-        
-        /*
-        // Sorts destination array by proximity
-        
-        guard let napperLocation = napper.coordinate else { print("error getting napper coordinate - addAlarm"); return }
-        
-        if napper.destination.count > 1 {
-            napper.destination = napper.destination.sorted(by: { ($0.coordinateCL.distance(from: napperLocation) < $1.coordinateCL.distance(from: napperLocation))
-            })
-        }
-        
-        // ^^ may not be necessary depending on region mapping
-        
-        */
-        
-        // Send by region maping
-
-        let region = CLCircularRegion(center: station.coordinate2D, radius: proximityRadius, identifier: "identifier")
+        // Create Region
+        let region = CLCircularRegion(center: station.coordinate2D, radius: proximityRadius, identifier: station.name)
         region.notifyOnExit = false
         region.notifyOnEntry = true
         
-        addRegionToMonitorDelegate?.addRegionToMonitor(region: region)
+        // Send Region to Monitor Location
+        regionsToMonitorDelegate?.addRegionToMonitor(region: region)
         
+        
+        // Create Notification
         let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
         let triggerRegion = UNLocationNotificationTrigger(region: region, repeats: false)
-
+        
         let content = UNMutableNotificationContent()
         content.title = NSString.localizedUserNotificationString(forKey: "Time to wake up!", arguments: nil)
         content.body = "You are now arriving at \(station.name)"
         content.sound = UNNotificationSound.default()
         
-        
         let request = UNNotificationRequest(identifier: station.name, content: content, trigger: triggerRegion)
-
         center.add(request)
         
+        
+        // Print Notification Center Requests
         center.getPendingNotificationRequests { (requests) in
             print("added- there are now \(requests.count) requests in pending notifications")
-            
  
         }
         
@@ -109,6 +95,9 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
                 napper.destination.remove(at: index)
             }
         }
+        
+        let region = CLCircularRegion(center: station.coordinate2D, radius: proximityRadius, identifier: station.name)
+        regionsToMonitorDelegate?.removeRegionToMonitor(region: region)
         
         center.removePendingNotificationRequests(withIdentifiers: [station.name])
         center.getPendingNotificationRequests { (requests) in

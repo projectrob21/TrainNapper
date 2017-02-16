@@ -72,7 +72,7 @@ class HomeViewController: UIViewController {
         mapView.napperAlarmsDelegate = destinationViewModel
         alarmsListView.napperAlarmsDelegate = destinationViewModel
         mapViewModel.addToMapDelegate = mapView
-        destinationViewModel.addRegionToMonitorDelegate = locationViewModel
+        destinationViewModel.regionsToMonitorDelegate = locationViewModel
 //        destinationViewModel.distanceDelegate = self
         
         mapView.addStationsToMap(stations: mapViewModel.stations)

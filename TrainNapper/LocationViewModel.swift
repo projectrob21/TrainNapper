@@ -111,18 +111,30 @@ extension LocationViewModel: CLLocationManagerDelegate {
     
 }
 
-extension LocationViewModel: AddRegionToMonitor {
+extension LocationViewModel: RegionsToMonitorDelegate {
     
     func addRegionToMonitor(region: CLCircularRegion) {
         locationManager.startMonitoring(for: region)
+
+        print("MONITORED REGIONS = \(locationManager.monitoredRegions)")
+    }
+
+    func removeRegionToMonitor(region: CLCircularRegion) {
+        locationManager.stopMonitoring(for: region)
+        
+
+        print("MONITORED REGIONS = \(locationManager.monitoredRegions)")
     }
 
     
 }
 
-protocol AddRegionToMonitor {
+protocol RegionsToMonitorDelegate {
     
     func addRegionToMonitor(region: CLCircularRegion)
+    
+    func removeRegionToMonitor(region: CLCircularRegion)
+
     
 }
 
