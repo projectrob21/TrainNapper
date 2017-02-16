@@ -14,6 +14,6 @@
 //#import <Google-Maps-iOS-Utils/Clustering/GMUMarkerClustering.h>
 
 //#import "Google-Maps-iOS-Utils/GMUMarkerClustering.h"
-//#import <Goog le-Maps-iOS-Utils/GQTPointQuadTree.h>
+//#import <Google-Maps-iOS-Utils/GQTPointQuadTree.h>
 
 #endif /* GoogleMapsBridging_h */
