@@ -23,7 +23,7 @@ final class DestinationViewModel: NSObject {
     let center = UNUserNotificationCenter.current()
 
 
-    let proximityRadius = 1785.0
+    let proximityRadius = 800.0
     var distanceToStation = 0.0
     
 //    weak var distanceDelegate: GetDistanceDelegate?

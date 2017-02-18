@@ -21,7 +21,7 @@ final class LocationViewModel: NSObject {
     var locationManager: CLLocationManager!
     var napper: Napper!
     
-    let proximityRadius = 1785.0
+    let proximityRadius = 800.0
     var distanceToStation = 0.0
     
     weak var distanceDelegate: GetDistanceDelegate?
@@ -50,7 +50,7 @@ extension LocationViewModel: CLLocationManagerDelegate {
         locationManager.activityType = .otherNavigation
         locationManager.pausesLocationUpdatesAutomatically = true
         
-        locationManager.stopUpdatingLocation()
+        locationManager.startUpdatingLocation()
         
     }
     
