@@ -24,13 +24,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TrainNapper" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="GJd-Yh-RWb">
-                                <rect key="frame" x="82" y="50" width="211.5" height="43"/>
+                                <rect key="frame" x="82" y="50" width="212" height="43"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-App-83.5x83.5" translatesAutoresizingMaskIntoConstraints="NO" id="wKo-z7-DAL">
-                                <rect key="frame" x="46.5" y="193" width="281" height="281"/>
+                                <rect key="frame" x="47" y="193" width="281" height="281"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="wKo-z7-DAL" secondAttribute="height" multiplier="1:1" id="pOG-Z5-S5C"/>
                                 </constraints>
