@@ -28,6 +28,7 @@
 		E833DF821E0F1433006438C4 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833DF811E0F1433006438C4 /* DataStore.swift */; };
 		E869CCF31E11C929003A3FC2 /* Napper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869CCF21E11C929003A3FC2 /* Napper.swift */; };
 		E869CCF51E11E55E003A3FC2 /* MarkerWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */; };
+		E870EC5E1E60C1B900F3D303 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E870EC5D1E60C1B900F3D303 /* Launch Screen.storyboard */; };
 		E87860A41E28A0B300DE089C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E87860A31E28A0B300DE089C /* GoogleService-Info.plist */; };
 		E885470F1E44FF8900DA3E93 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E885470E1E44FF8900DA3E93 /* LocationViewModel.swift */; };
 		E88547111E450EAE00DA3E93 /* AdvertisingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88547101E450EAE00DA3E93 /* AdvertisingView.swift */; };
@@ -103,6 +104,7 @@
 		E833DF811E0F1433006438C4 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		E869CCF21E11C929003A3FC2 /* Napper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Napper.swift; sourceTree = "<group>"; };
 		E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerWindowView.swift; sourceTree = "<group>"; };
+		E870EC5D1E60C1B900F3D303 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		E87860A31E28A0B300DE089C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E885470E1E44FF8900DA3E93 /* LocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		E88547101E450EAE00DA3E93 /* AdvertisingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvertisingView.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				E87860A01E28937E00DE089C /* Controller */,
 				E878609F1E28937800DE089C /* Data */,
 				E833DF641E0EEFFE006438C4 /* Assets.xcassets */,
+				E870EC5D1E60C1B900F3D303 /* Launch Screen.storyboard */,
 				E887E2861E2D803600A9D8F2 /* ColorExtensions.swift */,
 				E833DF691E0EEFFE006438C4 /* Info.plist */,
 				E87860A31E28A0B300DE089C /* GoogleService-Info.plist */,
@@ -381,7 +384,7 @@
 					E833DF591E0EEFFE006438C4 = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = Y95395R97T;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -422,6 +425,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E870EC5E1E60C1B900F3D303 /* Launch Screen.storyboard in Resources */,
 				E833DF651E0EEFFE006438C4 /* Assets.xcassets in Resources */,
 				E8C2AF461E24A77C00BE8338 /* MetroNorthStations.json in Resources */,
 				E8C2AF451E24A77C00BE8338 /* LIRRStations.json in Resources */,
@@ -637,13 +641,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TrainNapper/TrainNapper.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Robert Deans (Y95395R97T)";
 				DEVELOPMENT_TEAM = Y95395R97T;
 				INFOPLIST_FILE = TrainNapper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rob.TrainNapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "07d5a246-b8e4-41c2-9374-8b35d9d540a7";
+				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: com.rob.TrainNapper";
 				SWIFT_OBJC_BRIDGING_HEADER = TrainNapper/GoogleMapsBridging.h;
 				SWIFT_VERSION = 3.0;
 			};
@@ -656,12 +661,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TrainNapper/TrainNapper.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Robert Deans (Y95395R97T)";
 				DEVELOPMENT_TEAM = Y95395R97T;
 				INFOPLIST_FILE = TrainNapper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rob.TrainNapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "07d5a246-b8e4-41c2-9374-8b35d9d540a7";
+				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: com.rob.TrainNapper";
 				SWIFT_OBJC_BRIDGING_HEADER = TrainNapper/GoogleMapsBridging.h;
 				SWIFT_VERSION = 3.0;
 			};

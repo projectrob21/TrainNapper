@@ -3,25 +3,25 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "44x44.png",
+      "filename" : "40ptx40.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "58x58.png",
+      "filename" : "60ptx60.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "58x58-1.png",
+      "filename" : "58x58.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "87x87.png",
+      "filename" : "174ptx174.png",
       "scale" : "3x"
     },
     {
