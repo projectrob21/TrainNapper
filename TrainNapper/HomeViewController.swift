@@ -60,10 +60,10 @@ class HomeViewController: UIViewController {
         alarmsListView.isHidden = true
 
         bannerView = GADBannerView()
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.adUnitID = "ca-app-pub-2779558823377577/7704036846"
         bannerView.rootViewController = self
         let request = GADRequest()
-        request.testDevices = ["ca-app-pub-3940256099942544/2934735716"]
+        request.testDevices = ["ca-app-pub-2779558823377577/7704036846"]
         bannerView.load(request)
         
         // Assigning delegates
