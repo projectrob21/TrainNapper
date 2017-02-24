@@ -80,7 +80,6 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
         
 //        *** locationManager.startMonitoring(for: region)
         
-        let triggerTime = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
         let triggerRegion = UNLocationNotificationTrigger(region: region, repeats: false)
 
         let content = UNMutableNotificationContent()
