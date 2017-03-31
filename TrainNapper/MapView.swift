@@ -171,6 +171,11 @@ extension MapView: GMSMapViewDelegate {
             }
         }
     }
+
+    func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
+        
+    }
+
 }
 
 extension MapView: GMUClusterManagerDelegate, GMUClusterRendererDelegate {

@@ -13,7 +13,7 @@ class Station {
     let name: String
     let branch: Branch
     var isSelected = false
-    var isHidden = false
+    var isHidden = true
     let latitude: Double
     let longitude: Double
     var coordinate2D: CLLocationCoordinate2D {
