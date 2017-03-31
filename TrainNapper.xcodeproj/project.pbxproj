@@ -42,6 +42,8 @@
 		E8C2AF481E24BBCD00BE8338 /* NJTransit.json in Resources */ = {isa = PBXBuildFile; fileRef = E8C2AF471E24BBCD00BE8338 /* NJTransit.json */; };
 		E8C2AF4A1E2565D700BE8338 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C2AF491E2565D700BE8338 /* FilterView.swift */; };
 		E8F1EAC81E8D9F850079DC54 /* dec122009010.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8F1EAC71E8D9F850079DC54 /* dec122009010.jpg */; };
+		E8F1EACA1E8EC70E0079DC54 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F1EAC91E8EC70E0079DC54 /* Alarm.swift */; };
+		E8F1EACC1E8ECDEB0079DC54 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F1EACB1E8ECDEB0079DC54 /* User.swift */; };
 		E8FB0EF91E15C66A006C1E89 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FB0EF81E15C66A006C1E89 /* UserNotifications.framework */; };
 /* End PBXBuildFile section */
 
@@ -120,6 +122,8 @@
 		E8C2AF471E24BBCD00BE8338 /* NJTransit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NJTransit.json; sourceTree = "<group>"; };
 		E8C2AF491E2565D700BE8338 /* FilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		E8F1EAC71E8D9F850079DC54 /* dec122009010.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dec122009010.jpg; sourceTree = "<group>"; };
+		E8F1EAC91E8EC70E0079DC54 /* Alarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
+		E8F1EACB1E8ECDEB0079DC54 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E8FB0EF81E15C66A006C1E89 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		FF5D0224BD5F193A0943E482 /* Pods-TrainNapper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainNapper.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrainNapper/Pods-TrainNapper.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -300,6 +304,8 @@
 		E878609E1E28936B00DE089C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E8F1EACB1E8ECDEB0079DC54 /* User.swift */,
+				E8F1EAC91E8EC70E0079DC54 /* Alarm.swift */,
 				E869CCF21E11C929003A3FC2 /* Napper.swift */,
 				E833DF7D1E0EF097006438C4 /* Station.swift */,
 			);
@@ -509,6 +515,7 @@
 				E833DF821E0F1433006438C4 /* DataStore.swift in Sources */,
 				E833DF601E0EEFFE006438C4 /* HomeViewController.swift in Sources */,
 				E833DF801E0EF766006438C4 /* MapView.swift in Sources */,
+				E8F1EACC1E8ECDEB0079DC54 /* User.swift in Sources */,
 				E80B8DD91E553D96000D6F14 /* GMUDefaultClusterRenderer.m in Sources */,
 				E80B8DD61E553D96000D6F14 /* GMUClusterManager.m in Sources */,
 				E869CCF31E11C929003A3FC2 /* Napper.swift in Sources */,
@@ -527,6 +534,7 @@
 				E80B8DDD1E554756000D6F14 /* ClusterItem.swift in Sources */,
 				E80B8DDA1E553D96000D6F14 /* GQTPointQuadTree.m in Sources */,
 				E8B544B91E354C6E00FDF48D /* MapViewModel.swift in Sources */,
+				E8F1EACA1E8EC70E0079DC54 /* Alarm.swift in Sources */,
 				E80B8DD41E553D96000D6F14 /* GMUSimpleClusterAlgorithm.m in Sources */,
 				E80B8DDB1E553D96000D6F14 /* GQTPointQuadTreeChild.m in Sources */,
 			);

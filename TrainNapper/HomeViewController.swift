@@ -63,7 +63,8 @@ class HomeViewController: UIViewController {
         bannerView.adUnitID = "ca-app-pub-2779558823377577/7704036846"
         bannerView.rootViewController = self
         let request = GADRequest()
-        request.testDevices = ["ca-app-pub-2779558823377577/7704036846"]
+//        request.testDevices = ["ca-app-pub-2779558823377577/7704036846"]
+        request.testDevices = [ kGADSimulatorID ]
         bannerView.load(request)
         
         // Assigning delegates

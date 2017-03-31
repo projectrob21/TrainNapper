@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 import SnapKit
 import GoogleMaps
 import GoogleMobileAds
@@ -173,9 +174,19 @@ extension MapView: GMSMapViewDelegate {
     }
 
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
+        print("LONG TOUCH AT COORDINATE \(coordinate)")
+        let newMarker = GMSMarker(position: coordinate)
+        newMarker.map = mapView
         
+        let newAlarm = Alarm()
+        newAlarm.marker = newMarker
+        newAlarm.id = UUID()
+        
+        try! store.realm.write {
+            store.user.alarms.append(newAlarm)
+        }
     }
-
+    
 }
 
 extension MapView: GMUClusterManagerDelegate, GMUClusterRendererDelegate {

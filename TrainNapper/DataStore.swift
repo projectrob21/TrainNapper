@@ -7,16 +7,33 @@
 //
 
 import Foundation
+import RealmSwift
+
 
 typealias StationDictionary = [String:Station]
+
 
 final class DataStore {
     
     static let sharedInstance = DataStore()
-//    static let napper = Napper(coordinate: nil)
+    
+    let realm = try! Realm()
+    
+    var user: User! = User()
+    
+    func addUserToRealm() {
+        try! realm.write {
+            realm.add(user)
+        }
+    }
 
+    
     var stationsDictionary = StationDictionary()
-    // Napper Singleton!
+    
+}
+
+// MARK: Train Data Methods
+extension DataStore {
     
     func getJSONStationsDictionary(with jsonFilename: String, completion: @escaping ([String : [String : Any]]) -> Void) {
         guard let filePath = Bundle.main.path(forResource: jsonFilename, ofType: "json") else { print("error unwrapping json file path"); return }
