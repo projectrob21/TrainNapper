@@ -17,7 +17,7 @@ protocol NapperAlarmsDelegate: class {
 
 final class DestinationViewModel: NSObject {
     
-    let store = DataStore.sharedInstance
+    let store = DataStore.shared
     
     var napper: Napper!
     let center = UNUserNotificationCenter.current()

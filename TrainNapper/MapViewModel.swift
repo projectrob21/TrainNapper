@@ -22,7 +22,7 @@ protocol SearchStationDelegate: class {
 
 final class MapViewModel: NSObject {
     
-    let store = DataStore.sharedInstance
+    let store = DataStore.shared
     var stations: StationDictionary = [:]
 
     weak var addToMapDelegate: AddToMapDelegate?

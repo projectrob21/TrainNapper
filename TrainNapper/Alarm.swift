@@ -13,6 +13,7 @@ final class Alarm: Object {
 
     dynamic var id: UUID?
     dynamic var name: String? = nil
-    dynamic var marker: GMSMarker?
+    dynamic var location: Location?
+    dynamic var isActive: Bool = true
     
 }

@@ -15,7 +15,7 @@ typealias StationDictionary = [String:Station]
 
 final class DataStore {
     
-    static let sharedInstance = DataStore()
+    static let shared = DataStore()
     
     let realm = try! Realm()
     

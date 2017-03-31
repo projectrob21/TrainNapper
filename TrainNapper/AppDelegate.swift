@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var homeViewController: UIViewController!
     var navigationController: UINavigationController!
-    let store = DataStore.sharedInstance
+    let store = DataStore.shared
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {

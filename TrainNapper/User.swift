@@ -12,6 +12,6 @@ import RealmSwift
 final class User: Object {
     
     let alarms = List<Alarm>()
-    dynamic var coordinate: CLLocation?
+    dynamic var coordinate: Location?
 
 }

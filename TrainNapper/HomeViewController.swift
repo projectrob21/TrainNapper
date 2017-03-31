@@ -14,7 +14,7 @@ import GoogleMobileAds
 class HomeViewController: UIViewController {
     
     static let napper = Napper(coordinate: nil)
-    let store = DataStore.sharedInstance
+    let store = DataStore.shared
 
     let mapView = MapView()
     var bannerView: GADBannerView!

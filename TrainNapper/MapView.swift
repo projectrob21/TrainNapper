@@ -16,7 +16,7 @@ class MapView: UIView {
     
     // MARK: Properties
     
-    let store = DataStore.sharedInstance
+    let store = DataStore.shared
     
     var camera: GMSCameraPosition!
     var stationsMap: GMSMapView!
@@ -64,10 +64,7 @@ class MapView: UIView {
                                            renderer: renderer)
         renderer.delegate = self
         clusterManager.setDelegate(self, mapDelegate: self)
-        
-        
-        
-        
+
         
         for button in filterView.buttonsArray {
             button.addTarget(self, action: #selector(filterBranches(_:)), for: .touchUpInside)
@@ -150,13 +147,21 @@ extension MapView: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
         markerWindowView = MarkerWindowView()
-        markerWindowView.stationLabel.text = marker.snippet
+        markerWindowView.stationLabel.text = "PLEASE MAKE THIS WINDOW NICER"
         return markerWindowView
         
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        
+        marker.map = nil
+        
+       
+        
+        
+        /*
         guard let station = store.stationsDictionary[marker.snippet!] else { print("mapview - trouble unwrapping station"); return }
+        
         
         if marker.icon != UIImage.alarmClock {
             napperAlarmsDelegate?.addAlarm(station: station)
@@ -171,6 +176,7 @@ extension MapView: GMSMapViewDelegate {
             default: break
             }
         }
+        */
     }
 
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
@@ -179,7 +185,7 @@ extension MapView: GMSMapViewDelegate {
         newMarker.map = mapView
         
         let newAlarm = Alarm()
-        newAlarm.marker = newMarker
+
         newAlarm.id = UUID()
         
         try! store.realm.write {
