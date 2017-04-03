@@ -11,6 +11,7 @@ import Foundation
 import SnapKit
 import GoogleMaps
 import GoogleMobileAds
+import AudioToolbox
 
 class MapView: UIView {
     
@@ -20,11 +21,10 @@ class MapView: UIView {
     
     var camera: GMSCameraPosition!
     var stationsMap: GMSMapView!
-    var markerWindowView: MarkerWindowView!
-    var clusterManager: GMUClusterManager!
     var markerArray = [GMSMarker]()
     
-    let filterView = FilterView()
+    var alarmWindowViewController: AlarmWindowViewController!
+
     
     weak var filterBranchesDelegate: FilterBranchesDelegate?
     weak var napperAlarmsDelegate: NapperAlarmsDelegate?
@@ -55,20 +55,8 @@ class MapView: UIView {
         stationsMap.settings.myLocationButton = true
         stationsMap.mapType = kGMSTypeNormal
         stationsMap.delegate = self
-
-        let iconGenerator = GMUDefaultClusterIconGenerator(buckets: [10,20,50,100,200,400])
-        let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
-        let renderer = GMUDefaultClusterRenderer(mapView: stationsMap,
-                                                 clusterIconGenerator: iconGenerator)
-        clusterManager = GMUClusterManager(map: stationsMap, algorithm: algorithm,
-                                           renderer: renderer)
-        renderer.delegate = self
-        clusterManager.setDelegate(self, mapDelegate: self)
-
         
-        for button in filterView.buttonsArray {
-            button.addTarget(self, action: #selector(filterBranches(_:)), for: .touchUpInside)
-        }
+        
     }
     
     // MARK: View Constraints
@@ -79,13 +67,6 @@ class MapView: UIView {
             $0.edges.equalToSuperview()
         }
         
-        addSubview(filterView)
-        filterView.snp.makeConstraints {
-            $0.leading.trailing.width.equalToSuperview()
-            $0.bottom.equalTo(stationsMap.snp.top).offset(-132)
-            $0.height.equalTo(44)
-            
-        }
     }
     
 }
@@ -146,92 +127,145 @@ extension MapView: AddToMapDelegate {
 extension MapView: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
-        markerWindowView = MarkerWindowView()
-        markerWindowView.stationLabel.text = "PLEASE MAKE THIS WINDOW NICER"
-        return markerWindowView
         
+//        markerWindowView = MarkerWindowView()
+//        markerWindowView.stationLabel.text = "PLEASE MAKE THIS WINDOW NICER"
+//        return markerWindowView
+        return nil
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         
-        marker.map = nil
-        
-       
-        
-        
         /*
-        guard let station = store.stationsDictionary[marker.snippet!] else { print("mapview - trouble unwrapping station"); return }
-        
-        
-        if marker.icon != UIImage.alarmClock {
-            napperAlarmsDelegate?.addAlarm(station: station)
-            marker.icon = UIImage.alarmClock
-        } else {
-            napperAlarmsDelegate?.removeAlarm(station: station)
-            
-            switch station.branch {
-            case .LIRR: marker.icon = UIImage.lirrIcon
-            case .MetroNorth: marker.icon = UIImage.metroNorthIcon
-            case .NJTransit: marker.icon = UIImage.njTransitIcon
-            default: break
-            }
-        }
-        */
+         guard let station = store.stationsDictionary[marker.snippet!] else { print("mapview - trouble unwrapping station"); return }
+         
+         
+         if marker.icon != UIImage.alarmClock {
+         napperAlarmsDelegate?.addAlarm(station: station)
+         marker.icon = UIImage.alarmClock
+         } else {
+         napperAlarmsDelegate?.removeAlarm(station: station)
+         
+         switch station.branch {
+         case .LIRR: marker.icon = UIImage.lirrIcon
+         case .MetroNorth: marker.icon = UIImage.metroNorthIcon
+         case .NJTransit: marker.icon = UIImage.njTransitIcon
+         default: break
+         }
+         }
+         */
     }
-
+    
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         print("LONG TOUCH AT COORDINATE \(coordinate)")
+        // Vibrates once
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+        
         let newMarker = GMSMarker(position: coordinate)
         newMarker.map = mapView
         
         let newAlarm = Alarm()
-
-        newAlarm.id = UUID()
+        
+        newAlarm.id = "\(UUID())"
         
         try! store.realm.write {
             store.user.alarms.append(newAlarm)
         }
     }
     
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        
+        
+        // TRUE if this delegate handled the tap event, which prevents the map from performing its default selection behavior, and FALSE if the map should continue with its default selection behavior.
+        return true
+    }
+    
 }
 
-extension MapView: GMUClusterManagerDelegate, GMUClusterRendererDelegate {
-
-    func renderer(_ renderer: GMUClusterRenderer, willRenderMarker marker: GMSMarker) {
-        print("rendering")
-
+extension MapView {
+    
+    func presentAddUserController() {
+        alarmWindowViewController = AlarmWindowViewController()
+        alarmWindowViewController.parentVC = self
+        view.addSubview(addUserViewController.view)
+        alarmWindowViewController.view.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        alarmWindowViewController.didMove(toParentViewController: nil)
+        view.layoutIfNeeded()
         
+        print("PARENT = \(alarmWindowViewController.parent)")
         
-        guard let stationData = marker.userData as? StationCluster else { print("error unwrapping station in willRenderMarker"); return }
-
-        print("marker.userData = \(stationData.name)")
-        
-        guard let station = store.stationsDictionary[stationData.name] else { print("mapview - trouble unwrapping station"); return }
-            print("station = \(station.name)")
-            marker.snippet = station.name
-        
-            if !station.isHidden {
-                switch station.branch {
-                case .LIRR: marker.icon = UIImage.lirrIcon
-                case .MetroNorth: marker.icon = UIImage.metroNorthIcon
-                case .NJTransit: marker.icon = UIImage.njTransitIcon
-                default: break
-                }
-                if station.isSelected {
-                    marker.icon = UIImage.alarmClock
-                }
+        navigationItem.rightBarButtonItem?.title = "Dismiss"
+        navigationItem.rightBarButtonItem?.action = #selector(dismissViewAddUSerController)
+    }
+    
+    func dismissViewAddUSerController() {
+        APIClient.getSpotifyUsersData(branch: "people", not: false, nameOrID: nil) { (jsonData) in
+            self.users = []
+            for response in jsonData {
+                let newUser = User(herokuJSON: response)
+                self.users.append(newUser)
             }
+            OperationQueue.main.addOperation {
+                print("number of users is \(self.users.count)")
+                self.users = self.users.sorted(by: {
+                    $0.0.id < $0.1.id
+                })
+                self.tableView.reloadData()
+            }
+        }
+        
+        navigationItem.rightBarButtonItem?.title = "Add User"
+        navigationItem.rightBarButtonItem?.action = #selector(presentAddUserController)
+        
+        willMove(toParentViewController: nil)
+        alarmWindowViewController.view.removeFromSuperview()
+        alarmWindowViewController = nil
+        
         
         
     }
     
+}
 
+extension MapView: GMUClusterManagerDelegate, GMUClusterRendererDelegate {
     
-//        func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
-//        let newCamera = GMSCameraPosition.camera(withTarget: cluster.position,
-//                                                           zoom: stationsMap.camera.zoom + 1)
-//        let update = GMSCameraUpdate.setCamera(newCamera)
-//        stationsMap.moveCamera(update)
-//        return true
-//    }
+    func renderer(_ renderer: GMUClusterRenderer, willRenderMarker marker: GMSMarker) {
+        print("rendering")
+        
+        
+        
+        guard let stationData = marker.userData as? StationCluster else { print("error unwrapping station in willRenderMarker"); return }
+        
+        print("marker.userData = \(stationData.name)")
+        
+        guard let station = store.stationsDictionary[stationData.name] else { print("mapview - trouble unwrapping station"); return }
+        print("station = \(station.name)")
+        marker.snippet = station.name
+        
+        if !station.isHidden {
+            switch station.branch {
+            case .LIRR: marker.icon = UIImage.lirrIcon
+            case .MetroNorth: marker.icon = UIImage.metroNorthIcon
+            case .NJTransit: marker.icon = UIImage.njTransitIcon
+            default: break
+            }
+            if station.isSelected {
+                marker.icon = UIImage.alarmClock
+            }
+        }
+        
+        
+    }
+    
+    
+    
+    //        func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
+    //        let newCamera = GMSCameraPosition.camera(withTarget: cluster.position,
+    //                                                           zoom: stationsMap.camera.zoom + 1)
+    //        let update = GMSCameraUpdate.setCamera(newCamera)
+    //        stationsMap.moveCamera(update)
+    //        return true
+    //    }
 }

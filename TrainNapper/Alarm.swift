@@ -11,9 +11,10 @@ import RealmSwift
 
 final class Alarm: Object {
 
-    dynamic var id: UUID?
+    dynamic var id: String = ""
     dynamic var name: String? = nil
     dynamic var location: Location?
     dynamic var isActive: Bool = true
+    //Sound
     
 }
