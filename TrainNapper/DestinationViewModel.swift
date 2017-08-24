@@ -10,31 +10,18 @@ import GoogleMaps
 import UserNotifications
 
 
-protocol NapperAlarmsDelegate: class {
-    func addAlarm(station: Station)
-    func removeAlarm(station: Station)
-}
-
 final class DestinationViewModel: NSObject {
     
     let store = StationsDataStore.sharedInstance
     
-    var napper: Napper!
     let center = UNUserNotificationCenter.current()
-
-
+    
     let proximityRadius = 800.0
     var distanceToStation = 0.0
     
-//    weak var distanceDelegate: GetDistanceDelegate?
-
-    var regionsToMonitorDelegate: RegionsToMonitorDelegate?
+    //    weak var distanceDelegate: GetDistanceDelegate?
     
-    
-    convenience init(napper: Napper) {
-        self.init()
-        self.napper = napper
-
+    init() {
         
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
@@ -53,17 +40,17 @@ final class DestinationViewModel: NSObject {
 extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDelegate {
     
     func addAlarm(station: Station) {
-
+        
         station.isSelected = true
         napper.destination.append(station)
-
+        
         // Create Region
         let region = CLCircularRegion(center: station.coordinate2D, radius: proximityRadius, identifier: station.name)
         region.notifyOnExit = false
         region.notifyOnEntry = true
         
         // Send Region to Monitor Location
-        regionsToMonitorDelegate?.addRegionToMonitor(region: region)
+        sharedDelegate.napper.locationManager.startMonitoring(for: region)
         
         let triggerRegion = UNLocationNotificationTrigger(region: region, repeats: false)
         
@@ -79,11 +66,11 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
         // Print Notification Center Requests
         center.getPendingNotificationRequests { (requests) in
             print("added- there are now \(requests.count) requests in pending notifications")
- 
+            
         }
         
     }
-
+    
     
     func removeAlarm(station: Station) {
         station.isSelected = false
@@ -94,7 +81,7 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
         }
         
         let region = CLCircularRegion(center: station.coordinate2D, radius: proximityRadius, identifier: station.name)
-        regionsToMonitorDelegate?.removeRegionToMonitor(region: region)
+        sharedDelegate.napper.locationManager.stopMonitoring(for: region)
         
         center.removePendingNotificationRequests(withIdentifiers: [station.name])
         center.getPendingNotificationRequests { (requests) in
@@ -123,7 +110,7 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
         
         center.getDeliveredNotifications { (requests) in
             print("get delivered called in didReceive")
-
+            
             for request in requests {
                 let stationName = request.request.identifier
                 guard let station = self.store.stationsDictionary[stationName] else { print("no such station in willPresent"); return }
@@ -132,6 +119,6 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
         }
         completionHandler()
     }
-
+    
 }
 

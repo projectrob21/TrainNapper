@@ -8,17 +8,7 @@
 
 import GoogleMaps
 
-protocol AddToMapDelegate: class {
-    func addStationsToMap(stations: StationDictionary)
-}
-
-protocol FilterBranchesDelegate: class {
-    func filterBranches(branch: Branch, isHidden: Bool)
-}
-
-protocol SearchStationDelegate: class {
-    func searchBarFilter(with text: String)
-}
+// Manages which stations from the StationsDataStore are visible on the MapView
 
 final class MapViewModel: NSObject {
     
@@ -26,7 +16,7 @@ final class MapViewModel: NSObject {
     var stations: StationDictionary = [:]
 
     weak var addToMapDelegate: AddToMapDelegate?
-    
+     
     override init() {
         super.init()
         configure()

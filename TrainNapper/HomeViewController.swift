@@ -73,18 +73,17 @@ class HomeViewController: UIViewController {
         bannerView.load(request)
         
 
-        
         // Assigning delegates
         mapView.filterView.searchStationDelegate = mapViewModel
         mapView.filterBranchesDelegate = mapViewModel
         mapView.napperAlarmsDelegate = destinationViewModel
+        
         alarmsListView.napperAlarmsDelegate = destinationViewModel
         mapViewModel.addToMapDelegate = mapView
-        destinationViewModel.regionsToMonitorDelegate = napper
-//        destinationViewModel.distanceDelegate = self
-        napper.presentAlertDelegate = self
-
         
+        napper.presentAlertDelegate = self
+        
+        // Populate map
         mapView.addStationsToMap(stations: mapViewModel.stations)
 
         // HomeVC needs time to initialize and set delegate before calling this method
@@ -110,19 +109,12 @@ class HomeViewController: UIViewController {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalToSuperview().dividedBy(10)
         }
-        // Used to test region distances
-        /*
-        distanceLabel = UILabel()
-        mapView.addSubview(distanceLabel)
-        distanceLabel.snp.makeConstraints {
-            $0.bottom.leading.width.equalToSuperview()
-            $0.height.equalToSuperview().dividedBy(8)
-        }
-        distanceLabel.backgroundColor = UIColor.white
-        distanceLabel.textColor = UIColor.black
-        distanceLabel.textAlignment = .center
-        */
     }
+    
+}
+
+// MARK: Filter methods
+extension HomeViewController {
     
     func toggleFilterView() {
         showFilter = !showFilter
@@ -169,12 +161,7 @@ class HomeViewController: UIViewController {
     
 }
 
-extension HomeViewController: GetDistanceDelegate {
-    func distanceToStation(distance: Double) {
-        distanceLabel.text = "\(distance)"
-    }
-}
-
+// MARK: Alert reminding user to allow location monitoring
 extension HomeViewController: PresentAlertDelegate {
     func presentAlert() {
         print("present alert delegate called")
@@ -197,4 +184,35 @@ extension HomeViewController: PresentAlertDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
 }
+
+// MARK: Used for testing distances and regions (provides visual data for tester)
+protocol GetDistanceDelegate: class {
+    func distanceToStation(distance: Double)
+}
+
+extension HomeViewController: GetDistanceDelegate {
+    
+    func setUpDistanceDelegate() {
+        // Used to test region distances
+        /*
+         
+         destinationViewModel.distanceDelegate = self
+         
+         distanceLabel = UILabel()
+         mapView.addSubview(distanceLabel)
+         distanceLabel.snp.makeConstraints {
+         $0.bottom.leading.width.equalToSuperview()
+         $0.height.equalToSuperview().dividedBy(8)
+         }
+         distanceLabel.backgroundColor = UIColor.white
+         distanceLabel.textColor = UIColor.black
+         distanceLabel.textAlignment = .center
+         */
+    }
+    
+    func distanceToStation(distance: Double) {
+        distanceLabel.text = "\(distance)"
+    }
+}
+
 

@@ -37,8 +37,6 @@ extension Napper: CLLocationManagerDelegate {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
-        requestLocationAuthorization()
-        
         //Energy efficiency
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.activityType = .otherNavigation
@@ -49,11 +47,11 @@ extension Napper: CLLocationManagerDelegate {
     
     func requestLocationAuthorization() {
         if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
-            print("authorization for location is NOT ALWAYS; hashValue: \(CLLocationManager.authorizationStatus().hashValue)")
+            print("authorization for location is NOT ALLOWED; hashValue: \(CLLocationManager.authorizationStatus().hashValue)")
             presentAlertDelegate?.presentAlert()
             
         } else {
-            locationManager.requestLocation()
+            locationManager.startUpdatingLocation()
             print("authorized for location")
         }
     }
@@ -108,38 +106,4 @@ extension Napper: CLLocationManagerDelegate {
      print("Location Manager RESUMED updates")
      }
      */
-}
-
-extension Napper: RegionsToMonitorDelegate {
-    
-    func addRegionToMonitor(region: CLCircularRegion) {
-        locationManager.startMonitoring(for: region)
-        
-        print("MONITORED REGIONS = \(locationManager.monitoredRegions)")
-    }
-    
-    func removeRegionToMonitor(region: CLCircularRegion) {
-        locationManager.stopMonitoring(for: region)
-        
-        
-        print("MONITORED REGIONS = \(locationManager.monitoredRegions)")
-    }
-    
-    
-}
-
-protocol RegionsToMonitorDelegate {
-    
-    func addRegionToMonitor(region: CLCircularRegion)
-    
-    func removeRegionToMonitor(region: CLCircularRegion)
-    
-}
-
-// Used for testing distance to destination
-protocol PresentAlertDelegate: class {
-    func presentAlert()
-}
-protocol GetDistanceDelegate: class {
-    func distanceToStation(distance: Double)
 }
