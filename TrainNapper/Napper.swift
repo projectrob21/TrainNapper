@@ -44,7 +44,7 @@ extension Napper: CLLocationManagerDelegate {
     }
     
     func requestLocationAuthorization() {
-        locationManager.requestWhenInUseAuthorization()
+//        locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
             print("authorization for location is NOT ALLOWED; hashValue: \(CLLocationManager.authorizationStatus().hashValue)")
