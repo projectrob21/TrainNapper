@@ -17,12 +17,12 @@ class HomeViewController: UIViewController {
     let store = StationsDataStore.sharedInstance
 
     let mapView = MapView()
-    
-    var alarmsListView: AlarmsListView!
+    let alarmsListView = AlarmsListView()
     var bannerView: GADBannerView!
-    
+
     let mapViewModel = MapViewModel()
-    var destinationViewModel: DestinationViewModel!
+    let destinationViewModel = DestinationViewModel()
+
     
     var showAlarms = false
     var showFilter = false
@@ -55,9 +55,6 @@ class HomeViewController: UIViewController {
     // MARK: Initial Setup
     func configure() {
         
-        alarmsListView = AlarmsListView(napper: napper)
-        destinationViewModel = DestinationViewModel(napper: napper)
-        
         // Sets up navigationBar
         navigationItem.title = "TrainNapper"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilterView))
@@ -72,21 +69,18 @@ class HomeViewController: UIViewController {
         request.testDevices = ["ca-app-pub-2779558823377577/7704036846"]
         bannerView.load(request)
         
-
-        // Assigning delegates
+        // Assigning delegates (for description see the HelperProtocols file)
         mapView.filterView.searchStationDelegate = mapViewModel
         mapView.filterBranchesDelegate = mapViewModel
         mapView.napperAlarmsDelegate = destinationViewModel
-        
         alarmsListView.napperAlarmsDelegate = destinationViewModel
         mapViewModel.addToMapDelegate = mapView
-        
-        napper.presentAlertDelegate = self
         
         // Populate map
         mapView.addStationsToMap(stations: mapViewModel.stations)
 
-        // HomeVC needs time to initialize and set delegate before calling this method
+        // Request Location; HomeVC needs time to initialize and set delegate before calling this method
+        napper.presentAlertDelegate = self
         sharedDelegate.napper.requestLocationAuthorization()
     }
     
@@ -186,10 +180,6 @@ extension HomeViewController: PresentAlertDelegate {
 }
 
 // MARK: Used for testing distances and regions (provides visual data for tester)
-protocol GetDistanceDelegate: class {
-    func distanceToStation(distance: Double)
-}
-
 extension HomeViewController: GetDistanceDelegate {
     
     func setUpDistanceDelegate() {

@@ -16,7 +16,7 @@ final class MapViewModel: NSObject {
     var stations: StationDictionary = [:]
 
     weak var addToMapDelegate: AddToMapDelegate?
-     
+    
     override init() {
         super.init()
         configure()
@@ -28,7 +28,6 @@ final class MapViewModel: NSObject {
     
     
     func reloadStationsMap(with stations: StationDictionary) {
-        print("reload stations")
         addToMapDelegate?.addStationsToMap(stations: stations)
     }
     
@@ -38,7 +37,6 @@ final class MapViewModel: NSObject {
 extension MapViewModel: FilterBranchesDelegate {
     
     func filterBranches(branch: Branch, isHidden: Bool) {
-        print("filter branches delegate tapped")
         if isHidden {
             switch branch {
             case .LIRR:

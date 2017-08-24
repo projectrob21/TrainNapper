@@ -14,7 +14,7 @@ class AlarmsListView: UIView {
     var alarmsTableView: UITableView!
     var backgroundView: UIImageView!
     var napperAlarmsDelegate: NapperAlarmsDelegate?
-    var napper: Napper!
+    let napper = sharedDelegate.napper
     
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
@@ -23,11 +23,6 @@ class AlarmsListView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-    }
-    
-    convenience init(napper: Napper) {
-        self.init(frame: CGRect.zero)
-        self.napper = napper
         configure()
         constrain()
     }
@@ -64,12 +59,12 @@ class AlarmsListView: UIView {
 extension AlarmsListView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return napper.destination.count
+        return napper.destinations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath)
-        let station = napper.destination[indexPath.row].name
+        let station = napper.destinations[indexPath.row].name
         
         cell.textLabel?.text = station
         cell.backgroundColor = UIColor.clear
@@ -79,7 +74,7 @@ extension AlarmsListView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-            let station = self.napper.destination[indexPath.row]
+            let station = self.napper.destinations[indexPath.row]
 
             self.napperAlarmsDelegate?.removeAlarm(station: station)
             

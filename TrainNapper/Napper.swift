@@ -11,16 +11,15 @@ import GoogleMaps
 final class Napper: NSObject {
     
     let locationManager = CLLocationManager()
+    var location: CLLocation?
+    var destinations = [Station]()
     
-    var coordinate: CLLocation?
-    var destination = [Station]()
-    var isUpdating = false
-    
-    let proximityRadius = 800.0
-    var distanceToStation = 0.0
-    
-    var presentAlertDelegate: PresentAlertDelegate?
 
+    // Used for LocationAutorization
+    weak var presentAlertDelegate: PresentAlertDelegate?
+    
+    // Used for testing distance to destination
+    weak var distanceDelegate: GetDistanceDelegate?
     
     override init() {
         super.init()
@@ -29,13 +28,12 @@ final class Napper: NSObject {
     
 }
 
-// MARK: Location Management
+// MARK: Location Authorization and Setup
 extension Napper: CLLocationManagerDelegate {
     
     func setupLocationManager() {
-        //General setup
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        requestLocationAuthorization()
         
         //Energy efficiency
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
@@ -46,6 +44,8 @@ extension Napper: CLLocationManagerDelegate {
     }
     
     func requestLocationAuthorization() {
+        locationManager.requestWhenInUseAuthorization()
+        
         if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
             print("authorization for location is NOT ALLOWED; hashValue: \(CLLocationManager.authorizationStatus().hashValue)")
             presentAlertDelegate?.presentAlert()
@@ -67,43 +67,28 @@ extension Napper: CLLocationManagerDelegate {
             presentAlertDelegate?.presentAlert()
         }
     }
+}
+
+extension Napper {
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("ERROR: \(error)")
-    }
+    // Because of the implementation of RegionMonitoring, this delegate method is primarily used for testing
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        coordinate = locations.last
-        
-        guard let coordinate = coordinate else { print("didUpdateLocations - error getting napper coordinate"); return }
-        print("didUpdateLocations - napper coordinate = \(coordinate)")
-        
-        
-        if destination.count > 0 {
-            
-            let nextDestination = destination[0]
-            distanceToStation = nextDestination.coordinateCL.distance(from: coordinate)
-            
-            // Used for testing movement and regions
-//            distanceDelegate?.distanceToStation(distance: distanceToStation)
-//            print("Napper is currently \(distanceToStation) meters from their next destination")
-            
-        }
+        location = locations.last
+        /*
+         guard let coordinate = locations.last else { print("didUpdateLocations - error getting napper coordinate"); return }
+         
+         if destinations.count > 0 {
+         
+         let nextDestination = destinations[0]
+         
+         let distanceToStation =  nextDestination.coordinateCL.distance(from: coordinate)
+         
+         
+         distanceDelegate?.distanceToStation(distance: distanceToStation)
+         print("Napper is currently \(distanceToStation) meters from their next destination")
+         
+         }
+         */
     }
-    
-    /*
-     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-     
-     print("DID ENTER THE REGION!!!!!!")
-     
-     }
-     
-     func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
-     print("Location Manager PAUSED updates")
-     }
-     
-     func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
-     print("Location Manager RESUMED updates")
-     }
-     */
 }

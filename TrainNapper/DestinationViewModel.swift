@@ -9,19 +9,20 @@
 import GoogleMaps
 import UserNotifications
 
+// In charge of User Notifications
 
 final class DestinationViewModel: NSObject {
     
     let store = StationsDataStore.sharedInstance
+    let napper = sharedDelegate.napper
     
     let center = UNUserNotificationCenter.current()
     
     let proximityRadius = 800.0
     var distanceToStation = 0.0
-    
-    //    weak var distanceDelegate: GetDistanceDelegate?
-    
-    init() {
+        
+    override init() {
+        super.init()
         
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
@@ -42,7 +43,7 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
     func addAlarm(station: Station) {
         
         station.isSelected = true
-        napper.destination.append(station)
+        napper.destinations.append(station)
         
         // Create Region
         let region = CLCircularRegion(center: station.coordinate2D, radius: proximityRadius, identifier: station.name)
@@ -74,9 +75,9 @@ extension DestinationViewModel: NapperAlarmsDelegate, UNUserNotificationCenterDe
     
     func removeAlarm(station: Station) {
         station.isSelected = false
-        for (index, destination) in napper.destination.enumerated() {
+        for (index, destination) in napper.destinations.enumerated() {
             if destination.name == station.name {
-                napper.destination.remove(at: index)
+                napper.destinations.remove(at: index)
             }
         }
         

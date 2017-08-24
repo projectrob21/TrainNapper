@@ -32,7 +32,6 @@
 		E869CCF51E11E55E003A3FC2 /* MarkerWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */; };
 		E870EC5E1E60C1B900F3D303 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E870EC5D1E60C1B900F3D303 /* Launch Screen.storyboard */; };
 		E870EC621E60D1F100F3D303 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E870EC611E60D1F100F3D303 /* Default-568h@2x.png */; };
-		E885470F1E44FF8900DA3E93 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E885470E1E44FF8900DA3E93 /* LocationViewModel.swift */; };
 		E88547111E450EAE00DA3E93 /* AdvertisingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88547101E450EAE00DA3E93 /* AdvertisingView.swift */; };
 		E887E2851E2D5AB400A9D8F2 /* AlarmsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E887E2841E2D5AB400A9D8F2 /* AlarmsListView.swift */; };
 		E887E2871E2D803600A9D8F2 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E887E2861E2D803600A9D8F2 /* ColorExtensions.swift */; };
@@ -110,7 +109,6 @@
 		E869CCF41E11E55E003A3FC2 /* MarkerWindowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerWindowView.swift; sourceTree = "<group>"; };
 		E870EC5D1E60C1B900F3D303 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		E870EC611E60D1F100F3D303 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		E885470E1E44FF8900DA3E93 /* LocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		E88547101E450EAE00DA3E93 /* AdvertisingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvertisingView.swift; sourceTree = "<group>"; };
 		E887E2841E2D5AB400A9D8F2 /* AlarmsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmsListView.swift; sourceTree = "<group>"; };
 		E887E2861E2D803600A9D8F2 /* ColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
@@ -237,7 +235,6 @@
 			isa = PBXGroup;
 			children = (
 				E870EC611E60D1F100F3D303 /* Default-568h@2x.png */,
-				E833DF5D1E0EEFFE006438C4 /* AppDelegate.swift */,
 				E833DF5C1E0EEFFE006438C4 /* TrainNapper */,
 				E833DF711E0EEFFE006438C4 /* TrainNapperTests */,
 				E833DF5B1E0EEFFE006438C4 /* Products */,
@@ -259,6 +256,7 @@
 		E833DF5C1E0EEFFE006438C4 /* TrainNapper */ = {
 			isa = PBXGroup;
 			children = (
+				E833DF5D1E0EEFFE006438C4 /* AppDelegate.swift */,
 				E82DF2F61E32B79F0045733B /* TrainNapper.entitlements */,
 				E85ABF4A1F4F7D750081AA03 /* HelperProtocols.swift */,
 				E878609E1E28936B00DE089C /* Model */,
@@ -331,7 +329,6 @@
 			children = (
 				E8B544B51E353E4F00FDF48D /* DestinationViewModel.swift */,
 				E8B544B81E354C6E00FDF48D /* MapViewModel.swift */,
-				E885470E1E44FF8900DA3E93 /* LocationViewModel.swift */,
 			);
 			name = "View Model";
 			sourceTree = "<group>";
@@ -519,7 +516,6 @@
 				E80B8DD81E553D96000D6F14 /* GMUDefaultClusterIconGenerator.m in Sources */,
 				E80B8DD31E553D96000D6F14 /* GMUNonHierarchicalDistanceBasedAlgorithm.m in Sources */,
 				E887E2851E2D5AB400A9D8F2 /* AlarmsListView.swift in Sources */,
-				E885470F1E44FF8900DA3E93 /* LocationViewModel.swift in Sources */,
 				E833DF7E1E0EF097006438C4 /* Station.swift in Sources */,
 				E869CCF51E11E55E003A3FC2 /* MarkerWindowView.swift in Sources */,
 				E80B8DD21E553D96000D6F14 /* GMUGridBasedClusterAlgorithm.m in Sources */,

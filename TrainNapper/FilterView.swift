@@ -41,8 +41,6 @@ class FilterView: UIView {
     }
     
     func configure() {
-//        backgroundColor = UIColor.magenta
-
         stackView.distribution = .fillEqually
         stackView.spacing = 8
         stackView.alignment = .center
@@ -103,12 +101,6 @@ class FilterView: UIView {
 
     }
     
-    func setupGradientLayer() {
-        let color2 = UIColor(red: 141/255.0, green: 191/255.9, blue: 103/255.0, alpha: 1.0)
-        let backgroundGradient = CALayer.makeGradient(firstColor: UIColor.lirrColor, secondColor: color2)
-        backgroundGradient.frame = self.frame
-        self.layer.insertSublayer(backgroundGradient, at: 0)
-    }
     
     func searchButtonTapped() {
         showSearch = !showSearch
