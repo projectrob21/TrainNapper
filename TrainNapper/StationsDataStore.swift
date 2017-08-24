@@ -10,14 +10,22 @@ import Foundation
 
 typealias StationDictionary = [String:Station]
 
-final class DataStore {
+final class StationsDataStore {
     
-    static let sharedInstance = DataStore()
-//    static let napper = Napper(coordinate: nil)
-
+    static let sharedInstance = StationsDataStore()
     var stationsDictionary = StationDictionary()
-    // Napper Singleton!
     
+    init() {
+        stationsDictionary = [String:Station]()
+        populateLIRRStationsFromJSON()
+        populateMetroNorthStationsFromJSON()
+        populateNJTStationsFromJSON()
+    }
+    
+}
+
+// MARK: Convert JSON file and initialize Stations
+extension StationsDataStore {
     func getJSONStationsDictionary(with jsonFilename: String, completion: @escaping ([String : [String : Any]]) -> Void) {
         guard let filePath = Bundle.main.path(forResource: jsonFilename, ofType: "json") else { print("error unwrapping json file path"); return }
         
@@ -64,10 +72,4 @@ final class DataStore {
         }
     }
     
-    func populateAllStations() {
-        stationsDictionary = [String:Station]()
-        populateLIRRStationsFromJSON()
-        populateMetroNorthStationsFromJSON()
-        populateNJTStationsFromJSON()
-    }
 }

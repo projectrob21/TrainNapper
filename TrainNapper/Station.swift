@@ -27,6 +27,7 @@ class Station {
         }
     }
     
+    // TODO: This init could be safer... but also the json is stored locally (stations do not get updated very often)
     init(jsonData: [String : Any]) {
         self.name = jsonData["stop_name"] as! String
         

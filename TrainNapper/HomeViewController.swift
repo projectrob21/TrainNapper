@@ -13,15 +13,16 @@ import GoogleMobileAds
 
 class HomeViewController: UIViewController {
     
-    static let napper = Napper(coordinate: nil)
-    let store = DataStore.sharedInstance
+    let napper = sharedDelegate.napper
+    let store = StationsDataStore.sharedInstance
 
     let mapView = MapView()
+    
+    var alarmsListView: AlarmsListView!
     var bannerView: GADBannerView!
+    
     let mapViewModel = MapViewModel()
-    let alarmsListView = AlarmsListView(napper: napper)
-    let destinationViewModel = DestinationViewModel(napper: napper)
-    let locationViewModel = LocationViewModel(napper: napper)
+    var destinationViewModel: DestinationViewModel!
     
     var showAlarms = false
     var showFilter = false
@@ -37,8 +38,8 @@ class HomeViewController: UIViewController {
         constrain()
         
         
+        // Sets gradient after constraints have been made
         backgroundGradient = CAGradientLayer()
-
         backgroundGradient.colors = [UIColor.mainColor.cgColor, UIColor.clear.cgColor]
         backgroundGradient.locations = [0, 1]
         backgroundGradient.startPoint = CGPoint(x: 0, y: 0.1)
@@ -53,12 +54,17 @@ class HomeViewController: UIViewController {
     
     // MARK: Initial Setup
     func configure() {
+        
+        alarmsListView = AlarmsListView(napper: napper)
+        destinationViewModel = DestinationViewModel(napper: napper)
+        
         // Sets up navigationBar
         navigationItem.title = "TrainNapper"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(toggleFilterView))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarms", style: .plain, target: self, action: #selector(toggleAlarmsListView))
         alarmsListView.isHidden = true
 
+        // Sets up advertising
         bannerView = GADBannerView()
         bannerView.adUnitID = "ca-app-pub-2779558823377577/7704036846"
         bannerView.rootViewController = self
@@ -66,17 +72,23 @@ class HomeViewController: UIViewController {
         request.testDevices = ["ca-app-pub-2779558823377577/7704036846"]
         bannerView.load(request)
         
+
+        
         // Assigning delegates
         mapView.filterView.searchStationDelegate = mapViewModel
         mapView.filterBranchesDelegate = mapViewModel
         mapView.napperAlarmsDelegate = destinationViewModel
         alarmsListView.napperAlarmsDelegate = destinationViewModel
         mapViewModel.addToMapDelegate = mapView
-        destinationViewModel.regionsToMonitorDelegate = locationViewModel
+        destinationViewModel.regionsToMonitorDelegate = napper
 //        destinationViewModel.distanceDelegate = self
+        napper.presentAlertDelegate = self
+
         
         mapView.addStationsToMap(stations: mapViewModel.stations)
 
+        // HomeVC needs time to initialize and set delegate before calling this method
+        sharedDelegate.napper.requestLocationAuthorization()
     }
     
     func constrain() {
@@ -138,7 +150,6 @@ class HomeViewController: UIViewController {
     
     func toggleAlarmsListView() {
         showAlarms = !showAlarms
-        print("HVC napper destionation count = \(HomeViewController.napper.destination.count)")
         if showAlarms {
             navigationItem.title = "Alarms"
             navigationItem.rightBarButtonItem?.title = "Map"
@@ -170,7 +181,7 @@ extension HomeViewController: PresentAlertDelegate {
         
         let alertController = UIAlertController(
             title: "Background Location Access Disabled",
-            message: "In order to be notified about adorable kittens near you, please open this app's settings and set location access to 'Always'.",
+            message: "In order to be notified of upcoming stations, please open this app's settings and set location access to 'Always'.",
             preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

@@ -17,9 +17,12 @@ import UserNotifications
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    let googleAPI = "AIzaSyDLkK5fHf0Q6p0l1g521hqlg1UWAVZ7kgo"
-    let appID = "ca-app-pub-2779558823377577~4750570444"
+    let napper = Napper()
     
+    let googleAPI = "AIzaSyDLkK5fHf0Q6p0l1g521hqlg1UWAVZ7kgo"
+//    let appID = "ca-app-pub-2779558823377577~4750570444"
+    let appID = "ca-app-pub-2779558823377577~9493726501"
+
     var window: UIWindow?
     var homeViewController: UIViewController!
     var navigationController: UINavigationController!
@@ -75,4 +78,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+
+let sharedDelegate = UIApplication.shared.delegate as! AppDelegate
 

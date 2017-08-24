@@ -8,14 +8,8 @@
 
 import GoogleMaps
 
-// Used for testing distance to destination
-protocol PresentAlertDelegate: class {
-    func presentAlert()
-}
-protocol GetDistanceDelegate: class {
-    func distanceToStation(distance: Double)    
-}
 
+/*
 final class LocationViewModel: NSObject {
     
     var locationManager: CLLocationManager!
@@ -92,17 +86,15 @@ extension LocationViewModel: CLLocationManagerDelegate {
             
             let nextDestination = napper.destination[0]
             distanceToStation = nextDestination.coordinateCL.distance(from: napperLocation)
+            
+            // Used for testing movement and regions
             distanceDelegate?.distanceToStation(distance: distanceToStation)
             print("Napper is currently \(distanceToStation) meters from their next destination")
-            
-            if distanceToStation < proximityRadius {
-                
-                print("SENDING NOTIFICATION")
-                
-            }
+
         }
     }
     
+    /*
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         
         print("DID ENTER THE REGION!!!!!!")
@@ -116,7 +108,7 @@ extension LocationViewModel: CLLocationManagerDelegate {
     func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
         print("Location Manager RESUMED updates")
     }
-    
+    */
 }
 
 extension LocationViewModel: RegionsToMonitorDelegate {
@@ -145,4 +137,4 @@ protocol RegionsToMonitorDelegate {
 
     
 }
-
+*/

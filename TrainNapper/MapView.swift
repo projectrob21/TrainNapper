@@ -15,7 +15,7 @@ class MapView: UIView {
     
     // MARK: Properties
     
-    let store = DataStore.sharedInstance
+    let store = StationsDataStore.sharedInstance
     
     var camera: GMSCameraPosition!
     var stationsMap: GMSMapView!
@@ -43,7 +43,6 @@ class MapView: UIView {
         configure()
         constrain()
     }
-    
     
     // MARK: View Configuration
     func configure() {
@@ -176,16 +175,17 @@ extension MapView: GMSMapViewDelegate {
 extension MapView: GMUClusterManagerDelegate, GMUClusterRendererDelegate {
 
     func renderer(_ renderer: GMUClusterRenderer, willRenderMarker marker: GMSMarker) {
-        print("rendering")
+//        print("rendering")
 
         
         
         guard let stationData = marker.userData as? StationCluster else { print("error unwrapping station in willRenderMarker"); return }
 
-        print("marker.userData = \(stationData.name)")
+//        print("marker.userData = \(stationData.name)")
         
         guard let station = store.stationsDictionary[stationData.name] else { print("mapview - trouble unwrapping station"); return }
-            print("station = \(station.name)")
+        
+//            print("station = \(station.name)")
             marker.snippet = station.name
         
             if !station.isHidden {
